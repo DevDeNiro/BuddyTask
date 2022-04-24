@@ -1,14 +1,9 @@
-// Show Sidebar
-// let raw = document.getElementById("raw");
-// let flex = document.getElementById("check");
-// flex.addEventListener("click", function () {
-//   raw.style.display = raw.style.display == "none" ? "block" : "none";
-// });
-
 let hint = document.getElementById("raw");
 let btn = document.getElementById("check");
 let content = document.getElementById("flex-content");
 
+
+// Show Sidebar
 btn.addEventListener("click", function () {
   hint.className = hint.className !== "show" ? "show" : "hide";
   if (hint.className === "hide") {

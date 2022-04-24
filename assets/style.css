@@ -40,7 +40,12 @@
     font-family: var(--body-font);
     background-color: var(--background-color);
   }
-  
+
+  /* svg {
+    height: 25px;
+    width: 25px;
+  } */
+
   h1 {
     color: var(--first-color);
     font-weight: var(--font-bold);
@@ -162,10 +167,13 @@
       margin: 1rem 0;
       background-color: var(--second-background-color);
       border-radius: 10px; 
+      align-items: center;
   }
 
   .modal_item {
     padding: 0 15px ;
+    /* height: 25px; */
+    letter-spacing: 10px;
   }
 
   .modal_date {
@@ -200,11 +208,6 @@
     stroke: var(--second-color);
     stroke-width: 1px;
     }
-
-    svg + svg {
-    margin-left: 1.5rem;
-    }
-    
 
     #top,
     #bottom {
