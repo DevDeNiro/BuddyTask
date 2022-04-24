@@ -5,9 +5,9 @@
 //   raw.style.display = raw.style.display == "none" ? "block" : "none";
 // });
 
-var hint = document.getElementById("raw");
-var btn = document.getElementById("check");
-var content = document.getElementById("flex-content");
+let hint = document.getElementById("raw");
+let btn = document.getElementById("check");
+let content = document.getElementById("flex-content");
 
 btn.addEventListener("click", function () {
   hint.className = hint.className !== "show" ? "show" : "hide";
