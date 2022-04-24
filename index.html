@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./assets/style.css" rel="stylesheet">
+    <title>todo list</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar" id="raw">
+            <h1 class="sidebar_title">todo list</h1>
+            <ul>
+                <li>All</li>
+                <li>Category</li>
+                <li>New Category</li>
+            </ul>
+        </div>
+
+        <div class="content" id="flex-content"> 
+            <div class="burger_content" id="flex-content">  
+                <div class="icons" id="check">
+                    <svg
+                    width="80"
+                    height="80"
+                    viewBox="0 0 32 42"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onclick="this.classList.toggle('active')"
+                    >
+                    <g transform="matrix(1,0,0,1,-389.5,-264.004)">
+                        <g id="arrow_left2">
+                        <g transform="matrix(1,0,0,1,0,5)">
+                            <path
+                            id="top"
+                            d="M390,270L420,270L420,270C420,270 420.195,250.19 405,265C389.805,279.81 390,279.967 390,279.967"
+                            />
+                        </g>
+                        <g transform="matrix(1,1.22465e-16,1.22465e-16,-1,0.00024296,564.935)">
+                            <path
+                            id="bottom"
+                            d="M390,270L420,270L420,270C420,270 420.195,250.19 405,265C389.805,279.81 390,279.967 390,279.967"
+                            />
+                        </g>
+                        <path id="middle" d="M390,284.967L420,284.967" />
+                        </g>
+                    </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="main_content">
+                <section class="create_content">
+                    <h3 class="title_create_content">CREATE NEW TASK</h3>
+                    <div class="form_create_content">
+                        <div class="form">
+                            <div class="form__">
+                                <label for="name">Title </label>
+                                <input type="title" name="title" id="title" required>
+                            </div>
+                            <div class="form__">
+                                <label for="email">Due date </label>
+                                <input type="date" name="date" id="date" required>
+                            </div>
+                        </div>
+                        <div class="form_save">
+                            <input type="submit" value="Create task">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="todo">
+                    <h3 class="todo_title">TO DO</h3>
+                    <div class="modal_list">
+                        <div class="modal_item">     
+                            AUI9GZEFDOAVZ                       
+                        </div>
+                        <div class="modal_name">Buy new car</div>
+                        <div class="modal_date">Thurday 34 May</div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+<script src="./assets/script.js"></script>
+</body>
+</html>
+
+
