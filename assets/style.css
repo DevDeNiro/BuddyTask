@@ -41,11 +41,6 @@
     background-color: var(--background-color);
   }
 
-  /* svg {
-    height: 25px;
-    width: 25px;
-  } */
-
   h1 {
     color: var(--first-color);
     font-weight: var(--font-bold);
@@ -55,12 +50,12 @@
     list-style: none;
     padding: 2rem 0;
   }
-
+  
   li {
       color: var(--third-color);
       font-weight: var(--font-semi-bold);
-    padding: .3rem 0;
-  }
+      padding: .3rem 0;
+    }
   
   a {
     text-decoration: none;
@@ -70,6 +65,39 @@
     max-width: 100%;
     height: auto;
   }
+  
+  input {
+    padding: 7px;
+    outline: none;
+    border: 2px solid var(--second-color);
+    border-radius: 4px;
+  }
+
+  label {
+    color: var(--second-color);
+    font-weight: var(--font-semi-bold-bold);
+    font-size: 20px;
+    padding: 5px 0;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+  }
+
+  .submit_btn {
+    transition: all .5s ease;
+    color: var(--second-color);
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    font-size: 18px;
+    background-color : transparent;
+    outline: none;
+    cursor:pointer;
+}
+
+.submit_btn:hover {
+    color: white;
+    background-color: var(--second-color);
+}
 
   .container {
     display: flex;
@@ -94,6 +122,47 @@
       border-bottom: 3px solid var(--second-color);
       padding-bottom: 1rem;
   }
+
+  
+  /* Burger effect  */
+
+  .burger_content {
+    position: relative;
+  }
+
+  .icons {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  svg {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 1.5;
+    cursor:pointer;
+  }
+
+  .svgBurger {
+    fill: none;
+    stroke: var(--second-color);
+    stroke-width: 1px;
+  }
+
+  #top,
+  #bottom {
+    stroke-dasharray: 30, 75.39;
+    transition: all 0.6s cubic-bezier(0.6, 0.33, 0.67, 1.29);
+  }
+
+  svg.active #top,
+  svg.active #bottom {
+    stroke-dasharray: 75.39;
+    stroke-dashoffset: -60;
+  }
+
 
   .container {
       flex: auto;
@@ -141,100 +210,54 @@
     padding: 0px 20px;
   }
 
-  label {
-      padding: 5px 0;
-  }
-
-  input[type=title]:focus {
-  }
-
-  input {
-      padding: 7px;
-  }
-
   .todo {
     padding: 2.5rem 0;
   }
 
   .todo_title {
-      color: var(--first-color);
+    color: var(--first-color);
   }
 
   .modal_list {
-      display: flex;
-      position: relative;
-      padding: 15px 0;
-      margin: 1rem 0;
-      background-color: var(--second-background-color);
-      border-radius: 10px; 
-      align-items: center;
+    display: flex;
+    position: relative;
+    padding: 15px 0;
+    margin: 1rem 0;
+    background-color: var(--second-background-color);
+    border-radius: 10px; 
+    align-items: center;
   }
 
   .modal_item {
     padding: 0 15px ;
-    /* height: 25px; */
     letter-spacing: 10px;
   }
 
   .modal_date {
-      position: absolute;
-      right: 10px;
+    position: absolute;
+    right: 10px;
   }
 
+/* HOVER SVG */
 
-  /* Burger effect  */
-
-    .burger_content {
-        position: relative;
+    .ok:hover {
+      fill: #31da2b;
     }
 
-    .icons {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+    .notOk:hover {
+      fill: #31da2b;
+
     }
 
-    svg {
-        fill-rule: evenodd;
-        clip-rule: evenodd;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-miterlimit: 1.5;
-        cursor:pointer;
+    .correct:hover {
+      fill: #31da2b;
+
     }
 
-    svg path {
-    fill: none;
-    stroke: var(--second-color);
-    stroke-width: 1px;
-    }
+    .delete:hover {
+      fill: #31da2b;
 
-    #top,
-    #bottom {
-    stroke-dasharray: 30, 75.39;
-    transition: all 0.6s cubic-bezier(0.6, 0.33, 0.67, 1.29);
     }
-
-    svg.active #top,
-    svg.active #bottom {
-    stroke-dasharray: 75.39;
-    stroke-dashoffset: -60;
-    }
-
-    svg:nth-child(2) {
-    transform: rotate(0deg);
-    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    svg:nth-child(2) path {
-    transition: all 0.4s ease-in-out 0.6s;
-    }
-
-    svg:nth-child(2).active {
-    transform: rotate(180deg);
-    }
-
-    
 
      
 
