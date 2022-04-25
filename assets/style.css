@@ -210,11 +210,8 @@
     padding: 0px 20px;
   }
 
-  .todo {
-    padding: 2.5rem 0;
-  }
-
   .todo_title {
+    padding-top: 2.5rem;
     color: var(--first-color);
   }
 
@@ -230,7 +227,8 @@
 
   .modal_item {
     padding: 0 15px ;
-    letter-spacing: 10px;
+    display: flex;
+    align-items: center;
   }
 
   .modal_date {
@@ -240,22 +238,26 @@
 
 /* HOVER SVG */
 
+    .k {
+    margin: 5px;
+    }
+
     .ok:hover {
       fill: #31da2b;
     }
 
     .notOk:hover {
-      fill: #31da2b;
+      fill: #da2b2b;
 
     }
 
     .correct:hover {
-      fill: #31da2b;
+      fill: #da942b;
 
     }
 
     .delete:hover {
-      fill: #31da2b;
+      fill: #da2b2b;
 
     }
 
