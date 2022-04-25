@@ -135,6 +135,10 @@ window.addEventListener("load", () => {
       dateTodo.innerHTML = todo[i].date;
       listItem.appendChild(dateTodo);
 
+      deleteSVG.addEventListener("click", function () {
+        deleteTodo();
+      });
+
       todoList.appendChild(list);
     }
 
@@ -142,7 +146,10 @@ window.addEventListener("load", () => {
     window.localStorage.setItem("ListRegistered", data);
   }
 
-  function DeleteTodo() {}
+  function deleteTodo(index) {
+    todo.splice(index, 1);
+    RefreshTodo();
+  }
 
   // Show Sidebar
   btn.addEventListener("click", function () {
