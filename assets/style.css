@@ -82,6 +82,7 @@
     text-transform: capitalize;
   }
 
+
   .submit_btn {
     transition: all .5s ease;
     color: var(--second-color);
@@ -92,6 +93,10 @@
     background-color : transparent;
     outline: none;
     cursor:pointer;
+    padding: 7px;
+    outline: none;
+    border: 2px solid var(--second-color);
+    border-radius: 4px;
 }
 
 .submit_btn:hover {
