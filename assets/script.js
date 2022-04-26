@@ -147,7 +147,30 @@ window.addEventListener("load", () => {
   }
 
   function deleteTodo(index) {
-    todo.splice(index, 1);
+    if (todo.splice(index, 1)) {
+      // const todos = todoList.childNodes;
+      // todos.forEach(function (todo) {
+      //   switch (index.value) {
+      //     case "all":
+      //       todo.style.display = "flex";
+      //       break;
+      //     case "completed":
+      //       if (todo.classList.contains("completed")) {
+      //         todo.style.display = "flex";
+      //       } else {
+      //         todo.style.display = "none";
+      //       }
+      //       break;
+      //     case "uncompleted":
+      //       if (!todo.classList.contains("completed")) {
+      //         todo.style.display = "flex";
+      //       } else {
+      //         todo.style.display = "none";
+      //       }
+      //   }
+      // });
+    }
+
     RefreshTodo();
   }
 
@@ -166,7 +189,7 @@ window.addEventListener("load", () => {
     if (hint.className === "show") {
       hint.style.opacity = 0;
       hint.style.transform = "translateX(-20px)";
-      content.style.transform = "translateX(-20px)";
+      // content.style.transform = "translateX(-10px)";
       window.setTimeout(function () {
         hint.style.display = "none";
       }, 200); // timed to match animation-duration

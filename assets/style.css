@@ -34,11 +34,13 @@
   
   html {
     scroll-behavior: smooth;
+    height: 100%;
   }
   
   body {
     font-family: var(--body-font);
     background-color: var(--background-color);
+    height: 100%;
   }
 
   h1 {
@@ -121,6 +123,7 @@
 
   #flex-content {
     transition: visibility 10s, .8s ease opacity,.8s ease transform;
+    overflow: auto;
   }
 
   .sidebar_title {
@@ -239,6 +242,11 @@
   .modal_date {
     position: absolute;
     right: 10px;
+  }
+
+  .fall {
+    transform: translateY(10rem) rotateZ(20deg);
+    opacity: 0;
   }
 
 /* HOVER SVG */
