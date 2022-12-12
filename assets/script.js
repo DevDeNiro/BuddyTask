@@ -27,6 +27,8 @@ window.addEventListener("load", () => {
     let info = {
       name: todoInput.value,
       date: todoDate.value,
+      completed: false,
+      incompleted: false,
     };
 
     todo.push(info);
@@ -141,7 +143,7 @@ window.addEventListener("load", () => {
 
       todoList.appendChild(list);
     }
-
+    console.log(todo);
     let data = JSON.stringify(todo);
     window.localStorage.setItem("ListRegistered", data);
   }
@@ -149,30 +151,18 @@ window.addEventListener("load", () => {
   function deleteTodo(index) {
     if (todo.splice(index, 1)) {
       // const todos = todoList.childNodes;
-      // todos.forEach(function (todo) {
-      //   switch (index.value) {
-      //     case "all":
-      //       todo.style.display = "flex";
-      //       break;
-      //     case "completed":
-      //       if (todo.classList.contains("completed")) {
-      //         todo.style.display = "flex";
-      //       } else {
-      //         todo.style.display = "none";
-      //       }
-      //       break;
-      //     case "uncompleted":
-      //       if (!todo.classList.contains("completed")) {
-      //         todo.style.display = "flex";
-      //       } else {
-      //         todo.style.display = "none";
-      //       }
-      //   }
-      // });
+     
+      console.log("Splice");
     }
 
     RefreshTodo();
   }
+
+  // function completeTodo(index) {
+  //   const currentTodo = todo.filter(t => t.id == index)
+
+  //   console.log(currentTodo);
+  // }
 
   // Show Sidebar
   btn.addEventListener("click", function () {
