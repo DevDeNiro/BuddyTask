@@ -1,0 +1,13 @@
+POST http://localhost:5286/Todos
+Content-Type: application/json
+
+{
+    "name": "FFV",
+    "description": "",
+    "startDateTime": "2022-04-08T08:00:00",
+    "endDateTime": "2022-04-08T11:00:00",
+}
+
+###
+
+GET https://localhost:7094/Todos/e35daaba-5a9e-43a2-9305-3dead8296fe0
