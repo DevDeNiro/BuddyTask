@@ -1,22 +1,22 @@
-# Todo List API
+# Exemple de docs pour l'API 
 
-- [Buber Breakfast API](#buber-breakfast-api)
-  - [Create Breakfast](#create-breakfast)
-    - [Create Breakfast Request](#create-breakfast-request)
-    - [Create Breakfast Response](#create-breakfast-response)
-  - [Get Breakfast](#get-breakfast)
-    - [Get Breakfast Request](#get-breakfast-request)
-    - [Get Breakfast Response](#get-breakfast-response)
-  - [Update Breakfast](#update-breakfast)
-    - [Update Breakfast Request](#update-breakfast-request)
-    - [Update Breakfast Response](#update-breakfast-response)
-  - [Delete Breakfast](#delete-breakfast)
-    - [Delete Breakfast Request](#delete-breakfast-request)
-    - [Delete Breakfast Response](#delete-breakfast-response)
+- [Buber Plants API](#buber-Plants-api)
+  - [Create Plants](#create-Plants)
+    - [Create Plants Request](#create-Plants-request)
+    - [Create Plants Response](#create-Plants-response)
+  - [Get Plants](#get-Plants)
+    - [Get Plants Request](#get-Plants-request)
+    - [Get Plants Response](#get-Plants-response)
+  - [Update Plants](#update-Plants)
+    - [Update Plants Request](#update-Plants-request)
+    - [Update Plants Response](#update-Plants-response)
+  - [Delete Plants](#delete-Plants)
+    - [Delete Plants Request](#delete-Plants-request)
+    - [Delete Plants Response](#delete-Plants-response)
 
-## Create Breakfast
+## Create Plants
 
-### Create Breakfast Request
+### Create Plants Request
 
 ```js
 POST /todo
@@ -24,14 +24,14 @@ POST /todo
 
 ```json
 {
-    "name": "Ajouter un nouveau service",
-    "description": "Abstraire les données de la classe via un service...",
+    "name": "Monstera Deliciosa",
+    "description": "Le monstera deliciosa est une des plantes d'intérieur les plus convoitées pour ses grandes feuilles atypiques.",
     "startDateTime": "2022-04-08T08:00:00",
     "endDateTime": "2022-04-08T11:00:00",
 }
 ```
 
-### Create Breakfast Response
+### Create Plants Response
 
 ```js
 201 Created
@@ -44,23 +44,23 @@ Location: {{host}}/todo/{{id}}
 ```json
 {
     "id": "00000000-0000-0000-0000-000000000000",
-    "name": "Ajouter un nouveau service",
-    "description": "Abstraire les données de la classe via un service...",
+    "name": "Monstera Deliciosa",
+    "description": "Le monstera deliciosa est une des plantes d'intérieur les plus convoitées pour ses grandes feuilles atypiques.",
     "startDateTime": "2022-04-08T08:00:00",
     "endDateTime": "2022-04-08T11:00:00",
     "lastModifiedDateTime": "2022-04-06T12:00:00",
 }
 ```
 
-## Get Breakfast
+## Get Plants
 
-### Get Breakfast Request
+### Get Plants Request
 
 ```js
 GET /todo/{{id}}
 ```
 
-### Get Breakfast Response
+### Get Plants Response
 
 ```js
 200 Ok
@@ -69,17 +69,17 @@ GET /todo/{{id}}
 ```json
 {
     "id": "00000000-0000-0000-0000-000000000000",
-    "name": "Ajouter un nouveau service",
-    "description": "Abstraire les données de la classe via un service...",
+    "name": "Monstera Deliciosa",
+    "description": "Le monstera deliciosa est une des plantes d'intérieur les plus convoitées pour ses grandes feuilles atypiques.",
     "startDateTime": "2022-04-08T08:00:00",
     "endDateTime": "2022-04-08T11:00:00",
     "lastModifiedDateTime": "2022-04-06T12:00:00",
 }
 ```
 
-## Update Breakfast
+## Update Plants
 
-### Update Breakfast Request
+### Update Plants Request
 
 ```js
 PUT /todo/{{id}}
@@ -87,14 +87,14 @@ PUT /todo/{{id}}
 
 ```json
 {
-    "name": "Ajouter un nouveau service",
-    "description": "Abstraire les données de la classe via un service...",
+    "name": "Monstera Deliciosa",
+    "description": "Le monstera deliciosa est une des plantes d'intérieur les plus convoitées pour ses grandes feuilles atypiques.",
     "startDateTime": "2022-04-08T08:00:00",
     "endDateTime": "2022-04-08T11:00:00",
 }
 ```
 
-### Update Breakfast Response
+### Update Plants Response
 
 ```js
 204 No Content
@@ -110,15 +110,15 @@ or
 Location: {{host}}/todo/{{id}}
 ```
 
-## Delete Breakfast
+## Delete Plants
 
-### Delete Breakfast Request
+### Delete Plants Request
 
 ```js
 DELETE /todo/{{id}}
 ```
 
-### Delete Breakfast Response
+### Delete Plants Response
 
 ```js
 204 No Content
