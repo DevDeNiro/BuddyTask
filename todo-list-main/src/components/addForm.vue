@@ -1,35 +1,36 @@
 <template>
-    <div class="grid h-screen place-items-center">
-          <form class="w-full max-w-lg">
-            <div class="flex flex-wrap -mx-3 mb-6">
-              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                  Title
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane">
-                <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-              </div>
-              <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                  Due Date
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe">
-              </div>
-              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                Button
-              </button>
-            </div>
-          </form>
+  <div class="bg-green-200 py-32 px-10 min-h-screen ">
+    <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto">
+      <form action="">
+
+        <div class="flex items-center mb-5">
+          <label for="name" class="inline-block w-20 mr-6 font-bold text-gray-600">Title</label>
+          <input type="text" id="name" name="name" placeholder="Name" 
+               class="flex-1 py-2 border-b-2 border-gray-400 
+                      text-gray-600 placeholder-gray-400
+                      outline-none">
+          </div>
+
+          <div class="flex items-center mb-10">
+            <label for="twitter" class="inline-block w-20 mr-6  font-bold text-gray-600">Description</label>
+            <input type="text" id="twitter" name="twitter" placeholder="twitter" 
+                  class="flex-1 py-2 border-b-2 border-gray-400  
+                          text-gray-600
+                          placeholder-gray-400">  <!-- check other class spec upper section -->
+          </div>
+
+        <div class="text-right">
+          <button class="py-3 px-8 bg-green-400 text-white font-bold">Submit</button> 
         </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 
 <script>
 export default {
-    name: "app",
-    components: {
-      addForm,
-    },
+    name: "HomeView",
   };
 
 </script>
