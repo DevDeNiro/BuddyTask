@@ -1,29 +1,27 @@
 <template>
-  <div class="bg-green-200 py-32 px-10 min-h-screen ">
-    <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto">
-      <form action="">
 
-        <div class="flex items-center mb-5">
-          <label for="name" class="inline-block w-20 mr-6 font-bold text-gray-600">Title</label>
-          <input type="text" id="name" name="name" placeholder="Name" 
-               class="flex-1 py-2 border-b-2 border-gray-400 
-                      text-gray-600 placeholder-gray-400
-                      outline-none">
+  <div class="w-9/12 md:col-span-2 md:mt-14">
+    <p class="block text-sm py-3 font-medium text-gray-700">Create new task</p>
+        <form action="#" method="POST">
+          <div class="overflow-hidden shadow sm:rounded-md">
+            <div class="bg-white px-4 py-5 sm:p-6">
+              <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6 sm:col-span-3">
+                  <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="col-span-6 sm:col-span-3">
+                  <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                </div>
+              </div>
+              <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 mt-4 border border-gray-400 rounded shadow">
+                Button
+              </button>
+            </div>
           </div>
-
-          <div class="flex items-center mb-10">
-            <label for="twitter" class="inline-block w-20 mr-6  font-bold text-gray-600">Description</label>
-            <input type="text" id="twitter" name="twitter" placeholder="twitter" 
-                  class="flex-1 py-2 border-b-2 border-gray-400  
-                          text-gray-600
-                          placeholder-gray-400">  <!-- check other class spec upper section -->
-          </div>
-
-        <div class="text-right">
-          <button class="py-3 px-8 bg-green-400 text-white font-bold">Submit</button> 
-        </div>
-      </form>
-    </div>
+        </form>
   </div>
 </template>
 
