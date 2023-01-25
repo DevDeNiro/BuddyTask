@@ -1,10 +1,7 @@
 
 <template>
   <div id="app">
-    <nav>
-        
-    </nav>
-
+  
     <router-view></router-view>
   </div>
 
@@ -14,15 +11,14 @@
 
 import addForm from './components/addForm.vue'
 import HomeView from './views/HomeView.vue'
-import LoaderSVG from './components/LoaderSVG.vue'
 import router from './router';
 
 export default {
   name: 'App',
   components: {
     router,
-    HomeView, LoaderSVG
-}
+    HomeView,
+  }
 }
 </script>
 

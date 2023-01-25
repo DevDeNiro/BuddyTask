@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
-    <div class="w-3/12 min-h-screen flex flex-row bg-gray-100">
+    <nav class="w-3/12 contents">
       <TheSidebar></TheSidebar>
-    </div>
+    </nav>
     <div class="w-9/12 min-h-screen flex-row bg-gray-100">
       <addForm></addForm>
       <TodoCard></TodoCard>
