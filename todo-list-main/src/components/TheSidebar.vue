@@ -3,8 +3,8 @@
 </style>
 
 <template>
-    <div class="w-3/12 min-h-screen bg-gray-100">
-        <div class="border-l-indigo-500 shadow-xl flex flex-col bg-white  overflow-hidden">
+    <div class="w-2/12 min-h-screen bg-gray-100">
+        <div class="min-h-screen border-l-indigo-500 shadow-xl flex flex-col bg-white  overflow-hidden">
             <div class="flex items-center justify-center h-20 shadow-md">
                 <h1 class="text-3xl uppercase text-indigo-500">Main</h1>
             </div>

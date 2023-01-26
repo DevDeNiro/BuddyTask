@@ -1,6 +1,6 @@
 <template>
 
-  <div class="w-9/12 md:col-span-2 md:mt-14">
+  <div class="w-10/12 self-center">
     <p class="block text-sm py-3 font-medium text-gray-700">Create new task</p>
         <form action="#" method="POST">
           <div class="overflow-hidden shadow sm:rounded-md">
@@ -12,12 +12,12 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                  <label for="last-name" class="block text-sm font-medium text-gray-700">Due date</label>
+                  <input type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                 </div>
               </div>
               <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 mt-4 border border-gray-400 rounded shadow">
-                Button
+                Create
               </button>
             </div>
           </div>
@@ -27,8 +27,15 @@
 
 
 <script>
+
+import Datepicker from 'vuejs3-datepicker';
+
 export default {
-    name: "HomeView",
+
+  name: "HomeView",
+  components: {
+    Datepicker
+  }
   };
 
 </script>
