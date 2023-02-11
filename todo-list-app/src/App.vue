@@ -9,7 +9,7 @@
 
 <script>
 
-import addForm from './components/addForm.vue'
+import AddForm from './components/addForm.vue'
 import HomeView from './views/HomeView.vue'
 import router from './router';
 
