@@ -4,41 +4,45 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using TodoApi.Models;
 
-namespace TodoApi.Services.Todo {
-  public class TodoService {
-    private readonly IMongoCollection<TodoItemModel> _todos;
+namespace TodoApi.Services.Todo
+{
+    public class TodoService
+    {
+        private readonly IMongoCollection<TodoItemModel> _todos;
 
-    public TodoService (IConfiguration config) {
-      var client = new MongoClient (config.GetConnectionString ("TodoDB"));
-      var database = client.GetDatabase ("TodoDB");
-      _todos = database.GetCollection<TodoItemModel> ("Todos");
-    }
+        public TodoService(IConfiguration config)
+        {
+            var client = new MongoClient(config.GetConnectionString("TodoDB"));
+            var database = client.GetDatabase("TodoDB");
+            _todos = database.GetCollection<TodoItemModel>("Todos");
+        }
 
-    // Read all todo
-    public List<TodoItemModel> GetAllTodo () {
-      return _todos.Find (book => true).ToList ();
-    }
+        public List<TodoItemModel> GetAllTodo()
+        {
+            return _todos.Find(todo => true).ToList();
+        }
 
-    public TodoItemModel CreateTodo (TodoItemModel todo) {
-      _todos.InsertOne (todo);
-      return todo;
-    }
+        public TodoItemModel GetTodo(string id)
+        {
+            return _todos.Find(todo => todo.Id == id).FirstOrDefault();
+        }
 
-    public void UpdateTodo (string id, TodoItemModel newTodo) {
-      _todos.ReplaceOne (book => book.Id == id, newTodo);
-    }
 
-    public void RemoveTodo (string id) {
-      _todos.DeleteOne (book => book.Id == id);
-    }
+        public TodoItemModel CreateTodo(TodoItemModel todo)
+        {
+            _todos.InsertOne(todo);
+            return todo;
+        }
 
-    // Est ce vraiment utile ???
-    public TodoItemModel GetTodo (string id) {
-      return _todos.Find (book => book.Id == id).FirstOrDefault ();
-    }
+        public void UpdateTodo(string id, TodoItemModel newTodo)
+        {
+            _todos.ReplaceOne(todo => todo.Id == id, newTodo);
+        }
 
-    public void RemoveOldTodo (TodoItemModel oldTodo) {
-      _todos.DeleteOne (book => book.Id == oldTodo.Id);
+        public void RemoveTodo(string id)
+        {
+            _todos.DeleteOne(todo => todo.Id == id);
+        }
+
     }
-  }
 }
