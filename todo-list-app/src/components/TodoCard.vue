@@ -12,7 +12,7 @@
         1 2 3 4
       </div>
 
-      <div class="flex">{{ item.title }}</div>
+      <div class="flex">{{ item.name }}</div>
 
       <div class="flex absolute right-6">
         <div class="">{{ item.dueDate }}</div>
@@ -33,14 +33,14 @@ export default {
   },
 
   mounted() {
-    // axios
-    //   .get("https://localhost:7174/api/Todo")
-    //   .then((response) => {
-    //     this.items = response.data;
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .get("/api/Todo")
+      .then((response) => {
+        this.items = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
