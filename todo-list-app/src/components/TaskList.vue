@@ -23,7 +23,7 @@
 
 <script>
 import axios from "axios";
-import TodoCard from "./TodoCard.vue";
+import TodoCard from "./TaskDetail.vue";
 
 export default {
   components: {
