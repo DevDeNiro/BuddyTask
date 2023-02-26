@@ -33,14 +33,14 @@ export default {
   },
 
   mounted() {
-    axios
-      .get("https://monapi.com/todos")
-      .then((response) => {
-        this.items = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .get("https://localhost:7174/api/Todo")
+    //   .then((response) => {
+    //     this.items = response.data;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   },
 };
 </script>

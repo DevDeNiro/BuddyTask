@@ -49,17 +49,17 @@ export default {
     },
   },
   mounted() {
-    axios
-      .get("https://monapi.com/todos")
-      .then((response) => {
-        this.todos = response.data;
-        // Params a ajouter coté API
-        this.todoStatus = response.headers["profile-status"];
-        this.filterTodos();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .get("https://localhost:7174/api/Todo")
+    //   .then((response) => {
+    //     this.todos = response.data;
+    //     // Params a ajouter coté API
+    //     this.todoStatus = response.headers["profile-status"];
+    //     this.filterTodos();
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   },
 };
 </script>

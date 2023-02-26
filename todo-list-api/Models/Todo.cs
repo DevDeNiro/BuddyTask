@@ -10,10 +10,13 @@ namespace TodoApi.Models
         public string? Id { get; set; }
 
         [BsonElement("Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        // [BsonElement("DueDate")]
-        // public DateTime DueDate { get; set; }
+        [BsonElement("DueDate")]
+        public DateTime DueDate { get; set; }
+
+        [BsonElement("CreatedAt")]
+        public DateTime CreatedAt { get; set; }
 
         [BsonElement("Completed")]
         public bool Completed { get; set; }

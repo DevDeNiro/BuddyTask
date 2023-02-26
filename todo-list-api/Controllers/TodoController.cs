@@ -13,11 +13,6 @@ namespace TodoApi.Controllers
         public TodoController(TodoService todoService)
         {
             _todoService = todoService;
-            // if (_todoService.TodoItems.Count() == 0)
-            // {
-            //     _todoService.TodoItems.Add(new TodoItem { Name = "Item1" });
-            //     _todoService.SaveChanges();
-            // }
         }
 
         [HttpGet]
@@ -26,17 +21,7 @@ namespace TodoApi.Controllers
             return _todoService.GetAllTodo();
         }
 
-        /*
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItemModel>>> GetAllTodo()
-        {
-            return await _todoService.TodoItems.ToListAsync();
-        }
-
-        */
-
-        [HttpGet("{id}", Name = "GetBook")]
+        [HttpGet("{id}", Name = "GetTodo")]
         public ActionResult<TodoItemModel> GetTodo(string id)
         {
             var todoExist = _todoService.GetTodo(id);
@@ -48,39 +33,13 @@ namespace TodoApi.Controllers
             return todoExist;
         }
 
-        /*
-            [HttpGet("{id}")]
-            public async Task<ActionResult<TodoItemModel>> GetTodoItem(long id)
-            {
-                var todoItem = await _todoService.TodoItems.FindAsync(id);
-                if (todoItem == null)
-                {
-                    return NotFound();
-                }
-                return todoItem;
-
-            }
-        */
         [HttpPost]
         public ActionResult<TodoItemModel> CreateTodo(TodoItemModel newTodo)
         {
             _todoService.CreateTodo(newTodo);
 
-            return CreatedAtRoute("GetBook", new { id = newTodo.Id.ToString() }, newTodo);
+            return CreatedAtRoute("GetTodo", new { id = newTodo.Id.ToString() }, newTodo);
         }
-
-
-
-        /*
-                [HttpPost]
-                public async Task<ActionResult<TodoItemModel>> PostTodoItem(TodoItemModel item)
-                {
-                    _todoService.TodoItems.Add(item);
-                    await _todoService.SaveChangesAsync();
-
-                    return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
-                }
-        */
 
         [HttpPut("{id:length(24)}")]
         public IActionResult UpdateTodo(string id, TodoItemModel updateTodo)
@@ -96,23 +55,6 @@ namespace TodoApi.Controllers
 
         }
 
-
-
-        /*
-                [HttpPut("{id}")]
-                public async Task<ActionResult<TodoItemModel>> PutTodoItem(long id, TodoItemModel item)
-                {
-                    if (id != item.Id)
-                    {
-                        return BadRequest();
-                    }
-
-                    _todoService.Entry(item).State = EntityState.Modified;
-                    await _todoService.SaveChangesAsync();
-                    return NoContent();
-                }
-        */
-
         [HttpDelete()]
         public IActionResult DeleteTodo(string id)
         {
@@ -127,22 +69,5 @@ namespace TodoApi.Controllers
 
         }
 
-        /*
-                [HttpDelete("{id}")]
-                public async Task<IActionResult> DeleteTodoItem(long id)
-                {
-                    var todoItem = await _todoService.TodoItems.FindAsync(id);
-
-                    if (todoItem == null)
-                    {
-                        return NotFound();
-                    }
-
-                    _todoService.TodoItems.Remove(todoItem);
-                    await _todoService.SaveChangesAsync();
-
-                    return NoContent();
-                }
-                 */
     }
 }
