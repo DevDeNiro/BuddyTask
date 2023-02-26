@@ -8,9 +8,7 @@
     >
       <AddForm></AddForm>
       <div class="self-center w-10/12 pt-5">
-        <TodoListCard>
-          <TodoCard></TodoCard>
-        </TodoListCard>
+        <TodoListCard> </TodoListCard>
       </div>
     </div>
   </div>
