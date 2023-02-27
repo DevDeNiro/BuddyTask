@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import {classPrivateMethod} from "@babel/types";
 import axios from "axios";
 
 export default {
