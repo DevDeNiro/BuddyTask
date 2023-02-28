@@ -21,19 +21,9 @@
     >
       <div class="flex">
         <!--svg here-->
-        <img
-          class="svgToAction"
-          @click="toggleTaskCompletedStatus(task, task.completed)"
-          v-bind:src="completSvg"
-          alt="complet"
-        />
+        <img class="svgToAction" :src="completSvg" alt="complet" />
 
-        <img
-          class="svgToAction"
-          @click="toggleTaskCompletedStatus(task, !task.completed)"
-          v-bind:src="uncompletSvg"
-          alt="uncomplet"
-        />
+        <img class="svgToAction" :src="uncompletSvg" alt="uncomplet" />
 
         <img
           class="svgToAction"
@@ -48,10 +38,6 @@
           v-bind:src="deleteSvg"
           alt="delete"
         />
-
-        <!-- <button @click="toggleTaskCompletedStatus(task, !task.completed)">
-          {{ task.completed ? "Terminé" : "En cours" }}
-        </button> -->
       </div>
 
       <div class="flex">{{ task.name }}</div>
@@ -62,7 +48,7 @@
     </div>
 
     <div v-if="editingTask">
-      <h2>Modifier une tâche</h2>
+      <h2>Modifier une putain de tâche</h2>
       <form @submit.prevent="updateTask">
         <label for="title">Titre</label>
         <input type="text" id="title" v-model="editingTask.title" />
@@ -80,37 +66,24 @@
 import axios from "axios";
 
 export default {
-  name: "TodoCard",
-
+  name: "TaskDetail",
+  props: {
+    tasks: Array
+  },
   data() {
     return {
-      tasks: [],
+      // tasks: [],
       editingTask: null,
 
-      completSvg: "",
-      uncompletSvg: "",
-      penSvg: "",
-      deleteSvg: "",
+      completSvg: "/complet.svg",
+      uncompletSvg: "/uncomplet.svg",
+      penSvg: "/pen.svg",
+      deleteSvg: "/delete.svg",
     };
   },
 
   mounted() {
-    // Récupérer les URLs des SVG stockés dans le localStorage
-    const svgFiles = [
-      "../public/complet.svg",
-      "../public/uncomplet.svg",
-      "../public/pen.svg",
-      "../public/delete.svg",
-    ];
-
-    svgFiles.forEach((filePath) => {
-      const url = localStorage.getItem(filePath);
-      if (url) {
-        this[`${filePath.split("/").pop().split(".")[0]}Svg`] = url;
-      } else console.log(url);
-    });
-
-    this.fetchTasks();
+    // this.fetchTasks();
   },
   methods: {
     fetchTasks() {
@@ -120,37 +93,40 @@ export default {
     },
 
     deleteTask(id) {
-      axios.delete(`/api/Todo/${id}`).then(() => {
-        this.fetchTasks();
-      });
+      axios
+        .delete(`/api/Todo/${id}`)
+        .then((response) => {
+          this.fetchTasks();
+          console.log(response);
+          alert("DELETE OK");
+        })
+        .catch((error) => {
+          console.log(error);
+          // alert("Post fail");
+        });
     },
 
-    editTask(task) {
-      this.editingTask = task;
-    },
+    // editTask(task) {
+    //   this.editingTask = task;
+    // },
 
     updateTask() {
       axios
         .put(`/api/Todo/${this.editingTask.id}`, this.editingTask)
-        .then(() => {
+        .then((response) => {
           this.editingTask = null;
           this.fetchTasks();
+          console.log(response);
+          alert("UPDATE OK");
         });
     },
 
     // toggleTaskCompletedStatus(task) {
     //   task.completed = !task.completed;
-    //   axios.put(`/api/Todo/${task.id}`, task).then(() => {
+    //   axios.put(`/api/Todo/${task.id}`, task).then((response) => {
     //     this.fetchTasks();
     //   });
     // },
-
-    toggleTaskCompletedStatus(task, status) {
-      task.completed = status;
-      axios.put(`/api/Todo/${task.id}`, task).then(() => {
-        this.fetchTasks();
-      });
-    },
   },
 };
 </script>

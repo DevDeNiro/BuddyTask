@@ -1,39 +1,35 @@
 <style></style>
 
 <template>
-  <div class="self-center w-10/12 pt-5">
-    <h3 class="uppercase block text-sm py-3 font-medium text-gray-700">
-      completed
-    </h3>
-    <TodoCard>
-      <div v-for="todo in completeTodos" :key="todo.id">
-        {{ todo.completed }}
-      </div>
-    </TodoCard>
-    <h3 class="uppercase block text-sm py-3 font-medium text-gray-700">
-      uncompleted
-    </h3>
-    <TodoCard>
-      <div v-for="todo in uncompleteTodos" :key="todo.id">
-        {{ todo.completed }}
-      </div>
-    </TodoCard>
+  <div class="self-center">
+    <div>
+      <h3 class="uppercase block text-sm py-3 font-medium text-gray-700">
+        completed
+      </h3>
+      <TaskDetail :tasks="completeTasks"></TaskDetail>
+    </div>
+    <div>
+      <h3 class="uppercase block text-sm py-3 font-medium text-gray-700">
+        uncompleted
+      </h3>
+      <TaskDetail :tasks="incompleteTasks"></TaskDetail>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import TodoCard from "./TaskDetail.vue";
+import TaskDetail from "./TaskDetail.vue";
 
 export default {
   components: {
-    TodoCard,
+    TaskDetail,
   },
 
   data() {
     return {
-      completeTodos: [],
-      uncompleteTodos: [],
+      completeTasks: [],
+      incompleteTasks: [],
     };
   },
 
@@ -41,14 +37,15 @@ export default {
     axios
       .get("/api/Todo")
       .then((response) => {
-        const todos = response.data;
-        const completeTodos = todos.filter((todo) => todo.completed === true);
-        const uncompleteTodos = todos.filter(
-          (todo) => todo.completed === false
-        );
-        this.completeTodos = completeTodos;
-        this.uncompleteTodos = uncompleteTodos;
-        console.log(response);
+
+        response.data.forEach(task => {
+          if(task.completed) {
+            this.completeTasks.push(task)
+          } else {
+            this.incompleteTasks.push(task)
+          }
+        })
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
