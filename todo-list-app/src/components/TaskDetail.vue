@@ -3,58 +3,62 @@
   align-items: center;
 }
 
-.svgToAction {
+img {
   align-items: center;
-  width: 35px;
+  margin: 0 4px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: 0.4s, background-position 0s;
+}
+
+img:hover {
+  background-position: right;
+  transform: scale(1.1);
 }
 </style>
 
-<!-- v-for="(item, index) in items"
-:key="index"  -->
-
 <template>
-  <div class="overflow-hidden shadow sm:rounded-md">
+  <div class="overflow-hidden sm:rounded-md">
     <div
-      class="relative bg-white flex gap-6 px-4 py-5 sm:p-6 items-center"
+      class="relative bg-white flex gap-6 my-3 sm:p-4 items-center"
       v-for="task in tasks"
       :key="task.id"
     >
       <div class="flex">
-        <!--svg here-->
-        <img class="svgToAction" :src="completSvg" alt="complet" />
-
-        <img class="svgToAction" :src="uncompletSvg" alt="uncomplet" />
-
         <img
-          class="svgToAction"
-          @click="editTask(task)"
-          v-bind:src="penSvg"
-          alt="update"
+          :src="completSvg"
+          @click="toggleTaskCompletedStatus"
+          alt="complet"
         />
-
         <img
-          class="svgToAction"
-          @click="deleteTask(task.id)"
-          v-bind:src="deleteSvg"
-          alt="delete"
+          :src="uncompletSvg"
+          @click="toggleTaskCompletedStatus"
+          alt="uncomplet"
         />
+        <img :src="penSvg" @click="editTask(task)" alt="update" />
+        <img :src="deleteSvg" @click="deleteTask(task.id)" alt="delete" />
       </div>
 
       <div class="flex">{{ task.name }}</div>
 
       <div class="flex absolute right-6">
-        <div class="">{{ task.dueDate }}</div>
+        <div class="text-dark">{{ formattedDate(task.dueDate) }}</div>
       </div>
     </div>
 
     <div v-if="editingTask">
       <h2>Modifier une putain de tâche</h2>
       <form @submit.prevent="updateTask">
-        <label for="title">Titre</label>
-        <input type="text" id="title" v-model="editingTask.title" />
+        <label for="name">Titre</label>
+        <input type="text" id="name" v-model="editingTask.name" />
 
-        <label for="description">Description</label>
-        <textarea id="description" v-model="editingTask.description"></textarea>
+        <label for="dueDate">Description</label>
+        <textarea
+          type="date"
+          id="dueDate"
+          v-model="editingTask.dueDate"
+        ></textarea>
 
         <button type="submit">Enregistrer</button>
       </form>
@@ -64,17 +68,17 @@
 
 <script>
 import axios from "axios";
-
+import moment from "moment";
 export default {
   name: "TaskDetail",
   props: {
-    tasks: Array
+    tasks: Array,
   },
   data() {
     return {
-      // tasks: [],
       editingTask: null,
-
+      // Copie vide car props en lecture seul
+      localTasks: [],
       completSvg: "/complet.svg",
       uncompletSvg: "/uncomplet.svg",
       penSvg: "/pen.svg",
@@ -83,12 +87,20 @@ export default {
   },
 
   mounted() {
-    // this.fetchTasks();
+    this.fetchTasks();
+    this.localTasks = this.tasks;
   },
   methods: {
+    formattedDate(dueDate) {
+      const momentDate = moment.utc(dueDate);
+      const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
+      return formattedDateString;
+    },
+
     fetchTasks() {
       axios.get("/api/Todo").then((response) => {
-        this.tasks = response.data;
+        // Copie les données pour éviter de modifier directement le props
+        this.localTasks = response.data;
       });
     },
 
@@ -106,9 +118,9 @@ export default {
         });
     },
 
-    // editTask(task) {
-    //   this.editingTask = task;
-    // },
+    editTask(task) {
+      this.editingTask = task;
+    },
 
     updateTask() {
       axios
@@ -120,13 +132,6 @@ export default {
           alert("UPDATE OK");
         });
     },
-
-    // toggleTaskCompletedStatus(task) {
-    //   task.completed = !task.completed;
-    //   axios.put(`/api/Todo/${task.id}`, task).then((response) => {
-    //     this.fetchTasks();
-    //   });
-    // },
   },
 };
 </script>

@@ -1,10 +1,16 @@
-<style></style>
+<style>
+span.color {
+  padding: 5px;
+  border-left-width: 7px;
+  border-left-style: solid;
+  border-left-color: rgb(47, 139, 70);
+  margin-left: 10px;
+}
+</style>
 
 <template>
   <div class="w-2/12 min-h-screen bg-gray-100">
-    <div
-      class="min-h-screen border-l-indigo-500 shadow-xl flex flex-col bg-white overflow-hidden"
-    >
+    <div class="min-h-screen shadow-xl flex flex-col bg-white overflow-hidden">
       <div class="flex items-center justify-center h-20 shadow">
         <h1 class="text-3xl uppercase text-indigo-500">Main</h1>
       </div>
@@ -14,31 +20,33 @@
             href="#"
             class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
           >
-            <span
-              class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"
-              ><i class="bx bx-home"></i
-            ></span>
-            <span class="focus:border-green-400 text-sm font-medium"
+            <span class="color focus:border-green-400 text-sm font-medium"
               >Dashboard</span
             >
           </a>
         </li>
       </ul>
       <div class="">
-        <ul>
-          <li>
+        <ul class="flex shadow flex-col py-4">
+          <li class="border-l-green-500">
             <a
               href="#"
-              class="flex flex-row items-center mt-4 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >Logout</a
+              class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
             >
+              <span class="color focus:border-green-400 text-sm font-medium"
+                >Logout</span
+              >
+            </a>
           </li>
-          <li>
+          <li class="border-l-green-500">
             <a
               href="#"
-              class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >Settings</a
+              class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
             >
+              <span class="color focus:border-green-400 text-sm font-medium"
+                >Setting</span
+              >
+            </a>
           </li>
         </ul>
         <div>All right deserves</div>

@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script export>
 import axios from "axios";
 import TaskDetail from "./TaskDetail.vue";
 
@@ -37,14 +37,13 @@ export default {
     axios
       .get("/api/Todo")
       .then((response) => {
-
-        response.data.forEach(task => {
-          if(task.completed) {
-            this.completeTasks.push(task)
+        response.data.forEach((task) => {
+          if (task.completed) {
+            this.completeTasks.push(task);
           } else {
-            this.incompleteTasks.push(task)
+            this.incompleteTasks.push(task);
           }
-        })
+        });
         console.log(response.data);
       })
       .catch((error) => {

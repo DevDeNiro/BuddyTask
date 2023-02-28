@@ -1,6 +1,7 @@
 <template>
   <div class="w-10/12 self-center">
     <p class="block text-sm py-3 font-medium text-gray-700">Create new task</p>
+    <alert v-if="errorMessage" message="Une erreur est survenue !" />
     <form @submit.prevent="createTodo">
       <div class="overflow-hidden shadow sm:rounded-md">
         <div class="bg-white px-4 py-5 sm:p-6">
@@ -13,6 +14,7 @@
               >
               <input
                 type="text"
+                required
                 v-model="name"
                 name="name"
                 id="first-name"
@@ -29,6 +31,8 @@
               >
               <input
                 type="date"
+                @invalid="handleInvalidDate"
+                required
                 v-model="dueDate"
                 name="dueDate"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -41,6 +45,7 @@
           >
             Create
           </button>
+          {{ formattedDate }}
         </div>
       </div>
     </form>
@@ -49,37 +54,57 @@
 
 <script>
 import axios from "axios";
+import Alert from "./Alert.vue";
 
 export default {
   name: "AddForm",
-  components: {},
+  components: {Alert},
   data() {
     return {
       name: "",
       dueDate: "",
-      todoCompleted: false,
+      errorMessage: "",
     };
   },
   methods: {
+    isDateValid(date) {
+      const now = new Date();
+      const selectedDate = new Date(date);
+
+      return selectedDate >= now;
+    },
+
+    handleInvalidDate(event) {
+      event.preventDefault();
+      alert(
+        "La date sélectionnée est invalide. Veuillez sélectionner une date ultérieure à la date d'aujourd'hui."
+      );
+    },
+
     createTodo() {
       const formData = new FormData();
       formData.append("name", this.name);
       formData.append("dueDate", this.dueDate);
 
-      axios
-        .post("/api/Todo", formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          alert("Post succeed");
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Post fail");
-        });
+      if (this.isDateValid(formData.dueDate)) {
+        axios
+          .post("/api/Todo", formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            alert("Post succeed");
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Post fail");
+          });
+      } else {
+        this.errorMessage = "Une erreur est survenue !";
+        return;
+      }
     },
   },
 };
