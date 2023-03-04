@@ -1,7 +1,9 @@
 <template>
   <div class="w-10/12 self-center">
-    <p class="block text-sm py-3 font-medium text-gray-700">Create new task</p>
-    <alert v-if="errorMessage" message="Une erreur est survenue !" />
+    <p class="text-gray-700 block text-sm py-3 font-medium text-gray-700">
+      Create new task
+    </p>
+    <!-- <alert v-if="errorMessage" message="Une erreur est survenue !" /> -->
     <form @submit.prevent="createTodo">
       <div class="overflow-hidden shadow sm:rounded-md">
         <div class="bg-white px-4 py-5 sm:p-6">
@@ -41,7 +43,7 @@
           </div>
           <button
             type="submit"
-            class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 mt-4 border border-gray-400 rounded shadow"
+            class="Green bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 mt-4 border border-gray-400 rounded shadow"
           >
             Create
           </button>

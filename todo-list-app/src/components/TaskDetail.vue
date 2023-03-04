@@ -69,11 +69,14 @@ img:hover {
 <script>
 import axios from "axios";
 import moment from "moment";
+
 export default {
   name: "TaskDetail",
   props: {
     tasks: Array,
+    fetchTasks: Function,
   },
+
   data() {
     return {
       editingTask: null,
@@ -85,7 +88,6 @@ export default {
       deleteSvg: "/delete.svg",
     };
   },
-
   mounted() {
     this.fetchTasks();
     this.localTasks = this.tasks;

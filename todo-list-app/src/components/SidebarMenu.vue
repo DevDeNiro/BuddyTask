@@ -11,8 +11,10 @@ span.color {
 <template>
   <div class="w-2/12 min-h-screen bg-gray-100">
     <div class="min-h-screen shadow-xl flex flex-col bg-white overflow-hidden">
-      <div class="flex items-center justify-center h-20 shadow">
-        <h1 class="text-3xl uppercase text-indigo-500">Main</h1>
+      <div class="flex items-center h-20 shadow">
+        <h1 class="pl-3 font-medium text-3xl uppercase text-indigo-500">
+          Main
+        </h1>
       </div>
       <ul class="flex shadow flex-col py-4">
         <li class="border-l-green-500">
@@ -23,6 +25,7 @@ span.color {
             <span class="color focus:border-green-400 text-sm font-medium"
               >Dashboard</span
             >
+            <div :src="trashSvg"></div>
           </a>
         </li>
       </ul>
@@ -58,5 +61,10 @@ span.color {
 <script>
 export default {
   name: "TheSidebar",
+  data() {
+    return {
+      trashSvg: "../public/trash.svg",
+    };
+  },
 };
 </script>
