@@ -20,6 +20,7 @@
 <script export>
 import axios from "axios";
 import TaskDetail from "./TaskDetail.vue";
+import {mapActions} from "vuex";
 
 export default {
   components: {
@@ -28,27 +29,31 @@ export default {
 
   data() {
     return {
-      completeTasks: [],
-      incompleteTasks: [],
+      // completeTasks: [],
+      // incompleteTasks: [],
     };
   },
 
+  methods: {
+    // ...mapActions(['fetchTasks', 'deleteTask'])
+  },
+
   mounted() {
-    axios
-      .get("/api/Todo")
-      .then((response) => {
-        response.data.forEach((task) => {
-          if (task.completed) {
-            this.completeTasks.push(task);
-          } else {
-            this.incompleteTasks.push(task);
-          }
-        });
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .get("/api/tasks")
+    //   .then((response) => {
+    //     response.data.forEach((task) => {
+    //       if (task.completed) {
+    //         this.completeTasks.push(task);
+    //       } else {
+    //         this.incompleteTasks.push(task);
+    //       }
+    //     });
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   },
 };
 </script>

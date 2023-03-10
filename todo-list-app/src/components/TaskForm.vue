@@ -6,7 +6,7 @@
     <!-- <alert v-if="errorMessage" message="Une erreur est survenue !" /> -->
     <form @submit.prevent="createTodo">
       <div class="overflow-hidden shadow sm:rounded-md">
-        <div class="bg-white px-4 py-5 sm:p-6">
+        <div class="bg-black px-4 py-5 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
               <label
@@ -47,7 +47,7 @@
           >
             Create
           </button>
-          {{ formattedDate }}
+          <!-- {{ formattedDate }} -->
         </div>
       </div>
     </form>
@@ -55,12 +55,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import Alert from "./Alert.vue";
+// import axios from "axios";
+import {mapActions} from "vuex";
 
 export default {
   name: "AddForm",
-  components: {Alert},
   data() {
     return {
       name: "",
@@ -83,31 +82,36 @@ export default {
       );
     },
 
+    ...mapActions(["addTodo"]),
     createTodo() {
-      const formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("dueDate", this.dueDate);
-
-      if (this.isDateValid(formData.dueDate)) {
-        axios
-          .post("/api/Todo", formData, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            alert("Post succeed");
-          })
-          .catch((error) => {
-            console.log(error);
-            alert("Post fail");
-          });
-      } else {
-        this.errorMessage = "Une erreur est survenue !";
-        return;
-      }
+      this.addTodo({
+        name: this.name,
+        dueDate: this.dueDate,
+      });
+      this.name = "";
+      this.dueDate = "";
     },
+
+    // createTodo() {
+    //   const formData = new FormData();
+    //   formData.append("name", this.name);
+    //   formData.append("dueDate", this.dueDate);
+
+    //   axios
+    //     .post("/api/tasks", formData, {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //       alert("Post succeed");
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       alert("Post fail");
+    //     });
+    // },
   },
 };
 </script>

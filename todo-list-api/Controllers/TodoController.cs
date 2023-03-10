@@ -4,7 +4,7 @@ using TodoApi.Services.Todo;
 
 namespace TodoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tasks")]
     [ApiController]
     public class TodoController : ControllerBase
     {

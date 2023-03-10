@@ -4,7 +4,7 @@
       <SidebarMenu></SidebarMenu>
     </nav>
     <div
-      class="w-10/12 flex flex-col items-center py-8 min-h-screen bg-gray-100"
+      class="w-10/12 bg-gray-200 flex flex-col items-center py-8 min-h-screen"
     >
       <TaskForm></TaskForm>
       <div class="self-center w-10/12 pt-5">

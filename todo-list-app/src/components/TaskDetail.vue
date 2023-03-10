@@ -21,7 +21,7 @@ img:hover {
 <template>
   <div class="overflow-hidden sm:rounded-md">
     <div
-      class="relative bg-white flex gap-6 my-3 sm:p-4 items-center"
+      class="relative shadow-lg bg-white flex gap-6 my-3 sm:p-4 items-center"
       v-for="task in tasks"
       :key="task.id"
     >
@@ -68,13 +68,28 @@ img:hover {
 
 <script>
 import axios from "axios";
+import {mapGetters} from "vuex";
+import {mapActions} from "vuex";
+import {createStore} from "vuex";
 import moment from "moment";
 
 export default {
   name: "TaskDetail",
+
+  computed: {
+    // ...mapGetters(["todos"]),
+    ...mapActions(["fetchTasks", "deleteTask"]),
+  },
+  created() {
+    if (!this.$store) {
+      console.error("Le store Vuex n'est pas correctement configuré");
+    }
+    this.$store.dispatch("fetchTasks");
+  },
+
   props: {
     tasks: Array,
-    fetchTasks: Function,
+    // fetchTasks: Function,
   },
 
   data() {
@@ -89,8 +104,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchTasks();
-    this.localTasks = this.tasks;
+    // this.fetchTasks();
+    // this.localTasks = this.tasks;
   },
   methods: {
     formattedDate(dueDate) {
@@ -99,41 +114,41 @@ export default {
       return formattedDateString;
     },
 
-    fetchTasks() {
-      axios.get("/api/Todo").then((response) => {
-        // Copie les données pour éviter de modifier directement le props
-        this.localTasks = response.data;
-      });
-    },
+    // fetchTasks() {
+    //   axios.get("/api/tasks").then((response) => {
+    //     // Copie les données pour éviter de modifier directement le props
+    //     this.localTasks = response.data;
+    //   });
+    // },
 
-    deleteTask(id) {
-      axios
-        .delete(`/api/Todo/${id}`)
-        .then((response) => {
-          this.fetchTasks();
-          console.log(response);
-          alert("DELETE OK");
-        })
-        .catch((error) => {
-          console.log(error);
-          // alert("Post fail");
-        });
-    },
+    // deleteTask(id) {
+    //   axios
+    //     .delete(`/api/tasks/${id}`)
+    //     .then((response) => {
+    //       this.fetchTasks();
+    //       console.log(response);
+    //       alert("DELETE OK");
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       // alert("Post fail");
+    //     });
+    // },
 
-    editTask(task) {
-      this.editingTask = task;
-    },
+    // editTask(task) {
+    //   this.editingTask = task;
+    // },
 
-    updateTask() {
-      axios
-        .put(`/api/Todo/${this.editingTask.id}`, this.editingTask)
-        .then((response) => {
-          this.editingTask = null;
-          this.fetchTasks();
-          console.log(response);
-          alert("UPDATE OK");
-        });
-    },
+    // updateTask() {
+    //   axios
+    //     .put(`/api/tasks/${this.editingTask.id}`, this.editingTask)
+    //     .then((response) => {
+    //       this.editingTask = null;
+    //       this.fetchTasks();
+    //       console.log(response);
+    //       alert("UPDATE OK");
+    //     });
+    // },
   },
 };
 </script>
