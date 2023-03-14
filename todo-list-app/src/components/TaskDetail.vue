@@ -69,16 +69,14 @@ img:hover {
 <script>
 import axios from "axios";
 import {mapGetters} from "vuex";
-import {mapActions} from "vuex";
-import {createStore} from "vuex";
 import moment from "moment";
 
 export default {
   name: "TaskDetail",
 
   computed: {
-    // ...mapGetters(["todos"]),
-    ...mapActions(["fetchTasks", "deleteTask"]),
+    ...mapGetters(["todos"]),
+    // ...mapActions(["fetchTasks", "deleteTask"]),
   },
   created() {
     if (!this.$store) {

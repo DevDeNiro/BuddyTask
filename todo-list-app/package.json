@@ -9,12 +9,11 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.7",
-    "@mdi/font": "5.9.55",
+    "@types/vue": "^2.0.0",
     "@vuepic/vue-datepicker": "^3.6.5",
     "axios": "^1.3.3",
     "core-js": "^3.8.3",
     "file-saver": "^2.0.5",
-    "fs-extra": "^11.1.0",
     "moment": "^2.29.4",
     "roboto-fontface": "*",
     "vue": "^3.2.45",
@@ -22,8 +21,7 @@
     "vue-router": "^4.1.6",
     "vuejs3-datepicker": "^1.0.13",
     "vuetify": "^3.0.0-beta.0",
-    "vuex": "^4.0.2",
-    "webfontloader": "^1.0.0"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
