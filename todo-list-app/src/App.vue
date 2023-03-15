@@ -5,14 +5,12 @@
 </template>
 
 <script>
-import AddForm from "./components/TaskForm.vue";
 import HomeView from "./views/HomeView.vue";
 import router from "./router";
 
 export default {
   name: "App",
   components: {
-    router,
     HomeView,
   },
 };

@@ -19,7 +19,9 @@ img:hover {
 </style>
 
 <template>
-  <div class="overflow-hidden sm:rounded-md">
+  <p>{{ message }}</p>
+
+  <!-- <div class="overflow-hidden sm:rounded-md">
     <div
       class="relative shadow-lg bg-white flex gap-6 my-3 sm:p-4 items-center"
       v-for="task in tasks"
@@ -63,32 +65,40 @@ img:hover {
         <button type="submit">Enregistrer</button>
       </form>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
-import axios from "axios";
-import {mapGetters} from "vuex";
 import moment from "moment";
+import {mapGetters, mapActions, mapState} from "vuex";
 
 export default {
-  name: "TaskDetail",
-
   computed: {
-    ...mapGetters(["todos"]),
-    // ...mapActions(["fetchTasks", "deleteTask"]),
+    ...mapState(["message"]),
   },
-  created() {
-    if (!this.$store) {
-      console.error("Le store Vuex n'est pas correctement configuré");
-    }
-    this.$store.dispatch("fetchTasks");
-  },
+  // computed: {
+  //   ...mapState(["todos"]),
+  // },
+  // created() {
+  //   this.$store.dispatch("fetchTodos");
+  // },
+  // name: "TaskDetail",
 
-  props: {
-    tasks: Array,
-    // fetchTasks: Function,
-  },
+  // computed: {
+  //   ...mapGetters(["todos"]),
+  //   // ...mapActions(["fetchTasks", "deleteTask"]),
+  // },
+  // created() {
+  //   if (!this.$store) {
+  //     console.error("Le store Vuex n'est pas correctement configuré");
+  //   }
+  //   this.$store.dispatch("fetchTasks");
+  // },
+
+  // props: {
+  //   tasks: Array,
+  //   // fetchTasks: Function,
+  // },
 
   data() {
     return {
@@ -101,52 +111,52 @@ export default {
       deleteSvg: "/delete.svg",
     };
   },
-  mounted() {
-    // this.fetchTasks();
-    // this.localTasks = this.tasks;
-  },
-  methods: {
-    formattedDate(dueDate) {
-      const momentDate = moment.utc(dueDate);
-      const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
-      return formattedDateString;
-    },
+  // mounted() {
+  //   // this.fetchTasks();
+  //   // this.localTasks = this.tasks;
+  // },
+  // methods: {
+  //   formattedDate(dueDate) {
+  //     const momentDate = moment.utc(dueDate);
+  //     const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
+  //     return formattedDateString;
+  //   },
 
-    // fetchTasks() {
-    //   axios.get("/api/tasks").then((response) => {
-    //     // Copie les données pour éviter de modifier directement le props
-    //     this.localTasks = response.data;
-    //   });
-    // },
+  //   fetchTasks() {
+  //     axios.get("/api/tasks").then((response) => {
+  //       // Copie les données pour éviter de modifier directement le props
+  //       this.localTasks = response.data;
+  //     });
+  //   },
 
-    // deleteTask(id) {
-    //   axios
-    //     .delete(`/api/tasks/${id}`)
-    //     .then((response) => {
-    //       this.fetchTasks();
-    //       console.log(response);
-    //       alert("DELETE OK");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       // alert("Post fail");
-    //     });
-    // },
+  //   deleteTask(id) {
+  //     axios
+  //       .delete(`/api/tasks/${id}`)
+  //       .then((response) => {
+  //         this.fetchTasks();
+  //         console.log(response);
+  //         alert("DELETE OK");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         // alert("Post fail");
+  //       });
+  //   },
 
-    // editTask(task) {
-    //   this.editingTask = task;
-    // },
+  //   editTask(task) {
+  //     this.editingTask = task;
+  //   },
 
-    // updateTask() {
-    //   axios
-    //     .put(`/api/tasks/${this.editingTask.id}`, this.editingTask)
-    //     .then((response) => {
-    //       this.editingTask = null;
-    //       this.fetchTasks();
-    //       console.log(response);
-    //       alert("UPDATE OK");
-    //     });
-    // },
-  },
+  //   updateTask() {
+  //     axios
+  //       .put(`/api/tasks/${this.editingTask.id}`, this.editingTask)
+  //       .then((response) => {
+  //         this.editingTask = null;
+  //         this.fetchTasks();
+  //         console.log(response);
+  //         alert("UPDATE OK");
+  //       });
+  //   },
+  // },
 };
 </script>

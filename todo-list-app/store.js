@@ -1,19 +1,18 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import axios from "axios";
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
-    todos: [],
+    tasks: [],
+    message: "Hello world!",
   },
   mutations: {
-    SET_TODOS(state, todos) {
-      state.todos = todos;
+    // define your mutations here
+    SET_TODOS(state, tasks) {
+      state.tasks = tasks;
     },
     ADD_TODO(state, todo) {
-      state.todos.push(todo);
+      state.tasks.push(todo);
     },
   },
   actions: {
@@ -27,7 +26,6 @@ const store = new Vuex.Store({
           console.log(error);
         });
     },
-
     addTask({commit}, todo) {
       axios
         .post("/api/tasks", todo)
