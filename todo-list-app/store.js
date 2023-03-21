@@ -4,15 +4,24 @@ import axios from "axios";
 const store = createStore({
   state: {
     tasks: [],
-    message: "Hello world!",
   },
   mutations: {
-    // define your mutations here
     SET_TODOS(state, tasks) {
       state.tasks = tasks;
     },
     ADD_TODO(state, todo) {
       state.tasks.push(todo);
+    },
+    DELETE_TODO(state, taskId) {
+      state.tasks = state.tasks.filter((task) => task.id !== taskId);
+    },
+    UPDATE_TODO(state, updatedTask) {
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === updatedTask.id) {
+          return {...task, ...updatedTask};
+        }
+        return task;
+      });
     },
   },
   actions: {
@@ -21,6 +30,7 @@ const store = createStore({
         .get("/api/tasks")
         .then((response) => {
           commit("SET_TODOS", response.data);
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -36,9 +46,29 @@ const store = createStore({
           console.log(error);
         });
     },
+    deleteTask({commit}, taskId) {
+      axios
+        .delete(`/api/tasks/${taskId}`)
+        .then((response) => {
+          commit("DELETE_TODO", taskId);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    updateTask({commit}, updatedTask) {
+      axios
+        .put(`/api/tasks/${updatedTask.id}`, updatedTask)
+        .then((response) => {
+          commit("UPDATE_TODO", updatedTask);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   getters: {
-    todos: (state) => state.todos,
+    tasks: (state) => state.tasks,
   },
 });
 

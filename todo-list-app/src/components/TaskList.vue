@@ -34,9 +34,9 @@ export default {
     };
   },
 
-  methods: {
-    // ...mapActions(['fetchTasks', 'deleteTask'])
-  },
+  // methods: {
+  //   ...mapActions(["fetchTasks", "deleteTask"]),
+  // },
 
   mounted() {
     // axios

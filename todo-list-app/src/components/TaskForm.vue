@@ -71,7 +71,6 @@ export default {
     isDateValid(date) {
       const now = new Date();
       const selectedDate = new Date(date);
-
       return selectedDate >= now;
     },
 

@@ -19,27 +19,17 @@ img:hover {
 </style>
 
 <template>
-  <p>{{ message }}</p>
-
-  <!-- <div class="overflow-hidden sm:rounded-md">
+  <div class="overflow-hidden sm:rounded-md">
     <div
       class="relative shadow-lg bg-white flex gap-6 my-3 sm:p-4 items-center"
       v-for="task in tasks"
       :key="task.id"
     >
       <div class="flex">
-        <img
-          :src="completSvg"
-          @click="toggleTaskCompletedStatus"
-          alt="complet"
-        />
-        <img
-          :src="uncompletSvg"
-          @click="toggleTaskCompletedStatus"
-          alt="uncomplet"
-        />
-        <img :src="penSvg" @click="editTask(task)" alt="update" />
-        <img :src="deleteSvg" @click="deleteTask(task.id)" alt="delete" />
+        <img :src="completSvg" alt="complet" />
+        <img :src="uncompletSvg" alt="uncomplet" />
+        <img :src="penSvg" @click="editTask(task)" alt="updateTask" />
+        <img :src="deleteSvg" @click="deleteTask(task.id)" alt="deleteTask" />
       </div>
 
       <div class="flex">{{ task.name }}</div>
@@ -49,7 +39,7 @@ img:hover {
       </div>
     </div>
 
-    <div v-if="editingTask">
+    <!-- <div v-if="editingTask">
       <h2>Modifier une putain de tâche</h2>
       <form @submit.prevent="updateTask">
         <label for="name">Titre</label>
@@ -64,41 +54,34 @@ img:hover {
 
         <button type="submit">Enregistrer</button>
       </form>
-    </div>
-  </div> -->
+    </div> -->
+  </div>
 </template>
 
 <script>
 import moment from "moment";
-import {mapGetters, mapActions, mapState} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   computed: {
-    ...mapState(["message"]),
+    ...mapGetters(["tasks"]),
   },
-  // computed: {
-  //   ...mapState(["todos"]),
-  // },
-  // created() {
-  //   this.$store.dispatch("fetchTodos");
-  // },
-  // name: "TaskDetail",
 
-  // computed: {
-  //   ...mapGetters(["todos"]),
-  //   // ...mapActions(["fetchTasks", "deleteTask"]),
-  // },
-  // created() {
-  //   if (!this.$store) {
-  //     console.error("Le store Vuex n'est pas correctement configuré");
-  //   }
-  //   this.$store.dispatch("fetchTasks");
-  // },
+  methods: {
+    deleteTask(taskId) {
+      this.$store.commit("DELETE_TODO", taskId);
+    },
+    editTask(updateTask) {
+      this.$store.commit("UPDATE_TODO", updateTask);
+    },
+  },
 
-  // props: {
-  //   tasks: Array,
-  //   // fetchTasks: Function,
-  // },
+  mounted() {
+    if (!this.$store) {
+      console.error("Le store Vuex n'est pas correctement configuré");
+    }
+    this.$store.dispatch("fetchTasks");
+  },
 
   data() {
     return {
@@ -111,16 +94,23 @@ export default {
       deleteSvg: "/delete.svg",
     };
   },
+
+  // props: {
+  //   tasks: Array,
+  //   // fetchTasks: Function,
+  // },
+
   // mounted() {
   //   // this.fetchTasks();
   //   // this.localTasks = this.tasks;
   // },
-  // methods: {
-  //   formattedDate(dueDate) {
-  //     const momentDate = moment.utc(dueDate);
-  //     const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
-  //     return formattedDateString;
-  //   },
+  methods: {
+    formattedDate(dueDate) {
+      const momentDate = moment.utc(dueDate);
+      const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
+      return formattedDateString;
+    },
+  },
 
   //   fetchTasks() {
   //     axios.get("/api/tasks").then((response) => {
