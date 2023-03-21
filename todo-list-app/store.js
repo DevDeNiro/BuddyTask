@@ -65,17 +65,18 @@ const store = createStore({
           alert("KO");
         });
     },
-    updateTask({commit}, updatedTask) {
+    updateTask({commit}, taskId, updatedTask) {
       console.log(updatedTask);
-
       axios
-        .put(`/api/tasks/${updatedTask.id}`, updatedTask)
+        .put(`/api/tasks/${taskId}`, updatedTask)
         .then((response) => {
           commit("UPDATE_TODO", response.data.updatedTask);
           console.log(response);
           alert("OK");
         })
         .catch((error) => {
+          console.error("Erreur lors de la mise à jour de la tâche :", error);
+          alert("Erreur lors de la mise à jour de la tâche.");
           alert("KO");
         });
     },
