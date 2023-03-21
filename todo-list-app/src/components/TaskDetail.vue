@@ -28,7 +28,7 @@ img:hover {
       <div class="flex">
         <img :src="completSvg" alt="complet" />
         <img :src="uncompletSvg" alt="uncomplet" />
-        <img :src="penSvg" @click="editTask(task)" alt="updateTask" />
+        <img :src="penSvg" @click="onUpdateTask(task)" alt="updateTask" />
         <img :src="deleteSvg" @click="deleteTask(task.id)" alt="deleteTask" />
       </div>
 
@@ -38,29 +38,21 @@ img:hover {
         <div class="text-dark">{{ formattedDate(task.dueDate) }}</div>
       </div>
     </div>
-
-    <!-- <div v-if="editingTask">
-      <h2>Modifier une putain de tâche</h2>
-      <form @submit.prevent="updateTask">
-        <label for="name">Titre</label>
-        <input type="text" id="name" v-model="editingTask.name" />
-
-        <label for="dueDate">Description</label>
-        <textarea
-          type="date"
-          id="dueDate"
-          v-model="editingTask.dueDate"
-        ></textarea>
-
-        <button type="submit">Enregistrer</button>
-      </form>
-    </div> -->
+    <!-- 
+    <form
+      v-if="editingTaskId === task.id"
+      @submit.prevent="onUpdateTask(task.id, updatedName, updatedDate)"
+    >
+      <input type="text" v-model="updatedName" placeholder="Nouveau nom" />
+      <input type="date" v-model="updatedDate" placeholder="Nouvelle date" />
+      <button type="submit">Mettre à jour</button>
+    </form> -->
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   computed: {
@@ -68,43 +60,22 @@ export default {
   },
 
   methods: {
-    deleteTask(taskId) {
-      this.$store.commit("DELETE_TODO", taskId);
+    toggleEditForm(taskId) {
+      this.editingTaskId = this.editingTaskId === taskId ? null : taskId;
     },
-    editTask(updateTask) {
-      this.$store.commit("UPDATE_TODO", updateTask);
+
+    onUpdateTask(taskId, name, date) {
+      const updatedTask = {
+        id: taskId,
+        name: name,
+        date: date,
+      };
+      this.updateTask(updatedTask);
     },
-  },
 
-  mounted() {
-    if (!this.$store) {
-      console.error("Le store Vuex n'est pas correctement configuré");
-    }
-    this.$store.dispatch("fetchTasks");
-  },
+    // deleteTask((taskId) => { this.$store.dispatch("DELETE_TODO", taskId); } )
+    ...mapActions(["fetchTasks", "deleteTask", "updateTask"]),
 
-  data() {
-    return {
-      editingTask: null,
-      // Copie vide car props en lecture seul
-      localTasks: [],
-      completSvg: "/complet.svg",
-      uncompletSvg: "/uncomplet.svg",
-      penSvg: "/pen.svg",
-      deleteSvg: "/delete.svg",
-    };
-  },
-
-  // props: {
-  //   tasks: Array,
-  //   // fetchTasks: Function,
-  // },
-
-  // mounted() {
-  //   // this.fetchTasks();
-  //   // this.localTasks = this.tasks;
-  // },
-  methods: {
     formattedDate(dueDate) {
       const momentDate = moment.utc(dueDate);
       const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
@@ -112,41 +83,24 @@ export default {
     },
   },
 
-  //   fetchTasks() {
-  //     axios.get("/api/tasks").then((response) => {
-  //       // Copie les données pour éviter de modifier directement le props
-  //       this.localTasks = response.data;
-  //     });
-  //   },
+  mounted() {
+    if (!this.$store) {
+      console.error("Vuex store is not correctly configure");
+    }
+    this.$store.dispatch("fetchTasks");
+  },
 
-  //   deleteTask(id) {
-  //     axios
-  //       .delete(`/api/tasks/${id}`)
-  //       .then((response) => {
-  //         this.fetchTasks();
-  //         console.log(response);
-  //         alert("DELETE OK");
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         // alert("Post fail");
-  //       });
-  //   },
+  data() {
+    return {
+      editingTaskId: null,
+      updatedName: "",
+      updatedDate: "",
 
-  //   editTask(task) {
-  //     this.editingTask = task;
-  //   },
-
-  //   updateTask() {
-  //     axios
-  //       .put(`/api/tasks/${this.editingTask.id}`, this.editingTask)
-  //       .then((response) => {
-  //         this.editingTask = null;
-  //         this.fetchTasks();
-  //         console.log(response);
-  //         alert("UPDATE OK");
-  //       });
-  //   },
-  // },
+      completSvg: "/complet.svg",
+      uncompletSvg: "/uncomplet.svg",
+      penSvg: "/pen.svg",
+      deleteSvg: "/delete.svg",
+    };
+  },
 };
 </script>

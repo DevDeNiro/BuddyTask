@@ -4,7 +4,7 @@
       Create new task
     </p>
     <!-- <alert v-if="errorMessage" message="Une erreur est survenue !" /> -->
-    <form @submit.prevent="createTodo">
+    <form @submit.prevent="addNewTask">
       <div class="overflow-hidden shadow sm:rounded-md">
         <div class="bg-black px-4 py-5 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
@@ -17,7 +17,7 @@
               <input
                 type="text"
                 required
-                v-model="name"
+                v-model="newTaskTitle"
                 name="name"
                 id="first-name"
                 autocomplete="given-name"
@@ -35,7 +35,7 @@
                 type="date"
                 @invalid="handleInvalidDate"
                 required
-                v-model="dueDate"
+                v-model="newTaskDate"
                 name="dueDate"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
@@ -59,15 +59,27 @@
 import {mapActions} from "vuex";
 
 export default {
-  name: "AddForm",
   data() {
     return {
-      name: "",
-      dueDate: "",
-      errorMessage: "",
+      newTaskTitle: "",
+      newTaskDate: "",
     };
   },
   methods: {
+    ...mapActions(["addTask"]),
+
+    addNewTask() {
+      if (this.newTaskTitle.trim() !== "") {
+        const newTask = {
+          title: this.newTaskTitle.trim(),
+          date: this.newTaskDate.trim(),
+        };
+        this.addTask(newTask);
+        this.newTaskTitle = "";
+        this.newTaskDate = "";
+      }
+    },
+
     isDateValid(date) {
       const now = new Date();
       const selectedDate = new Date(date);
@@ -81,7 +93,6 @@ export default {
       );
     },
 
-    ...mapActions(["addTodo"]),
     createTodo() {
       this.addTodo({
         name: this.name,
@@ -90,27 +101,6 @@ export default {
       this.name = "";
       this.dueDate = "";
     },
-
-    // createTodo() {
-    //   const formData = new FormData();
-    //   formData.append("name", this.name);
-    //   formData.append("dueDate", this.dueDate);
-
-    //   axios
-    //     .post("/api/tasks", formData, {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     })
-    //     .then((response) => {
-    //       console.log(response);
-    //       alert("Post succeed");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       alert("Post fail");
-    //     });
-    // },
   },
 };
 </script>

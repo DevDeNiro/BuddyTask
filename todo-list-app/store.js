@@ -5,6 +5,7 @@ const store = createStore({
   state: {
     tasks: [],
   },
+
   mutations: {
     SET_TODOS(state, tasks) {
       state.tasks = tasks;
@@ -13,7 +14,7 @@ const store = createStore({
       state.tasks.push(todo);
     },
     DELETE_TODO(state, taskId) {
-      state.tasks = state.tasks.filter((task) => task.id !== taskId);
+      state.tasks = state.tasks.filter((task) => task.Id !== taskId);
     },
     UPDATE_TODO(state, updatedTask) {
       state.tasks = state.tasks.map((task) => {
@@ -24,6 +25,7 @@ const store = createStore({
       });
     },
   },
+
   actions: {
     fetchTasks({commit}) {
       axios
@@ -36,37 +38,49 @@ const store = createStore({
           console.log(error);
         });
     },
-    addTask({commit}, todo) {
+
+    addTask({commit, dispatch}, taskId) {
       axios
-        .post("/api/tasks", todo)
+        .post(`/api/tasks/${taskId}`, taskId)
         .then((response) => {
           commit("ADD_TODO", response.data);
+          // dispatch("fetchTasks");
+          alert("OK");
         })
         .catch((error) => {
           console.log(error);
+          alert("KO");
         });
     },
     deleteTask({commit}, taskId) {
       axios
         .delete(`/api/tasks/${taskId}`)
         .then((response) => {
-          commit("DELETE_TODO", taskId);
+          commit("DELETE_TODO", response.data.Id);
+          console.log(response.data);
+          alert("OK");
         })
         .catch((error) => {
           console.log(error);
+          alert("KO");
         });
     },
     updateTask({commit}, updatedTask) {
+      console.log(updatedTask);
+
       axios
         .put(`/api/tasks/${updatedTask.id}`, updatedTask)
         .then((response) => {
-          commit("UPDATE_TODO", updatedTask);
+          commit("UPDATE_TODO", response.data.updatedTask);
+          console.log(response);
+          alert("OK");
         })
         .catch((error) => {
-          console.log(error);
+          alert("KO");
         });
     },
   },
+
   getters: {
     tasks: (state) => state.tasks,
   },
