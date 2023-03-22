@@ -10,18 +10,18 @@ const store = createStore({
     SET_TODOS(state, tasks) {
       state.tasks = tasks;
     },
-    ADD_TODO(state, todo) {
-      state.tasks.push(todo);
+    ADD_TODO(state, task) {
+      state.tasks.push(task);
     },
     DELETE_TODO(state, taskId) {
-      state.tasks = state.tasks.filter((task) => task.Id !== taskId);
+      state.tasks = state.tasks.filter((task) => task.id !== taskId);
     },
-    UPDATE_TODO(state, updatedTask) {
-      state.tasks = state.tasks.map((task) => {
-        if (task.id === updatedTask.id) {
-          return {...task, ...updatedTask};
+    UPDATE_DATA(state, updatedData) {
+      state.data = state.data.map((item) => {
+        if (item.id === updatedData.id) {
+          return {...item, ...updatedData};
         }
-        return task;
+        return item;
       });
     },
   },
@@ -39,36 +39,31 @@ const store = createStore({
         });
     },
 
-    addTask({commit, dispatch}, taskId) {
+    addTask({commit}, task) {
       axios
-        .post(`/api/tasks/${taskId}`, taskId)
+        .post("/api/tasks", task)
         .then((response) => {
           commit("ADD_TODO", response.data);
-          // dispatch("fetchTasks");
-          alert("OK");
         })
         .catch((error) => {
           console.log(error);
-          alert("KO");
         });
     },
-    deleteTask({commit}, taskId) {
+    deleteTask({commit, dispatch}, task) {
       axios
-        .delete(`/api/tasks/${taskId}`)
+        .delete("/api/tasks", {params: {id: task}})
         .then((response) => {
-          commit("DELETE_TODO", response.data.Id);
-          console.log(response.data);
-          alert("OK");
+          commit("DELETE_TODO", response.data);
+          dispatch("fetchTasks");
         })
         .catch((error) => {
           console.log(error);
-          alert("KO");
         });
     },
-    updateTask({commit}, taskId, updatedTask) {
+    updateTask({commit}, updatedTask) {
       console.log(updatedTask);
       axios
-        .put(`/api/tasks/${taskId}`, updatedTask)
+        .put(`/api/tasks/${updatedTask.id}`, updatedTask.data)
         .then((response) => {
           commit("UPDATE_TODO", response.data.updatedTask);
           console.log(response);
@@ -77,7 +72,6 @@ const store = createStore({
         .catch((error) => {
           console.error("Erreur lors de la mise à jour de la tâche :", error);
           alert("Erreur lors de la mise à jour de la tâche.");
-          alert("KO");
         });
     },
   },

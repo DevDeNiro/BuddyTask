@@ -21,6 +21,7 @@
                 name="name"
                 id="first-name"
                 autocomplete="given-name"
+                placeholder="e.g. Take the bins out"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
             </div>
@@ -41,13 +42,7 @@
               />
             </div>
           </div>
-          <button
-            type="submit"
-            class="Green bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 mt-4 border border-gray-400 rounded shadow"
-          >
-            Create
-          </button>
-          <!-- {{ formattedDate }} -->
+          <button type="submit" class="bg-green text-gray w-4">Create</button>
         </div>
       </div>
     </form>
@@ -55,7 +50,6 @@
 </template>
 
 <script>
-// import axios from "axios";
 import {mapActions} from "vuex";
 
 export default {
@@ -71,8 +65,8 @@ export default {
     addNewTask() {
       if (this.newTaskTitle.trim() !== "") {
         const newTask = {
-          title: this.newTaskTitle.trim(),
-          date: this.newTaskDate.trim(),
+          name: this.newTaskTitle.trim(),
+          dueDate: this.newTaskDate.trim(),
         };
         this.addTask(newTask);
         this.newTaskTitle = "";
@@ -93,14 +87,14 @@ export default {
       );
     },
 
-    createTodo() {
-      this.addTodo({
-        name: this.name,
-        dueDate: this.dueDate,
-      });
-      this.name = "";
-      this.dueDate = "";
-    },
+    // createTodo() {
+    //   this.addTodo({
+    //     name: this.name,
+    //     dueDate: this.dueDate,
+    //   });
+    //   this.name = "";
+    //   this.dueDate = "";
+    // },
   },
 };
 </script>

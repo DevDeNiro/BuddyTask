@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
 using TodoApi.Services.Todo;
+using MongoDB.Bson;
+
 
 namespace TodoApi.Controllers
 {
@@ -36,6 +38,7 @@ namespace TodoApi.Controllers
         [HttpPost]
         public ActionResult<TodoItemModel> CreateTodo(TodoItemModel newTodo)
         {
+            newTodo.Id = ObjectId.GenerateNewId().ToString();
             _todoService.CreateTodo(newTodo);
 
             return CreatedAtRoute("GetTodo", new { id = newTodo.Id.ToString() }, newTodo);

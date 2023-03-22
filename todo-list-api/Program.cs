@@ -1,8 +1,12 @@
 using TodoApi.Services.Todo;
 
 
-var builder = WebApplication.CreateBuilder(args);
-
+var builder = WebApplication.CreateBuilder();
+builder.Host.ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
 // Add services to the container.
 
 builder.Services.AddControllers();

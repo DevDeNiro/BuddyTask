@@ -28,19 +28,19 @@ img:hover {
       <div class="flex">
         <img :src="completSvg" alt="complet" />
         <img :src="uncompletSvg" alt="uncomplet" />
-        <img :src="penSvg" @click="onUpdateTask(task)" alt="updateTask" />
+        <img :src="penSvg" @click="onUpdateTask(task.id)" alt="updateTask" />
         <img :src="deleteSvg" @click="deleteTask(task.id)" alt="deleteTask" />
       </div>
 
       <div class="flex">{{ task.name }}</div>
 
       <div class="flex absolute right-6">
-        <div class="text-dark">{{ formattedDate(task.dueDate) }}</div>
+        <div class="text-red">{{ formattedDate(task.dueDate) }}</div>
       </div>
     </div>
-    <!-- 
-    <form
-      v-if="editingTaskId === task.id"
+
+    <!-- <form
+      v-if="editingTaskId === task.id" 
       @submit.prevent="onUpdateTask(task.id, updatedName, updatedDate)"
     >
       <input type="text" v-model="updatedName" placeholder="Nouveau nom" />
@@ -60,6 +60,9 @@ export default {
   },
 
   methods: {
+    // deleteTask((taskId) => { this.$store.dispatch("DELETE_TODO", taskId); } )
+    ...mapActions(["fetchTasks", "deleteTask", "updateTask"]),
+
     toggleEditForm(taskId) {
       this.editingTaskId = this.editingTaskId === taskId ? null : taskId;
     },
@@ -68,13 +71,10 @@ export default {
       const updatedTask = {
         id: taskId,
         name: name,
-        date: date,
+        dueDate: date,
       };
       this.updateTask(updatedTask);
     },
-
-    // deleteTask((taskId) => { this.$store.dispatch("DELETE_TODO", taskId); } )
-    ...mapActions(["fetchTasks", "deleteTask", "updateTask"]),
 
     formattedDate(dueDate) {
       const momentDate = moment.utc(dueDate);

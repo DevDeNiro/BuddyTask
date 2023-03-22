@@ -3,18 +3,16 @@ span.color {
   padding: 5px;
   border-left-width: 7px;
   border-left-style: solid;
-  border-left-color: rgb(47, 139, 70);
+  border-left-color: #49be8b;
   margin-left: 10px;
 }
 </style>
 
 <template>
-  <div class="w-2/12 min-h-screen bg-gray-100">
-    <div class="min-h-screen shadow-xl flex flex-col bg-white overflow-hidden">
+  <div class="w-2/12 static h-full bg-gray-100">
+    <div class="w-2/12 h-full fixed shadow-xl flex flex-col">
       <div class="flex items-center h-20 shadow">
-        <h1 class="pl-3 font-medium text-3xl uppercase text-indigo-500">
-          Main
-        </h1>
+        <h1 class="text-green pl-3 text-3xl uppercase font-bold">Harlist</h1>
       </div>
       <ul class="flex shadow flex-col py-4">
         <li class="border-l-green-500">
