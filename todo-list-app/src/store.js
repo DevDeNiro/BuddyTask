@@ -7,7 +7,7 @@ const store = createStore({
   },
 
   mutations: {
-    SET_TODOS(state, tasks) {
+    SET_TODO(state, tasks) {
       state.tasks = tasks;
     },
     ADD_TODO(state, task) {
@@ -16,13 +16,10 @@ const store = createStore({
     DELETE_TODO(state, taskId) {
       state.tasks = state.tasks.filter((task) => task.id !== taskId);
     },
-    UPDATE_DATA(state, updatedData) {
-      state.data = state.data.map((item) => {
-        if (item.id === updatedData.id) {
-          return {...item, ...updatedData};
-        }
-        return item;
-      });
+    UPDATE_TODO(state, updatedData) {
+      state.data = state.data.map((item) =>
+        item.id === updatedData.id ? {...item, ...updatedData} : item
+      );
     },
   },
 
@@ -31,7 +28,7 @@ const store = createStore({
       axios
         .get("/api/tasks")
         .then((response) => {
-          commit("SET_TODOS", response.data);
+          commit("SET_TODO", response.data);
           console.log(response.data);
         })
         .catch((error) => {
@@ -60,18 +57,28 @@ const store = createStore({
           console.log(error);
         });
     },
-    updateTask({commit}, updatedTask) {
+    updateTask({commit, dispatch}, updatedTask) {
       console.log(updatedTask);
       axios
-        .put(`/api/tasks/${updatedTask.id}`, updatedTask.data)
+        .put(`/api/tasks/${updatedTask.id}`, updatedTask, {
+          // headers: {
+          //   "Content-Type": "application/json; charset=utf-8",
+          // },
+        })
         .then((response) => {
-          commit("UPDATE_TODO", response.data.updatedTask);
           console.log(response);
-          alert("OK");
+          if (response.data.updatedTodoItem) {
+            alert("OK");
+            commit("UPDATE_TODO", response.data.updatedTodoItem);
+          } else {
+            console.error(
+              "La réponse du serveur ne contient pas 'updatedTodoItem'."
+            );
+          }
+          dispatch("fetchTasks");
         })
         .catch((error) => {
           console.error("Erreur lors de la mise à jour de la tâche :", error);
-          alert("Erreur lors de la mise à jour de la tâche.");
         });
     },
   },

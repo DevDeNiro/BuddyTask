@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TodoApi.Models
 {
-    public class TodoItemModel
+    public class CategoryItemModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -12,21 +12,11 @@ namespace TodoApi.Models
         [BsonElement("Name")]
         public string? Name { get; set; }
 
-        [BsonElement("DueDate")]
-        public DateTime DueDate { get; set; }
-
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; }
 
-        [BsonElement("Completed")]
-        public bool Completed { get; set; }
-
-        [BsonElement("CategorieId")]
-        public string? CategorieId { get; set; }
-
         [BsonIgnore]
-        public CategoryItemModel? Category { get; set; }
+        public List<TodoItemModel>? TodoItems { get; set; }
 
     }
-
 }

@@ -42,7 +42,12 @@
               />
             </div>
           </div>
-          <button type="submit" class="bg-green text-gray w-4">Create</button>
+          <button
+            type="submit"
+            class="text-white bg-green flex justify-center text-center cursor-pointer shadow-lg font-bold p-1 w-1/6 uppercase my-3"
+          >
+            <span class="text-gray text-center">Create</span>
+          </button>
         </div>
       </div>
     </form>
@@ -86,15 +91,6 @@ export default {
         "La date sélectionnée est invalide. Veuillez sélectionner une date ultérieure à la date d'aujourd'hui."
       );
     },
-
-    // createTodo() {
-    //   this.addTodo({
-    //     name: this.name,
-    //     dueDate: this.dueDate,
-    //   });
-    //   this.name = "";
-    //   this.dueDate = "";
-    // },
   },
 };
 </script>

@@ -1,18 +1,26 @@
-### TODO LIST
+# TODO LIST
 
-School student project using :
+School student project to help all of us stay organized and on top of our work !
 
-- Rest crud api with c# SDK webapi
-- Vue.js to fetch data from the Api
+### Backend :
 
-To start the backend, run on `todo-list-api` :
+- ASP.Net 6 web.API
 
-- dotnet run
+On `todo-list-api` folder, `dotnet run`
 
-View route on Swagger on this url :
+You can visualize route on Swagger using this url :
 https://localhost:7174/swagger/index.html
 
-To start the frontend, run on `todo-list-app` :
+### Frontend :
 
+- Vue.js 3
+- Axios
+- Vuex
+- Tailwind
+
+On `todo-list-app` folder :
+
+```
 - npm i
-- npm run serve
+- npm run dev
+```

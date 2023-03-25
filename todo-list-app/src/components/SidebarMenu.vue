@@ -23,6 +23,20 @@ span.color {
             <span class="color focus:border-green-400 text-sm font-medium"
               >Dashboard</span
             >
+
+            <div :src="trashSvg"></div>
+          </a>
+        </li>
+
+        <li class="border-l-green-500">
+          <a
+            href="#"
+            class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
+          >
+            <span class="color focus:border-green-400 text-sm font-medium"
+              >Add categorie</span
+            >
+
             <div :src="trashSvg"></div>
           </a>
         </li>

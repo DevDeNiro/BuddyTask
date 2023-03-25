@@ -1,4 +1,8 @@
-<style>
+<style scoped>
+.dialog {
+  /* ajoutez ici le style pour le dialogue */
+}
+
 .blockElements {
   align-items: center;
 }
@@ -28,7 +32,7 @@ img:hover {
       <div class="flex">
         <img :src="completSvg" alt="complet" />
         <img :src="uncompletSvg" alt="uncomplet" />
-        <img :src="penSvg" @click="onUpdateTask(task.id)" alt="updateTask" />
+        <img :src="penSvg" @click="onUpdateTask(task)" alt="updateTask" />
         <img :src="deleteSvg" @click="deleteTask(task.id)" alt="deleteTask" />
       </div>
 
@@ -39,14 +43,21 @@ img:hover {
       </div>
     </div>
 
-    <!-- <form
-      v-if="editingTaskId === task.id" 
-      @submit.prevent="onUpdateTask(task.id, updatedName, updatedDate)"
-    >
-      <input type="text" v-model="updatedName" placeholder="Nouveau nom" />
-      <input type="date" v-model="updatedDate" placeholder="Nouvelle date" />
-      <button type="submit">Mettre à jour</button>
-    </form> -->
+    <div v-if="showDialog" class="dialog">
+      <h2>Mise à jour de la tâche</h2>
+      <form @submit.prevent="submitForm">
+        <div class="my-5">
+          <label for="name">Nom de la tâche :</label>
+          <input type="text" name="name" v-model="name" required />
+        </div>
+        <div class="my-5">
+          <label for="dueDate">Date d'échéance :</label>
+          <input type="date" name="dueDate" v-model="dueDate" />
+        </div>
+        <button type="submit" class="m-5">Mettre à jour la tâche</button>
+        <button @click="showDialog = false">Annuler</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -63,17 +74,26 @@ export default {
     // deleteTask((taskId) => { this.$store.dispatch("DELETE_TODO", taskId); } )
     ...mapActions(["fetchTasks", "deleteTask", "updateTask"]),
 
-    toggleEditForm(taskId) {
-      this.editingTaskId = this.editingTaskId === taskId ? null : taskId;
+    submitForm() {
+      const updatedTask = {
+        id: this.id,
+        name: this.name,
+        dueDate: this.dueDate,
+      };
+
+      console.log(updatedTask);
+
+      this.updateTask(updatedTask);
+      this.showDialog = false;
     },
 
-    onUpdateTask(taskId, name, date) {
-      const updatedTask = {
-        id: taskId,
-        name: name,
-        dueDate: date,
-      };
-      this.updateTask(updatedTask);
+    onUpdateTask(task) {
+      this.showDialog = true;
+      this.id = task.id;
+      this.name = task.name;
+      this.dueDate = task.dueDate;
+
+      console.log(this.id, this.name, this.dueDate);
     },
 
     formattedDate(dueDate) {
@@ -92,9 +112,10 @@ export default {
 
   data() {
     return {
-      editingTaskId: null,
-      updatedName: "",
-      updatedDate: "",
+      showDialog: false,
+      id: null,
+      name: "",
+      dueDate: "",
 
       completSvg: "/complet.svg",
       uncompletSvg: "/uncomplet.svg",
