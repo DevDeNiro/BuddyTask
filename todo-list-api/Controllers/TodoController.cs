@@ -42,10 +42,11 @@ namespace TodoApi.Controllers
         public ActionResult<TodoItemModel> Create([NotNull] TodoItemModel todo)
         {
             _todoService.CreateTodo(todo);
+
             return CreatedAtRoute("GetTodo", new { id = todo.Id.ToString() }, todo);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateTodo")]
         public IActionResult UpdateTodo(string id, TodoItemModel updateTodo)
         {
             var todoExist = _todoService.GetTodo(id);
