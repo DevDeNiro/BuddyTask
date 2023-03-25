@@ -36,7 +36,6 @@ namespace TodoApi.Controllers
             return category;
         }
 
-        // POST: api/Category
         [HttpPost]
         public ActionResult<CategoryItemModel> Create(CategoryItemModel category)
         {
@@ -44,7 +43,7 @@ namespace TodoApi.Controllers
             return CreatedAtRoute("GetCategory", new { id = category.Id.ToString() }, category);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "PutCategory")]
         public IActionResult Update(string id, CategoryItemModel categoryIn)
         {
             var category = _categoryService.GetCategory(id);
@@ -62,8 +61,7 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Category/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteCategory")]
         public IActionResult Delete(string id)
         {
             var category = _categoryService.GetCategory(id);

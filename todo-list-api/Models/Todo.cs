@@ -21,8 +21,8 @@ namespace TodoApi.Models
         [BsonElement("Completed")]
         public bool Completed { get; set; }
 
-        [BsonElement("CategorieId")]
-        public string? CategorieId { get; set; }
+        [BsonElement("categoryId")]
+        public string? CategoryId { get; set; }
 
         [BsonIgnore]
         public CategoryItemModel? Category { get; set; }

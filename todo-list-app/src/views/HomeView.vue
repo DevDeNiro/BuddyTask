@@ -8,7 +8,7 @@
     >
       <TaskForm></TaskForm>
       <div class="self-center w-10/12 pt-5">
-        <TaskList> </TaskList>
+        <TaskDetail> </TaskDetail>
       </div>
     </div>
   </div>
@@ -18,10 +18,9 @@
 import SidebarMenu from "../components/SidebarMenu.vue";
 import TaskForm from "../components/TaskForm.vue";
 import TaskDetail from "../components/TaskDetail.vue";
-import TaskList from "../components/TaskList.vue";
 
 export default {
   name: "HomeView",
-  components: {SidebarMenu, TaskForm, TaskDetail, TaskList},
+  components: {SidebarMenu, TaskForm, TaskDetail},
 };
 </script>
