@@ -39,12 +39,20 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TodoItemModel> Create([NotNull] TodoItemModel todo)
+        public ActionResult<TodoItemModel> Create(TodoItemModel todo)
         {
+
+            // Trying to prevent warning CS8603
+            if (todo == null)
+            {
+                return BadRequest("Todo item is null.");
+            }
+
             _todoService.CreateTodo(todo);
 
             return CreatedAtRoute("GetTodo", new { id = todo.Id.ToString() }, todo);
         }
+
 
         [HttpPut("{id}", Name = "UpdateTodo")]
         public IActionResult UpdateTodo(string id, TodoItemModel updateTodo)
@@ -55,13 +63,11 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            // Créez un objet de mise à jour en ne modifiant que les champs "Name" et "DueDate"
             var updateDefinition = Builders<TodoItemModel>.Update
                 .Set(todo => todo.Name, updateTodo.Name)
                 .Set(todo => todo.Completed, updateTodo.Completed)
                 .Set(todo => todo.DueDate, updateTodo.DueDate);
 
-            // Modifiez la méthode "UpdateTodo" de votre service pour accepter un "UpdateDefinition"
             _todoService.UpdateTodo(id, updateDefinition);
 
             return NoContent();

@@ -26,18 +26,6 @@ namespace TodoApi.Controllers
             return _categoryService.GetAllCategories();
         }
 
-        // [HttpGet("{id}", Name = "GetCategory")]
-        // public ActionResult<CategoryItemModel> Get(string id)
-        // {
-        //     var category = _categoryService.GetCategory(id);
-
-        //     if (category == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return category;
-        // }
 
         [HttpGet("{id}", Name = "GetCategory")]
         public async Task<ActionResult<CategoryItemModel>> GetCategory(string id)
