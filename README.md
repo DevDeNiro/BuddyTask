@@ -1,10 +1,11 @@
-# TODO LIST
+## TODO LIST
 
 School student project to help all of us stay organized and on top of our work !
 
 ### Backend :
 
 - ASP.Net 6 web.API
+- MongoDB
 
 On `todo-list-api` folder, `dotnet run`
 
@@ -14,9 +15,9 @@ https://localhost:7174/swagger/index.html
 ### Frontend :
 
 - Vue.js 3
-- Axios
-- Vuex
 - Tailwind
+- Vuex
+- Axios
 
 On `todo-list-app` folder :
 

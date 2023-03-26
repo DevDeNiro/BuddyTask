@@ -10,5 +10,8 @@ namespace TodoApi.Service.ITodoService
         TodoItemModel CreateTodo(TodoItemModel todo);
         void UpdateTodo(string id, UpdateDefinition<TodoItemModel> updateDefinition);
         void RemoveTodo(string id);
+        Task<CategoryItemModel> GetCategory(string categoryId);
+        Task<bool> RemoveCategoryAsync(string categoryId);
+
     }
 }

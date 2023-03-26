@@ -3,18 +3,21 @@ using TodoApi.Models;
 using TodoApi.Service.ICategoryService;
 using MongoDB.Driver;
 using TodoApi.Data;
+using TodoApi.Service.ITodoService;
 
 namespace TodoApi.Controllers
 {
     [ApiController]
-    [Route("api/category")]
+    [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly ITodoService _todoService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ITodoService todoService)
         {
             _categoryService = categoryService;
+            _todoService = todoService;
         }
 
         [HttpGet]
@@ -23,18 +26,32 @@ namespace TodoApi.Controllers
             return _categoryService.GetAllCategories();
         }
 
+        // [HttpGet("{id}", Name = "GetCategory")]
+        // public ActionResult<CategoryItemModel> Get(string id)
+        // {
+        //     var category = _categoryService.GetCategory(id);
+
+        //     if (category == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     return category;
+        // }
+
         [HttpGet("{id}", Name = "GetCategory")]
-        public ActionResult<CategoryItemModel> Get(string id)
+        public async Task<ActionResult<CategoryItemModel>> GetCategory(string id)
         {
-            var category = _categoryService.GetCategory(id);
+            var category = await _todoService.GetCategory(id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            return category;
+            return Ok(category);
         }
+
 
         [HttpPost]
         public ActionResult<CategoryItemModel> Create(CategoryItemModel category)
@@ -61,19 +78,34 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}", Name = "DeleteCategory")]
-        public IActionResult Delete(string id)
-        {
-            var category = _categoryService.GetCategory(id);
+        // [HttpDelete("{id}", Name = "DeleteCategory")]
+        // public IActionResult Delete(string id)
+        // {
+        //     var category = _categoryService.GetCategory(id);
 
-            if (category == null)
+        //     if (category == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     _categoryService.RemoveCategory(id);
+
+        //     return NoContent();
+        // }
+
+        [HttpDelete("{id}", Name = "DeleteCategory")]
+        public async Task<IActionResult> DeleteCategory(string id)
+        {
+            // Supprime la catégorie et les éléments Todo associés
+            bool success = await _todoService.RemoveCategoryAsync(id);
+
+            if (!success)
             {
                 return NotFound();
             }
 
-            _categoryService.RemoveCategory(id);
-
             return NoContent();
         }
+
     }
 }

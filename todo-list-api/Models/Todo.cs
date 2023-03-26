@@ -15,6 +15,12 @@ namespace TodoApi.Models
         [BsonElement("DueDate")]
         public DateTime DueDate { get; set; }
 
+        [BsonElement("StartDate")]
+        public DateTime StartDate { get; set; }
+
+        [BsonElement("EndDate")]
+        public DateTime EndDate { get; set; }
+
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; }
 
@@ -23,9 +29,6 @@ namespace TodoApi.Models
 
         [BsonElement("categoryId")]
         public string? CategoryId { get; set; }
-
-        [BsonIgnore]
-        public CategoryItemModel? Category { get; set; }
 
     }
 

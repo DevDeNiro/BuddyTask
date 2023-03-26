@@ -15,8 +15,8 @@ namespace TodoApi.Models
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; }
 
-        [BsonIgnore]
-        public List<TodoItemModel>? TodoItems { get; set; }
+        // Aucun todo créé à la création d'une catégorie
+        public List<TodoItemModel>? TodoItems { get; set; } = new List<TodoItemModel>();
 
     }
 }
