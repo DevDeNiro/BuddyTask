@@ -66,21 +66,6 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-        // [HttpDelete("{id}", Name = "DeleteCategory")]
-        // public IActionResult Delete(string id)
-        // {
-        //     var category = _categoryService.GetCategory(id);
-
-        //     if (category == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     _categoryService.RemoveCategory(id);
-
-        //     return NoContent();
-        // }
-
         [HttpDelete("{id}", Name = "DeleteCategory")]
         public async Task<IActionResult> DeleteCategory(string id)
         {
