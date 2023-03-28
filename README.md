@@ -7,7 +7,11 @@ School student project to help all of us stay organized and on top of our work !
 - ASP.Net 6 web.API
 - MongoDB
 
-On `todo-list-api` folder, `dotnet run`
+On `todo-list-api` folder :
+
+```
+- dotnet run
+```
 
 You can visualize route on Swagger using this url :
 https://localhost:7174/swagger/index.html
