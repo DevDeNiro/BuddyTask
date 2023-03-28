@@ -39,7 +39,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TodoItemModel> Create(TodoItemModel todo)
+        public ActionResult<TodoItemModel> CreateTodo(TodoItemModel todo)
         {
 
             // Trying to prevent warning CS8603

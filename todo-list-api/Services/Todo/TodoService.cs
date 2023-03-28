@@ -34,6 +34,11 @@ namespace TodoApi.Service.ITodoService
         {
             _todos.InsertOne(todo);
 
+            if (string.IsNullOrEmpty(todo.CategoryId))
+            {
+                return todo;
+            }
+
             // Retrieve the corresponding category
             var categoryFilter = Builders<CategoryItemModel>.Filter.Eq("_id", ObjectId.Parse(todo.CategoryId));
             var category = _categories.Find(categoryFilter).FirstOrDefault();
@@ -49,7 +54,6 @@ namespace TodoApi.Service.ITodoService
 
             return todo;
         }
-
 
         public void UpdateTodo(string id, UpdateDefinition<TodoItemModel> updateDefinition)
         {
