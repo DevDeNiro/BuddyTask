@@ -1,11 +1,11 @@
-import apiClient from "../../../api";
+import apiClient from "../../api";
 
 const state = {
   categories: [],
 };
 
 const mutations = {
-  SET_CATEGORIES(state, categories) {
+  GET_CATEGORIES(state, categories) {
     state.categories = categories;
   },
 
@@ -30,7 +30,7 @@ const mutations = {
 const actions = {
   async fetchCategories({commit}) {
     const response = await apiClient.get("/categories");
-    commit("SET_CATEGORIES", response.data);
+    commit("GET_CATEGORIES", response.data);
   },
   // async getCategory(_, id) {
   //   const response = await apiClient.get(`/categories/${id}`);

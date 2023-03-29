@@ -1,19 +1,14 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <main>
+      <router-view></router-view>
+      <Popup />
+    </main>
   </div>
 </template>
 
 <script>
-import HomeView from "./views/HomeView.vue";
-import router from "./router";
-
-export default {
-  name: "App",
-  components: {
-    HomeView,
-  },
-};
+import Popup from "./components/Popup.vue";
 </script>
 
 <style>
