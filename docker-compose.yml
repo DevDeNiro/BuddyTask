@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  backend:
+    build: ./todo-list-api
+    ports:
+      - "7174:7174"
+    volumes:
+      - todo-list-backend:/app
+    depends_on:
+      - mongodb
+    restart: on-failure
+
+  frontend:
+    build: ./todo-list-app
+    ports:
+      - "5173:5173"
+    volumes:
+      - todo-list-frontend:/app
+      - /app/node_modules
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  todo-list-backend:
+  todo-list-frontend:
+  mongodb_data:

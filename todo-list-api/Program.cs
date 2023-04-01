@@ -1,6 +1,7 @@
 using TodoApi.Data;
 using TodoApi.Service.ITodoService;
 using TodoApi.Service.ICategoryService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS Middleware
@@ -20,7 +21,6 @@ builder.Host.ConfigureLogging(logging =>
     logging.ClearProviders();
     logging.AddConsole();
 });
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,12 +42,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(7174);
+});
+
+// app.UseHttpsRedirection();
 
 app.UseRouting();
 

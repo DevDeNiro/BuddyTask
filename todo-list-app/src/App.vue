@@ -2,13 +2,13 @@
   <div id="app">
     <main>
       <router-view></router-view>
-      <Popup />
+      <Home />
     </main>
   </div>
 </template>
 
 <script>
-import Popup from "./components/Popup.vue";
+import Home from "./views/Home.vue";
 </script>
 
 <style>

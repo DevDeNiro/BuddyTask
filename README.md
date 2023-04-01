@@ -1,31 +1,35 @@
-## TODO LIST
+## BuddyTask - Stay Organized and On Top of Your Work!
 
-School student project to help all of us stay organized and on top of our work !
+This project is a web application for students to help them stay organized and manage their tasks.
 
-### Backend :
+### Features
 
-- ASP.Net 6 web.API
-- MongoDB
+- [x] : Task management with the ability to add, modify, and delete items.
+- [] : Organizing tasks by categories (studies, projects, exams, etc.).
+- [] : Task scheduling with due dates.
+- [] : Notifications for upcoming tasks.
+- [] : Calendar view for better visualization of tasks and deadlines.
 
-On `todo-list-api` folder :
+### Prerequisites
 
-```
-- dotnet run
-```
+To run this application locally, make sure you have installed [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
 
-You can visualize route on Swagger using this url :
-https://localhost:7174/swagger/index.html
+### Usage
 
-### Frontend :
+Clone this repository on your machine, then execute using Docker Compose
 
-- Vue.js 3
-- Tailwind
-- Vuex
-- Axios
+`docker-compose up`
 
-On `todo-list-app` folder :
+Access the frontend application in your browser at http://localhost:5173.
+To access the backend API, use the URL http://localhost:7174.
+You can visualize route on Swagger using this url : http://localhost:7174/swagger/index.html
 
-```
-- npm i
-- npm run dev
-```
+To stop the containers and remove the resources created by Docker Compose, run the following command in your terminal:
+
+`docker-compose down`
+
+### Technologies used
+
+Backend: ASP.NET 6 Web API
+Frontend: Vue.js 3
+Database: MongoDB
