@@ -42,16 +42,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
-app.UseDeveloperExceptionPage();
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(7174);
-});
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(7174);
+// });
 
 // app.UseHttpsRedirection();
 

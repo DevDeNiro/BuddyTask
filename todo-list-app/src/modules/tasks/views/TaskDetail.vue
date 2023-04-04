@@ -105,79 +105,88 @@ img:hover {
 
 <script>
 import moment from "moment";
-import {mapGetters, mapActions} from "vuex";
+import {ref, computed, onMounted} from "vue";
+import {useStore} from "vuex";
 
 export default {
-  computed: {
-    ...mapGetters(["tasks"]),
+  setup() {
+    const store = useStore();
+    const tasks = computed(() => store.getters.tasks);
+    const completedTasks = computed(() =>
+      tasks.value.filter((task) => task.completed === true)
+    );
+    const uncompletedTasks = computed(() =>
+      tasks.value.filter((task) => task.completed === false)
+    );
 
-    completedTasks() {
-      return this.tasks.filter((task) => task.completed === true);
-    },
-    uncompletedTasks() {
-      return this.tasks.filter((task) => task.completed === false);
-    },
-  },
+    const showDialog = ref(false);
+    const id = ref(null);
+    const name = ref("");
+    const dueDate = ref("");
+    const completSvg = ref("/complet.svg");
+    const uncompletSvg = ref("/uncomplet.svg");
+    const penSvg = ref("/pen.svg");
+    const deleteSvg = ref("/delete.svg");
 
-  methods: {
-    // deleteTask((taskId) => { this.$store.dispatch("DELETE_TODO", taskId); } )
-    ...mapActions(["fetchTasks", "deleteTask", "updateTask"]),
+    const fetchTasks = () => store.dispatch("fetchTasks");
+    const deleteTask = (taskId) => store.dispatch("deleteTask", taskId);
+    const updateTask = (task) => store.dispatch("updateTask", task);
 
-    submitForm() {
+    const submitForm = () => {
       const updatedTask = {
-        id: this.id,
-        name: this.name,
-        dueDate: this.dueDate,
-        completed: this.completed,
+        id: id.value,
+        name: name.value,
+        dueDate: dueDate.value,
+        completed: completed.value,
       };
 
-      this.updateTask(updatedTask);
-      this.showDialog = false;
-    },
+      updateTask(updatedTask);
+      showDialog.value = false;
+    };
 
-    completedTasks() {
-      return this.tasks.filter((task) => task.completed === true);
-    },
+    const onUpdateTask = (task) => {
+      showDialog.value = true;
+      id.value = task.id;
+      name.value = task.name;
+      dueDate.value = task.dueDate;
+      completed.value = task.completed;
+    };
 
-    onUpdateTask(task) {
-      this.showDialog = true;
-      this.id = task.id;
-      this.name = task.name;
-      this.dueDate = task.dueDate;
-      this.completed = task.completed;
-    },
-
-    toggleTaskStatus(task) {
+    const toggleTaskStatus = (task) => {
       task.completed = !task.completed;
-      this.updateTask(task);
-      console.log(this.updateTask(task));
-    },
+      updateTask(task);
+      console.log(updateTask(task));
+    };
 
-    formattedDate(dueDate) {
+    const formattedDate = (dueDate) => {
       const momentDate = moment.utc(dueDate);
       const formattedDateString = momentDate.format("dddd Do, MMMM YYYY");
       return formattedDateString;
-    },
-  },
+    };
 
-  mounted() {
-    if (!this.$store) {
-      console.error("Vuex store is not correctly configure");
-    }
-    this.$store.dispatch("fetchTasks");
-  },
+    onMounted(() => {
+      if (!store) {
+        console.error("Vuex store is not correctly configured");
+      }
+      fetchTasks();
+    });
 
-  data() {
     return {
-      showDialog: false,
-      id: null,
-      name: "",
-      dueDate: "",
-
-      completSvg: "/complet.svg",
-      uncompletSvg: "/uncomplet.svg",
-      penSvg: "/pen.svg",
-      deleteSvg: "/delete.svg",
+      tasks,
+      completedTasks,
+      uncompletedTasks,
+      showDialog,
+      id,
+      name,
+      dueDate,
+      completSvg,
+      uncompletSvg,
+      penSvg,
+      deleteSvg,
+      submitForm,
+      onUpdateTask,
+      toggleTaskStatus,
+      formattedDate,
     };
   },
 };

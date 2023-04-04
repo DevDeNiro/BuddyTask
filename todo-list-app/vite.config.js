@@ -13,11 +13,12 @@ export default defineConfig({
   ],
 
   server: {
-    host: "0.0.0.0",
-    port: parseInt(process.env.PORT) || 3000, // Utilisez le port par défaut si la variable d'environnement PORT n'est pas définie
+    // host: "0.0.0.0",
+    // port: parseInt(process.env.PORT) || 3000,
+
     proxy: {
       "/api": {
-        target: "http://localhost:7174", // Utilisez http au lieu de https
+        target: "http://localhost:7174",
         changeOrigin: true,
         secure: false,
       },

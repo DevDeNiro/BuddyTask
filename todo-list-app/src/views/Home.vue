@@ -1,21 +1,22 @@
 <template>
-  <Sidebar />
-  <div class="ml-20">
-    <CategoryList />
+  <div class="flex">
+    <Sidebar class="w-20" />
+    <div class="flex flex-col w-full">
+      <Header class="w-full" />
+      <main class="w-full bg-gray-100 flex-grow"></main>
+    </div>
   </div>
-  <Popup />
 </template>
 
 <script>
-import CategoryList from "@/modules/categories/components/CategoryList.vue";
-import Sidebar from "./components/Sidebar.vue";
-import Popup from "./components/Popup.vue";
-
+import CategoryList from "../modules/categories/views/CategoryList.vue";
+import Sidebar from "../components/layout/Sidebar.vue";
+import Header from "../components/layout/Header.vue";
 export default {
   components: {
     CategoryList,
     Sidebar,
-    // Autres composants de modules
+    Header,
   },
 };
 </script>

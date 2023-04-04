@@ -15,7 +15,7 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - todo-list-frontend:/app
+      - ./todo-list-app:/app
       - /app/node_modules
 
   mongodb:

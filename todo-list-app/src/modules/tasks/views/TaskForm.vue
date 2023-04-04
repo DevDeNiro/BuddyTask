@@ -55,42 +55,49 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {ref} from "vue";
+import {useStore} from "vuex";
 
 export default {
-  data() {
-    return {
-      newTaskTitle: "",
-      newTaskDate: "",
-    };
-  },
-  methods: {
-    ...mapActions(["addTask"]),
+  setup() {
+    const store = useStore();
+    const newTaskTitle = ref("");
+    const newTaskDate = ref("");
 
-    addNewTask() {
-      if (this.newTaskTitle.trim() !== "") {
+    const addTask = (task) => store.dispatch("addTask", task);
+
+    const addNewTask = () => {
+      if (newTaskTitle.value.trim() !== "") {
         const newTask = {
-          name: this.newTaskTitle.trim(),
-          dueDate: this.newTaskDate.trim(),
+          name: newTaskTitle.value.trim(),
+          dueDate: newTaskDate.value.trim(),
         };
-        this.addTask(newTask);
-        this.newTaskTitle = "";
-        this.newTaskDate = "";
+        addTask(newTask);
+        newTaskTitle.value = "";
+        newTaskDate.value = "";
       }
-    },
+    };
 
-    isDateValid(date) {
+    const isDateValid = (date) => {
       const now = new Date();
       const selectedDate = new Date(date);
       return selectedDate >= now;
-    },
+    };
 
-    handleInvalidDate(event) {
+    const handleInvalidDate = (event) => {
       event.preventDefault();
       alert(
         "La date sélectionnée est invalide. Veuillez sélectionner une date ultérieure à la date d'aujourd'hui."
       );
-    },
+    };
+
+    return {
+      newTaskTitle,
+      newTaskDate,
+      addNewTask,
+      isDateValid,
+      handleInvalidDate,
+    };
   },
 };
 </script>

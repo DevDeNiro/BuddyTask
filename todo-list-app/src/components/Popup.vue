@@ -18,35 +18,38 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
+import {ref, computed} from "vue";
+import {useStore} from "vuex";
 
 export default {
-  computed: {
-    ...mapState(["popup"]),
-    isVisible() {
-      return this.popup.isVisible;
-    },
-    message() {
-      return this.popup.message;
-    },
-    type() {
-      return this.popup.type;
-    },
-    typeClass() {
+  setup() {
+    const store = useStore();
+    const popup = computed(() => store.getters.popup);
+    const isVisible = computed(() => popup.value.isVisible);
+    const message = computed(() => popup.value.message);
+    const type = computed(() => popup.value.type);
+
+    const typeClass = computed(() => {
       const typeClasses = {
         info: "text-blue-500",
         warning: "text-yellow-500",
         error: "text-red-500",
         success: "text-green-500",
       };
-      return typeClasses[this.type] || "text-gray-500";
-    },
-  },
-  methods: {
-    ...mapActions(["hidePopup"]),
-    closePopup() {
-      this.hidePopup();
-    },
+      return typeClasses[type.value] || "text-gray-500";
+    });
+
+    const closePopup = () => {
+      store.dispatch("hidePopup");
+    };
+
+    return {
+      isVisible,
+      message,
+      type,
+      typeClass,
+      closePopup,
+    };
   },
 };
 </script>

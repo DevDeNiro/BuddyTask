@@ -28,6 +28,8 @@ const actions = {
   },
 };
 
+const getters = {popup: (state) => state.popup};
+
 export default {
   state,
   mutations,
