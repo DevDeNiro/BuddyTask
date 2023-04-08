@@ -15,12 +15,32 @@
       <div class="border-l h-5 mx-4"></div>
       <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
     </div>
+    <button @click="createCategory" class="ml-4">
+      <span class="material-icons">add</span>
+      <span>Ajouter une catégorie</span>
+    </button>
   </header>
 </template>
 
 <script>
+import {useStore} from "vuex";
+
 export default {
   name: "Header",
+  setup() {
+    const store = useStore();
+
+    const createCategory = () => {
+      const defaultCategory = {
+        name: "Nouvelle catégorie",
+      };
+      store.dispatch("createCategory", defaultCategory);
+    };
+
+    return {
+      createCategory,
+    };
+  },
 };
 </script>
 

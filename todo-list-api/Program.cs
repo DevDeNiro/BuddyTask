@@ -27,7 +27,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
+// Add services 
 builder.Services.AddScoped<MongoDbContext>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
@@ -52,7 +52,9 @@ if (app.Environment.IsDevelopment())
 //     options.ListenAnyIP(7174);
 // });
 
-// app.UseHttpsRedirection();
+
+// If needed, add : dotnet dev-certs https --trust
+app.UseHttpsRedirection();
 
 app.UseRouting();
 

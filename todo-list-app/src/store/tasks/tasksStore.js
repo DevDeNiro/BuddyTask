@@ -26,7 +26,7 @@ const mutations = {
 
 const actions = {
   fetchTasks({commit}) {
-    axios
+    apiClient
       .get("/api/tasks")
       .then((response) => {
         commit("SET_TODO", response.data);

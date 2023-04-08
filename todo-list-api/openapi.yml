@@ -1,0 +1,20 @@
+openapi: '3.0.2'
+info:
+  title: BuddyTask-API
+  description: Simple todo-list api
+  version: '1.0'
+servers:
+  - url: https://localhost:7174
+paths:
+  /api/categories:
+    get:
+      summary: Liste toutes les catégories
+      responses:
+        200:
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+   

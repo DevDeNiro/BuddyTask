@@ -28,27 +28,45 @@ const mutations = {
 };
 
 const actions = {
-  async fetchCategories({commit}) {
-    const response = await apiClient.get("/categories");
-    commit("GET_CATEGORIES", response.data);
+  fetchCategories({commit}) {
+    apiClient
+      .get("/categories")
+      .then((response) => {
+        commit("GET_CATEGORIES", response.data);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
+
   // async getCategory(_, id) {
   //   const response = await apiClient.get(`/categories/${id}`);
   //   return response.data;
   // },
-  async createCategory({commit}, category) {
-    const response = await apiClient.post("/categories", category);
-    commit("ADD_CATEGORY", response.data);
+
+  createCategory({commit}, category) {
+    apiClient.post("/categories", category).then((response) => {
+      commit("ADD_CATEGORY", response.data)
+    }).catch((error) => {
+      console.log(error)
+    })
+    ;
   },
 
-  async updateCategory({commit}, {id, category}) {
-    const response = await apiClient.put(`/categories/${id}`, category);
-    commit("UPDATE_CATEGORY", {id, category: response.data});
+ updateCategory({commit}, {id, category}) {
+    apiClient.put(`/categories/${id}`, category).then((response) => {
+      commit("UPDATE_CATEGORY", {id, category: response.data});
+    }).catch((error) => {
+      console.log(error)
+    })
   },
 
-  async deleteCategory({commit}, id) {
-    await apiClient.delete(`/categories/${id}`);
-    commit("DELETE_CATEGORY", id);
+  deleteCategory({commit}, id) {
+    apiClient.delete(`/categories/${id}`).then((response) => {
+      commit("DELETE_CATEGORY", id)
+    }).catch((error) => {
+      console.log(error)
+    })
   },
 };
 

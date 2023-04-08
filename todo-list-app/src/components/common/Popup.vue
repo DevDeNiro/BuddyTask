@@ -6,11 +6,13 @@
     >
       <div class="bg-white rounded shadow-lg p-6 w-full max-w-sm">
         <p class="text-gray-800" :class="typeClass">{{ message }}</p>
+        <!--Dynamic field for props-->
+          <slot></slot>
         <button
           @click="closePopup"
           class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Fermer
+          Close
         </button>
       </div>
     </div>
@@ -22,6 +24,13 @@ import {ref, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
+  props: {
+    fields: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   setup() {
     const store = useStore();
     const popup = computed(() => store.getters.popup);
@@ -29,14 +38,14 @@ export default {
     const message = computed(() => popup.value.message);
     const type = computed(() => popup.value.type);
 
-    const typeClass = computed(() => {
+    const typeClass = ((type) => {
       const typeClasses = {
         info: "text-blue-500",
         warning: "text-yellow-500",
         error: "text-red-500",
         success: "text-green-500",
       };
-      return typeClasses[type.value] || "text-gray-500";
+      return typeClasses[type] || "text-gray-500";
     });
 
     const closePopup = () => {
