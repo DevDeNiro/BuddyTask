@@ -5,16 +5,16 @@ using TodoApi.Service.ICategoryService;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS Middleware
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("AllowAllOrigins",
-//         builder =>
-//         {
-//             builder.AllowAnyOrigin()
-//                    .AllowAnyMethod()
-//                    .AllowAnyHeader();
-//         });
-// });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 builder.Host.ConfigureLogging(logging =>
 {
@@ -54,12 +54,12 @@ if (app.Environment.IsDevelopment())
 
 
 // If needed, add : dotnet dev-certs https --trust
-app.UseHttpsRedirection();
-
-app.UseRouting();
+// app.UseHttpsRedirection();
 
 // Really usefull for 415 error ?
-// app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAllOrigins");
+
+app.UseRouting();
 
 app.UseAuthorization();
 

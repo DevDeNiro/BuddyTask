@@ -1,4 +1,5 @@
 import apiClient from "../../api";
+import {v4 as uuidv4} from "uuid";
 
 const state = {
   categories: [],
@@ -35,8 +36,8 @@ const actions = {
         commit("GET_CATEGORIES", response.data);
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
   },
 
   // async getCategory(_, id) {
@@ -45,28 +46,37 @@ const actions = {
   // },
 
   createCategory({commit}, category) {
-    apiClient.post("/categories", category).then((response) => {
-      commit("ADD_CATEGORY", response.data)
-    }).catch((error) => {
-      console.log(error)
-    })
-    ;
+    console.log(category);
+    apiClient
+      .post("/categories", category)
+      .then((response) => {
+        commit("ADD_CATEGORY", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 
- updateCategory({commit}, {id, category}) {
-    apiClient.put(`/categories/${id}`, category).then((response) => {
-      commit("UPDATE_CATEGORY", {id, category: response.data});
-    }).catch((error) => {
-      console.log(error)
-    })
+  updateCategory({commit}, {id, category}) {
+    apiClient
+      .put(`/categories/${id}`, category)
+      .then((response) => {
+        commit("UPDATE_CATEGORY", {id, category: response.data});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 
   deleteCategory({commit}, id) {
-    apiClient.delete(`/categories/${id}`).then((response) => {
-      commit("DELETE_CATEGORY", id)
-    }).catch((error) => {
-      console.log(error)
-    })
+    apiClient
+      .delete(`/categories/${id}`)
+      .then((response) => {
+        commit("DELETE_CATEGORY", id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 

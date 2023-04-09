@@ -15,7 +15,7 @@
       <div class="border-l h-5 mx-4"></div>
       <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
     </div>
-    <button @click="createCategory" class="ml-4">
+    <button @click="createCategory" class="text-purple-600 ml-4">
       <span class="material-icons">add</span>
       <span>Ajouter une catégorie</span>
     </button>
@@ -24,17 +24,30 @@
 
 <script>
 import {useStore} from "vuex";
+import {v4 as uuidv4} from "uuid";
 
 export default {
   name: "Header",
   setup() {
     const store = useStore();
 
+    function generateId() {
+      const characters = "0123456789abcdef";
+      let id = "";
+      for (let i = 0; i < 24; i++) {
+        id += characters[Math.floor(Math.random() * characters.length)];
+      }
+      return id;
+    }
+
     const createCategory = () => {
-      const defaultCategory = {
+      const newCategory = {
+        id: generateId(),
         name: "Nouvelle catégorie",
+        createdAt: new Date().toISOString(),
+        todoItems: [],
       };
-      store.dispatch("createCategory", defaultCategory);
+      store.dispatch("createCategory", newCategory);
     };
 
     return {

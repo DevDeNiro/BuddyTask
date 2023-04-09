@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
 using TodoApi.Service.ICategoryService;
 using MongoDB.Driver;
-using TodoApi.Data;
 using TodoApi.Service.ITodoService;
 
 namespace TodoApi.Controllers

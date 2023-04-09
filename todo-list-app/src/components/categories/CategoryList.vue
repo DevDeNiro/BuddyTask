@@ -1,10 +1,13 @@
 <template>
   <div class="grid grid-cols-3 gap-4 px-8 py-4">
-    <!-- <div v-for="n in 1" :key="n" class="section"> -->
-    <div v-for="category in categories" :key="category.id" class="section">
+    <div
+      v-for="category in getCategories.value"
+      :key="category.id"
+      class="section"
+    >
       <h2 class="text-xl font-bold mb-2">
-        <span class="bg-blue-600 rounded-full h-4 w-4 mr-2"></span>Category
-        <!-- {{ category.name }} -->
+        <span class="bg-blue-600 rounded-full h-4 w-4 mr-2"></span>
+        {{ category.name }}
       </h2>
 
       <div class="flex items-center justify-between">
@@ -16,6 +19,7 @@
         </div>
         <button
           class="bg-blue-600 text-white rounded-full p-2 flex items-center"
+          @click="toggleTaskForm"
         >
           <span class="material-icons">add</span>
 
@@ -33,8 +37,9 @@
 <script>
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
-import {ref} from "vue";
-import {useStore} from "vuex";
+
+import {ref, computed, onMounted} from "vue";
+import {useStore, mapActions} from "vuex";
 
 export default {
   name: "CategoryList",
@@ -42,9 +47,14 @@ export default {
 
   setup() {
     const store = useStore();
-    const showTaskForm = ref(false);
 
     const getCategories = computed(() => store.getters.categories);
+
+    onMounted(() => {
+      store.dispatch("fetchCategories");
+    });
+
+    const showTaskForm = ref(false);
 
     const toggleTaskForm = () => {
       showTaskForm.value = !showTaskForm.value;

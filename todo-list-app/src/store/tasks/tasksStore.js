@@ -27,7 +27,7 @@ const mutations = {
 const actions = {
   fetchTasks({commit}) {
     apiClient
-      .get("/api/tasks")
+      .get("/tasks")
       .then((response) => {
         commit("SET_TODO", response.data);
         console.log(response.data);
@@ -39,7 +39,7 @@ const actions = {
 
   addTask({commit}, task) {
     axios
-      .post("/api/tasks", task)
+      .post("/tasks", task)
       .then((response) => {
         commit("ADD_TODO", response.data);
       })
@@ -49,7 +49,7 @@ const actions = {
   },
   deleteTask({commit, dispatch}, task) {
     axios
-      .delete("/api/tasks", {params: {id: task}})
+      .delete("/tasks", {params: {id: task}})
       .then((response) => {
         commit("DELETE_TODO", response.data);
         dispatch("fetchTasks");
@@ -61,7 +61,7 @@ const actions = {
   updateTask({commit, dispatch}, updatedTask) {
     console.log(updatedTask);
     axios
-      .put(`/api/tasks/${updatedTask.id}`, updatedTask, {
+      .put(`/tasks/${updatedTask.id}`, updatedTask, {
         // headers: {
         //   "Content-Type": "application/json; charset=utf-8",
         // },
