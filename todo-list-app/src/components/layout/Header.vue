@@ -8,41 +8,28 @@
       <span>...</span>
     </div>
     <div class="flex items-center space-x-4">
-      <span class="font-bold">Categories:</span>
+      <span class="font-bold">Categories :</span>
       <span>3/4</span>
       <button class="text-purple-600">&lt;</button>
       <button class="text-purple-600">&gt;</button>
       <div class="border-l h-5 mx-4"></div>
-      <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+      <div class="w-8 h-8 bg-gray-300 rounded-full">
+        <button @click="createCategory" class="material-icons mt-1">add</button>
+      </div>
     </div>
-    <button @click="createCategory" class="text-purple-600 ml-4">
-      <span class="material-icons">add</span>
-      <span>Ajouter une catégorie</span>
-    </button>
   </header>
 </template>
 
 <script>
 import {useStore} from "vuex";
-import {v4 as uuidv4} from "uuid";
 
 export default {
   name: "Header",
   setup() {
     const store = useStore();
 
-    function generateId() {
-      const characters = "0123456789abcdef";
-      let id = "";
-      for (let i = 0; i < 24; i++) {
-        id += characters[Math.floor(Math.random() * characters.length)];
-      }
-      return id;
-    }
-
     const createCategory = () => {
       const newCategory = {
-        id: generateId(),
         name: "Nouvelle catégorie",
         createdAt: new Date().toISOString(),
         todoItems: [],

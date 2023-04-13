@@ -1,5 +1,4 @@
 import apiClient from "../../api";
-import {v4 as uuidv4} from "uuid";
 
 const state = {
   categories: [],
@@ -20,10 +19,12 @@ const mutations = {
     );
   },
 
-  UPDATE_CATEGORY(state, {id, category}) {
-    const index = state.categories.findIndex((c) => c.id === id);
+  UPDATE_CATEGORY(state, updatedCategory) {
+    const index = state.categories.findIndex(
+      (c) => c.id === updatedCategory.id
+    );
     if (index !== -1) {
-      state.categories[index] = category;
+      state.categories.splice(index, 1, updatedCategory);
     }
   },
 };
@@ -57,14 +58,17 @@ const actions = {
       });
   },
 
-  updateCategory({commit}, {id, category}) {
+  updateCategory({commit, dispatch}, updatedCategory) {
+    console.log("Updated Category from store: ", updatedCategory);
     apiClient
-      .put(`/categories/${id}`, category)
+      .put(`/categories/${updatedCategory.id}`, updatedCategory, {})
       .then((response) => {
-        commit("UPDATE_CATEGORY", {id, category: response.data});
+        console.log("API response:", response);
+        commit("UPDATE_CATEGORY", response.data);
+        dispatch("fetchCategories");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Erreur lors de la mise à jour de la catégorie :", error);
       });
   },
 

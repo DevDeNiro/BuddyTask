@@ -1,4 +1,4 @@
-## BuddyTask - Stay Organized and On Top of Your Work!
+## BuddyTask (under development)
 
 This project is a web application for students to help them stay organized and manage their tasks.
 
@@ -25,6 +25,6 @@ To stop the containers, run the following command in your terminal : `docker-com
 
 ### Technologies used
 
-Backend: ASP.NET 6 Web API                                       
-Frontend: Vue.js 3                                                                                                                                                  
-Database: MongoDB                                                                                                                                 
+Backend: ASP.NET 6 Web API  
+Frontend: Vue.js 3  
+Database: MongoDB

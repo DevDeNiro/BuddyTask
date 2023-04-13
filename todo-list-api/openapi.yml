@@ -17,4 +17,154 @@ paths:
               schema:
                 type: array
 
-   
+    post:
+      summary: Crée une nouvelle catégorie
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: array
+      responses:
+        201:
+          description: Catégorie créée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+  /api/categories/{id}:
+    get:
+      summary: Récupère une catégorie par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+    put:
+      summary: Met à jour une catégorie par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: array
+
+      responses:
+        200:
+          description: Catégorie mise à jour avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+    delete:
+      summary: Supprime une catégorie par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Catégorie supprimée avec succès
+
+  /api/tasks:
+    get:
+      summary: Liste toutes les tâches
+      responses:
+        200:
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: array
+               
+
+    post:
+      summary: Crée une nouvelle tâche
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: array
+      responses:
+        201:
+          description: Tâche créée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+    delete:
+      summary: Supprime toutes les tâches
+      responses:
+        204:
+          description: Toutes les tâches supprimées avec succès
+
+  /api/tasks/{id}:
+    get:
+      summary: Récupère une tâche par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+    put:
+      summary: Met à jour une tâche par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: array
+      responses:
+        200:
+          description: Tâche mise à jour avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+
+    delete:
+      summary: Supprime une tâche par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Tâche supprimée avec succès
+

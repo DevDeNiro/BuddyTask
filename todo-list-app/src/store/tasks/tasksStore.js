@@ -38,7 +38,7 @@ const actions = {
   },
 
   addTask({commit}, task) {
-    axios
+    apiClient
       .post("/tasks", task)
       .then((response) => {
         commit("ADD_TODO", response.data);
@@ -47,8 +47,9 @@ const actions = {
         console.log(error);
       });
   },
+
   deleteTask({commit, dispatch}, task) {
-    axios
+    apiClient
       .delete("/tasks", {params: {id: task}})
       .then((response) => {
         commit("DELETE_TODO", response.data);
@@ -58,14 +59,11 @@ const actions = {
         console.log(error);
       });
   },
+
   updateTask({commit, dispatch}, updatedTask) {
     console.log(updatedTask);
-    axios
-      .put(`/tasks/${updatedTask.id}`, updatedTask, {
-        // headers: {
-        //   "Content-Type": "application/json; charset=utf-8",
-        // },
-      })
+    apiClient
+      .put(`/tasks/${updatedTask.id}`, updatedTask, {})
       .then((response) => {
         console.log(response);
         if (response.data.updatedTodoItem) {

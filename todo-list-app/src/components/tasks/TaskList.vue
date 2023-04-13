@@ -1,4 +1,5 @@
 <style></style>
+
 <template>
   <div class="card cursor-pointer border border-gray-300 rounded-lg p-4">
     <div class="flex">

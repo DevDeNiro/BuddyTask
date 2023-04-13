@@ -1,13 +1,27 @@
 <template>
-  <div class="grid grid-cols-3 gap-4 px-8 py-4">
-    <div
-      v-for="category in getCategories.value"
-      :key="category.id"
-      class="section"
-    >
-      <h2 class="text-xl font-bold mb-2">
-        <span class="bg-blue-600 rounded-full h-4 w-4 mr-2"></span>
-        {{ category.name }}
+  <div v-if="loading" class="loading">Loading...</div>
+  <div v-else class="grid grid-cols-3 gap-4 px-8 py-4">
+    <div v-for="category in categories" :key="category.id" class="section">
+      <h2 class="flex justify-between text-xl font-bold mb-2">
+        <span
+          v-if="editingCategoryId !== category.id"
+          class="bg-blue-600 rounded-full h-4 mr-2"
+        >
+          {{ category.name }}
+        </span>
+        <input
+          v-else
+          v-model="editingCategoryName"
+          @change="updateCategory(category)"
+          class="bg-blue-600 rounded-full h-4 mr-2"
+        />
+
+        <div class="flex">
+          <button @click="startEditingCategory(category.id)" class="mx-2">
+            u
+          </button>
+          <button @click="deleteCategory(category.id)" class="mx-2">d</button>
+        </div>
       </h2>
 
       <div class="flex items-center justify-between">
@@ -17,15 +31,6 @@
             <div class="h-full w-1/3 bg-blue-600 rounded-full"></div>
           </div>
         </div>
-        <button
-          class="bg-blue-600 text-white rounded-full p-2 flex items-center"
-          @click="toggleTaskForm"
-        >
-          <span class="material-icons">add</span>
-
-          <span class="ml-1">Add Task</span>
-          <TaskForm v-if="showTaskForm" @submit="submitTaskForm" />
-        </button>
       </div>
 
       <hr class="border-b my-7" />
@@ -38,8 +43,8 @@
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 
-import {ref, computed, onMounted} from "vue";
-import {useStore, mapActions} from "vuex";
+import {ref, watch, onMounted, computed} from "vue";
+import {useStore} from "vuex";
 
 export default {
   name: "CategoryList",
@@ -47,12 +52,43 @@ export default {
 
   setup() {
     const store = useStore();
+    const categories = ref([]);
+    const editingCategory = ref(null);
+    const loading = ref(true);
+    const editingCategoryName = ref("");
 
-    const getCategories = computed(() => store.getters.categories);
-
-    onMounted(() => {
-      store.dispatch("fetchCategories");
+    onMounted(async () => {
+      console.log("CategoryList mounted");
+      await store.dispatch("fetchCategories");
     });
+
+    watch(
+      () => store.getters.categories,
+      (newCategories) => {
+        console.log("Categories from store:", newCategories);
+        categories.value = newCategories;
+        loading.value = false;
+      }
+    );
+
+    const deleteCategory = (id) => {
+      store.dispatch("deleteCategory", id);
+    };
+
+    const startEditingCategory = (id) => {
+      const category = categories.value.find((c) => c.id === id);
+      editingCategoryName.value = category.name;
+      editingCategory.value = id;
+    };
+
+    const editingCategoryId = computed(() => editingCategory.value);
+
+    const updateCategory = (category) => {
+      console.log("Editing category name:", editingCategoryName.value);
+      const updatedCategory = {...category, name: editingCategoryName.value};
+      store.dispatch("updateCategory", updatedCategory);
+      editingCategory.value = null;
+    };
 
     const showTaskForm = ref(false);
 
@@ -66,10 +102,16 @@ export default {
     };
 
     return {
-      getCategories,
+      categories,
+      loading,
       showTaskForm,
       toggleTaskForm,
       submitTaskForm,
+      deleteCategory,
+      updateCategory,
+      startEditingCategory,
+      editingCategoryId,
+      editingCategoryName, // Ajoutez cette ligne
     };
   },
 };

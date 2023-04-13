@@ -7,7 +7,7 @@
       <div class="bg-white rounded shadow-lg p-6 w-full max-w-sm">
         <p class="text-gray-800" :class="typeClass">{{ message }}</p>
         <!--Dynamic field for props-->
-          <slot></slot>
+        <slot></slot>
         <button
           @click="closePopup"
           class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -38,7 +38,7 @@ export default {
     const message = computed(() => popup.value.message);
     const type = computed(() => popup.value.type);
 
-    const typeClass = ((type) => {
+    const typeClass = (type) => {
       const typeClasses = {
         info: "text-blue-500",
         warning: "text-yellow-500",
@@ -46,7 +46,7 @@ export default {
         success: "text-green-500",
       };
       return typeClasses[type] || "text-gray-500";
-    });
+    };
 
     const closePopup = () => {
       store.dispatch("hidePopup");
