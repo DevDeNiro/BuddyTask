@@ -25,9 +25,9 @@ const mutations = {
 };
 
 const actions = {
-  fetchTasks({commit}) {
+  fetchTasks({commit}, categoryId) {
     apiClient
-      .get("/tasks")
+      .get("/tasks", {params: {categoryId}})
       .then((response) => {
         commit("SET_TODO", response.data);
         console.log(response.data);

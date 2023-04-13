@@ -5,7 +5,7 @@
       <h2 class="flex justify-between text-xl font-bold mb-2">
         <span
           v-if="editingCategoryId !== category.id"
-          class="bg-blue-600 rounded-full h-4 mr-2"
+          class="bg-blue-600 rounded-full"
         >
           {{ category.name }}
         </span>
@@ -25,16 +25,12 @@
       </h2>
 
       <div class="flex items-center justify-between">
-        <div class="flex">
-          <span class="text-sm">Completed: 1/3</span>
-          <div class="h-2 w-20 bg-gray-200 rounded-full mt-1">
-            <div class="h-full w-1/3 bg-blue-600 rounded-full"></div>
-          </div>
-        </div>
+        <span class="text-sm">Completed: 1/3</span>
+        <button class="button">add</button>
       </div>
 
       <hr class="border-b my-7" />
-      <TaskList />
+      <TaskList :tasks="fetchTasks(category.id)" />
     </div>
   </div>
 </template>
@@ -101,6 +97,13 @@ export default {
       showTaskForm.value = false;
     };
 
+    const fetchTasks = async (categoryId) => {
+      await TaskStore.dispatch("fetchTasks", categoryId);
+      return TaskStore.getters.tasks.filter(
+        (task) => task.categoryId === categoryId
+      );
+    };
+
     return {
       categories,
       loading,
@@ -111,7 +114,8 @@ export default {
       updateCategory,
       startEditingCategory,
       editingCategoryId,
-      editingCategoryName, // Ajoutez cette ligne
+      editingCategoryName,
+      fetchTasks,
     };
   },
 };
