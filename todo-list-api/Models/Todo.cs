@@ -12,8 +12,8 @@ namespace TodoApi.Models
         [BsonElement("Name")]
         public string? Name { get; set; }
 
-        [BsonElement("DueDate")]
-        public DateTime DueDate { get; set; }
+        [BsonElement("Description")]
+        public string? Description { get; set; }
 
         [BsonElement("StartDate")]
         public DateTime StartDate { get; set; }

@@ -1,7 +1,11 @@
 <template>
   <div v-if="loading" class="loading">Loading...</div>
   <div v-else class="grid grid-cols-3 gap-4 px-8 py-4">
-    <div v-for="category in categories" :key="category.id" class="section">
+    <div
+      v-for="(category, index) in categories"
+      :key="category.id"
+      class="section"
+    >
       <h2 class="flex justify-between text-xl font-bold mb-2">
         <span
           v-if="editingCategoryId !== category.id"
@@ -26,12 +30,13 @@
 
       <div class="flex items-center justify-between">
         <span class="text-sm">Completed: 1/3</span>
-        <button class="button">add</button>
+        <button @click="toggleTaskForm(index)" class="button">add</button>
       </div>
 
       <hr class="border-b my-7" />
-      <TaskList :tasks="fetchTasks(category.id)" />
+      <TaskList :tasks="category.todoItems" />
     </div>
+    <TaskForm v-if="showForm" />
   </div>
 </template>
 
@@ -39,7 +44,7 @@
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 
-import {ref, watch, onMounted, computed} from "vue";
+import {ref, watch, watchEffect, onMounted, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
@@ -50,14 +55,19 @@ export default {
     const store = useStore();
     const categories = ref([]);
     const editingCategory = ref(null);
-    const loading = ref(true);
     const editingCategoryName = ref("");
+    const loading = ref(true);
+    const showForm = ref(false);
+    const showTaskForm = ref(new Array(categories.value.length).fill(false));
 
     onMounted(async () => {
-      console.log("CategoryList mounted");
-      await store.dispatch("fetchCategories");
+      await Promise.all([
+        store.dispatch("fetchCategories"),
+        // store.dispatch("fetchTasks"),
+      ]);
     });
 
+    // Reactive state to get local copies from store in 'categories'
     watch(
       () => store.getters.categories,
       (newCategories) => {
@@ -66,10 +76,6 @@ export default {
         loading.value = false;
       }
     );
-
-    const deleteCategory = (id) => {
-      store.dispatch("deleteCategory", id);
-    };
 
     const startEditingCategory = (id) => {
       const category = categories.value.find((c) => c.id === id);
@@ -86,36 +92,39 @@ export default {
       editingCategory.value = null;
     };
 
-    const showTaskForm = ref(false);
-
-    const toggleTaskForm = () => {
-      showTaskForm.value = !showTaskForm.value;
+    const deleteCategory = (id) => {
+      store.dispatch("deleteCategory", id);
     };
 
-    const submitTaskForm = (taskData) => {
-      store.dispatch("addTask", taskData);
+    const toggleTaskForm = (index) => {
+      showForm.value = !showForm.value;
+    };
+
+    const submitTaskForm = (taskData, categoryId) => {
+      const taskDataWithCategoryId = {
+        ...taskData,
+        categoryId,
+      };
+      store.dispatch("addTask", taskDataWithCategoryId);
       showTaskForm.value = false;
     };
 
-    const fetchTasks = async (categoryId) => {
-      await TaskStore.dispatch("fetchTasks", categoryId);
-      return TaskStore.getters.tasks.filter(
-        (task) => task.categoryId === categoryId
-      );
-    };
+    watchEffect(() => {
+      showTaskForm.value = new Array(categories.value.length).fill(false);
+    });
 
     return {
       categories,
       loading,
-      showTaskForm,
-      toggleTaskForm,
-      submitTaskForm,
-      deleteCategory,
-      updateCategory,
-      startEditingCategory,
       editingCategoryId,
       editingCategoryName,
-      fetchTasks,
+      startEditingCategory,
+      deleteCategory,
+      updateCategory,
+      toggleTaskForm,
+      submitTaskForm,
+      showForm,
+      showTaskForm,
     };
   },
 };

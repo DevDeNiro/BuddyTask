@@ -1,5 +1,10 @@
 <template>
-  <Popup :message="'Veuillez remplir les champs suivants :'" :type="'info'">
+  <Popup
+    :is-visible="popup.isVisible"
+    @update:is-visible="updateIsVisible($event)"
+    :message="'Veuillez remplir les champs suivants :'"
+    :type="'info'"
+  >
     <div v-for="(field, index) in fields" :key="index">
       <label :for="field.name" class="block">{{ field.label }}</label>
       <input
@@ -10,21 +15,23 @@
         class="border rounded p-1 w-full"
       />
     </div>
+    <button @click.prevent="submitForm">Submit</button>
   </Popup>
-  <button @click.prevent="$emit('submit', {title, dueDate, description})">
-    Submit
-  </button>
 </template>
 
 <script>
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import Popup from "../common/Popup.vue";
+import {useStore} from "vuex";
 
 export default {
   components: {
     Popup,
   },
   setup() {
+    const store = useStore();
+    const popup = computed(() => store.getters.popup);
+
     const fields = ref([
       {
         name: "title",
@@ -33,8 +40,14 @@ export default {
         placeholder: "Entrez un titre",
       },
       {
-        name: "dueDate",
-        label: "Date d'échéance",
+        name: "startDate",
+        label: "Date de début",
+        type: "date",
+        placeholder: "Sélectionnez une date",
+      },
+      {
+        name: "startDate",
+        label: "Date de fin",
         type: "date",
         placeholder: "Sélectionnez une date",
       },
@@ -46,8 +59,26 @@ export default {
       },
     ]);
 
+    const submitForm = () => {
+      $emit("submit", formData.value);
+    };
+
+    const updateIsVisible = (isVisible) => {
+      if (isVisible) {
+        store.dispatch("showPopup", {
+          message: "Veuillez remplir les champs suivants :",
+          type: "info",
+        });
+      } else {
+        store.dispatch("hidePopup");
+      }
+    };
+
     return {
       fields,
+      submitForm,
+      popup,
+      updateIsVisible,
     };
   },
 };

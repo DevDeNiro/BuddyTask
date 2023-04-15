@@ -65,8 +65,9 @@ namespace TodoApi.Controllers
 
             var updateDefinition = Builders<TodoItemModel>.Update
                 .Set(todo => todo.Name, updateTodo.Name)
-                .Set(todo => todo.Completed, updateTodo.Completed)
-                .Set(todo => todo.DueDate, updateTodo.DueDate);
+                .Set(todo => todo.StartDate, updateTodo.StartDate)
+                .Set(todo => todo.EndDate, updateTodo.EndDate)
+                .Set(todo => todo.Completed, updateTodo.Completed);
 
             _todoService.UpdateTodo(id, updateDefinition);
 

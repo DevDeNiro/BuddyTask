@@ -14,7 +14,7 @@
         </div>
         <div class="flex flex-col ml-2">
           <h3 class="font-bold">{{ task.name }}</h3>
-          <p class="text-sm">Task Description</p>
+          <p class="text-sm">{{ task.description }}</p>
           <span class="text-sm mt-4">
             {{ formatDate(task.StartDate) }} -
             {{ formatDate(task.EndDate) }}

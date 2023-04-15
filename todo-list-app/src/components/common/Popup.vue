@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {ref, computed} from "vue";
+import {computed, watchEffect} from "vue";
 import {useStore} from "vuex";
 
 export default {
@@ -29,9 +29,13 @@ export default {
       type: Array,
       default: () => [],
     },
+    isVisible: {
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props, {emit}) {
     const store = useStore();
     const popup = computed(() => store.getters.popup);
     const isVisible = computed(() => popup.value.isVisible);
@@ -50,7 +54,12 @@ export default {
 
     const closePopup = () => {
       store.dispatch("hidePopup");
+      emit("update:is-visible", false);
     };
+
+    watchEffect(() => {
+      isVisible.value = props.isVisible;
+    });
 
     return {
       isVisible,
@@ -58,6 +67,7 @@ export default {
       type,
       typeClass,
       closePopup,
+      watchEffect,
     };
   },
 };
