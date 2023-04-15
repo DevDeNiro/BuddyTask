@@ -1,22 +1,21 @@
 <template>
-  <Popup
-    :is-visible="popup.isVisible"
-    @update:is-visible="updateIsVisible($event)"
-    :message="'Veuillez remplir les champs suivants :'"
-    :type="'info'"
-  >
-    <div v-for="(field, index) in fields" :key="index">
-      <label :for="field.name" class="block">{{ field.label }}</label>
-      <input
-        :id="field.name"
-        :name="field.name"
-        :type="field.type"
-        :placeholder="field.placeholder"
-        class="border rounded p-1 w-full"
-      />
-    </div>
-    <button @click.prevent="submitForm">Submit</button>
-  </Popup>
+  <form @submit.prevent="submitForm">
+    <Popup>
+      <div v-for="(field, index) in fields" :key="index">
+        <label :for="field.name" class="block">{{ field.label }}</label>
+        <input
+          :id="field.name"
+          :name="field.name"
+          :type="field.type"
+          :placeholder="field.placeholder"
+          class="border rounded p-1 w-full"
+          v-model="formData[field.name]"
+          required
+        />
+      </div>
+      <button @click.prevent="submitForm">Submit</button>
+    </Popup>
+  </form>
 </template>
 
 <script>
@@ -25,16 +24,23 @@ import Popup from "../common/Popup.vue";
 import {useStore} from "vuex";
 
 export default {
+  props: {
+    category: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   components: {
     Popup,
   },
-  setup() {
+
+  setup(props) {
     const store = useStore();
     const popup = computed(() => store.getters.popup);
 
     const fields = ref([
       {
-        name: "title",
+        name: "name",
         label: "Titre",
         type: "text",
         placeholder: "Entrez un titre",
@@ -46,7 +52,7 @@ export default {
         placeholder: "Sélectionnez une date",
       },
       {
-        name: "startDate",
+        name: "endDate",
         label: "Date de fin",
         type: "date",
         placeholder: "Sélectionnez une date",
@@ -59,26 +65,21 @@ export default {
       },
     ]);
 
-    const submitForm = () => {
-      $emit("submit", formData.value);
-    };
+    const formData = ref({}); // ref to store data from form
 
-    const updateIsVisible = (isVisible) => {
-      if (isVisible) {
-        store.dispatch("showPopup", {
-          message: "Veuillez remplir les champs suivants :",
-          type: "info",
-        });
-      } else {
-        store.dispatch("hidePopup");
-      }
+    const submitForm = () => {
+      // add category to task
+      formData.value.categoryId = props.category.id;
+
+      store.dispatch("addTask", formData.value);
+      store.dispatch("hidePopup");
     };
 
     return {
       fields,
-      submitForm,
       popup,
-      updateIsVisible,
+      formData,
+      submitForm,
     };
   },
 };

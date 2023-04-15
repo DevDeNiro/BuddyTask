@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div
-      v-if="isVisible"
+      v-if="popup.isVisible"
       class="fixed inset-0 z-50 flex items-center justify-center"
     >
       <div class="bg-white rounded shadow-lg p-6 w-full max-w-sm">
@@ -20,25 +20,15 @@
 </template>
 
 <script>
-import {computed, watchEffect} from "vue";
+import {computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
-  props: {
-    fields: {
-      type: Array,
-      default: () => [],
-    },
-    isVisible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: {},
 
-  setup(props, {emit}) {
+  setup() {
     const store = useStore();
     const popup = computed(() => store.getters.popup);
-    const isVisible = computed(() => popup.value.isVisible);
     const message = computed(() => popup.value.message);
     const type = computed(() => popup.value.type);
 
@@ -54,20 +44,14 @@ export default {
 
     const closePopup = () => {
       store.dispatch("hidePopup");
-      emit("update:is-visible", false);
     };
 
-    watchEffect(() => {
-      isVisible.value = props.isVisible;
-    });
-
     return {
-      isVisible,
+      popup,
       message,
       type,
       typeClass,
       closePopup,
-      watchEffect,
     };
   },
 };

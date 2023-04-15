@@ -5,7 +5,7 @@ const state = {
 };
 
 const mutations = {
-  SET_TODO(state, tasks) {
+  GET_TODO(state, tasks) {
     state.tasks = tasks;
   },
 
@@ -25,11 +25,24 @@ const mutations = {
 };
 
 const actions = {
-  addTask({commit}, task) {
+  fetchTasks(commit) {
+    apiClient
+      .get("/tasks")
+      .then((response) => {
+        commit("GET_TODO", response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  addTask({commit, dispatch}, task) {
     apiClient
       .post("/tasks", task)
       .then((response) => {
         commit("ADD_TODO", response.data);
+        dispatch("fetchTasks");
       })
       .catch((error) => {
         console.log(error);
@@ -41,7 +54,6 @@ const actions = {
       .delete("/tasks", {params: {id: task}})
       .then((response) => {
         commit("DELETE_TODO", response.data);
-        dispatch("fetchTasks");
       })
       .catch((error) => {
         console.log(error);

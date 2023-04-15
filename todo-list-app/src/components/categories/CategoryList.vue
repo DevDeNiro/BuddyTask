@@ -36,7 +36,13 @@
       <hr class="border-b my-7" />
       <TaskList :tasks="category.todoItems" />
     </div>
-    <TaskForm v-if="showForm" />
+    <div
+      v-if="selectedCategory"
+      :message="`Ajouter une nouvelle tâche pour ${selectedCategory.name}`"
+      :type="'info'"
+    >
+      <TaskForm :category="selectedCategory" />
+    </div>
   </div>
 </template>
 
@@ -44,7 +50,7 @@
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 
-import {ref, watch, watchEffect, onMounted, computed} from "vue";
+import {ref, watch, onMounted, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
@@ -53,12 +59,10 @@ export default {
 
   setup() {
     const store = useStore();
+    const loading = ref(true);
     const categories = ref([]);
     const editingCategory = ref(null);
     const editingCategoryName = ref("");
-    const loading = ref(true);
-    const showForm = ref(false);
-    const showTaskForm = ref(new Array(categories.value.length).fill(false));
 
     onMounted(async () => {
       await Promise.all([
@@ -96,22 +100,23 @@ export default {
       store.dispatch("deleteCategory", id);
     };
 
+    const selectedCategoryIndex = ref(null);
+    const selectedCategory = ref(null);
+
     const toggleTaskForm = (index) => {
-      showForm.value = !showForm.value;
+      if (selectedCategoryIndex.value === index) {
+        store.dispatch("hidePopup");
+        selectedCategoryIndex.value = null;
+        selectedCategory.value = null;
+      } else {
+        selectedCategoryIndex.value = index;
+        selectedCategory.value = categories.value[index];
+        store.dispatch("showPopup", {
+          message: `Ajouter une nouvelle tâche pour ${categories.value[index].name}`,
+          type: "info",
+        });
+      }
     };
-
-    const submitTaskForm = (taskData, categoryId) => {
-      const taskDataWithCategoryId = {
-        ...taskData,
-        categoryId,
-      };
-      store.dispatch("addTask", taskDataWithCategoryId);
-      showTaskForm.value = false;
-    };
-
-    watchEffect(() => {
-      showTaskForm.value = new Array(categories.value.length).fill(false);
-    });
 
     return {
       categories,
@@ -122,9 +127,8 @@ export default {
       deleteCategory,
       updateCategory,
       toggleTaskForm,
-      submitTaskForm,
-      showForm,
-      showTaskForm,
+      selectedCategoryIndex,
+      selectedCategory,
     };
   },
 };

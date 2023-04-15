@@ -2,10 +2,10 @@
   <div
     v-for="(task, index) in tasks"
     :key="index"
-    class="card cursor-pointer border border-gray-300 rounded-lg p-4"
+    class="card cursor-pointer border border-gray-300 rounded-lg p-4 my-4"
   >
     <div class="flex">
-      <div class="bg-blue-600 w-1 mr-4"></div>
+      <div class="bg-blue-600 w-1"></div>
 
       <div class="flex items-center">
         <div class="flex items-center">
@@ -16,8 +16,8 @@
           <h3 class="font-bold">{{ task.name }}</h3>
           <p class="text-sm">{{ task.description }}</p>
           <span class="text-sm mt-4">
-            {{ formatDate(task.StartDate) }} -
-            {{ formatDate(task.EndDate) }}
+            {{ formatDate(task.startDate) }} -
+            {{ formatDate(task.endDate) }}
           </span>
         </div>
       </div>
