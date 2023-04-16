@@ -40,7 +40,7 @@ export default defineComponent({
   props: {
     tasks: {
       type: Array,
-      default: () => [],
+      default: () => [{}],
     },
   },
   setup() {

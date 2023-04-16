@@ -5,10 +5,6 @@ const state = {
 };
 
 const mutations = {
-  GET_TODO(state, tasks) {
-    state.tasks = tasks;
-  },
-
   ADD_TODO(state, task) {
     state.tasks.push(task);
   },
@@ -25,24 +21,16 @@ const mutations = {
 };
 
 const actions = {
-  fetchTasks(commit) {
-    apiClient
-      .get("/tasks")
-      .then((response) => {
-        commit("GET_TODO", response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-
-  addTask({commit, dispatch}, task) {
+  addTask({commit}, task) {
     apiClient
       .post("/tasks", task)
       .then((response) => {
-        commit("ADD_TODO", response.data);
-        dispatch("fetchTasks");
+        commit(
+          "ADD_TASK_TO_CATEGORY",
+          {categoryId: task.categoryId, task: response.data},
+          {root: true}
+        );
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

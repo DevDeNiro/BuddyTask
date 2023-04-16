@@ -13,6 +13,15 @@ const mutations = {
     state.categories.push(category);
   },
 
+  ADD_TASK_TO_CATEGORY(state, {categoryId, task}) {
+    const category = state.categories.find((cat) => cat.id === categoryId);
+    if (category.todoItems) {
+      category.todoItems.push(task);
+    } else {
+      alert("Cannot get todoItems from category");
+    }
+  },
+
   DELETE_CATEGORY(state, categoryId) {
     state.categories = state.categories.filter(
       (category) => category.id !== categoryId
@@ -40,11 +49,6 @@ const actions = {
         console.log(error);
       });
   },
-
-  // async getCategory(_, id) {
-  //   const response = await apiClient.get(`/categories/${id}`);
-  //   return response.data;
-  // },
 
   createCategory({commit}, category) {
     console.log(category);

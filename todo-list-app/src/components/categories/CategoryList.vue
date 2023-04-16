@@ -50,7 +50,7 @@
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 
-import {ref, watch, onMounted, computed} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
@@ -59,27 +59,15 @@ export default {
 
   setup() {
     const store = useStore();
-    const loading = ref(true);
-    const categories = ref([]);
+    const loading = ref(false);
     const editingCategory = ref(null);
     const editingCategoryName = ref("");
 
     onMounted(async () => {
-      await Promise.all([
-        store.dispatch("fetchCategories"),
-        // store.dispatch("fetchTasks"),
-      ]);
+      await Promise.all([store.dispatch("fetchCategories")]);
     });
 
-    // Reactive state to get local copies from store in 'categories'
-    watch(
-      () => store.getters.categories,
-      (newCategories) => {
-        console.log("Categories from store:", newCategories);
-        categories.value = newCategories;
-        loading.value = false;
-      }
-    );
+    const categories = computed(() => store.getters.categories);
 
     const startEditingCategory = (id) => {
       const category = categories.value.find((c) => c.id === id);

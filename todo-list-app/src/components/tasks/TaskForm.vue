@@ -71,8 +71,12 @@ export default {
       // add category to task
       formData.value.categoryId = props.category.id;
 
-      store.dispatch("addTask", formData.value);
-      store.dispatch("hidePopup");
+      store
+        .dispatch("addTask", formData.value)
+        .then(() => {})
+        .finally(() => {
+          store.dispatch("hidePopup");
+        });
     };
 
     return {
