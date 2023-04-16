@@ -5,7 +5,7 @@ This project is a web application for students to help them stay organized and m
 ### Features
 
 - [x] : Task management with the ability to add, modify, and delete items.
-- [ ] : Organizing tasks by categories (studies, projects, exams, etc.).
+- [x] : Organizing tasks by categories (studies, projects, exams, etc.).
 - [ ] : Task scheduling with due dates.
 - [ ] : Notifications for upcoming tasks.
 - [ ] : Calendar view for better visualization of tasks and deadlines.
