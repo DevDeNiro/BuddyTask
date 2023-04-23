@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
-using TodoApi.Service.ITodoService;
 using MongoDB.Driver;
-using System.Diagnostics.CodeAnalysis;
-using TodoApi.Data;
-
+using TodoApi.Service.ICategoryService;
+using TodoApi.Service.ITodoService;
 
 namespace TodoApi.Controllers
 {
@@ -13,10 +11,12 @@ namespace TodoApi.Controllers
     public class TodoController : ControllerBase
     {
         private readonly ITodoService _todoService;
+        private readonly ICategoryService _categoryService;
 
-        public TodoController(ITodoService todoService)
+        public TodoController(ITodoService todoService, ICategoryService categoryService)
         {
             _todoService = todoService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -38,21 +38,43 @@ namespace TodoApi.Controllers
             return todo;
         }
 
+
+
         [HttpPost]
         public ActionResult<TodoItemModel> CreateTodo(TodoItemModel todo)
         {
-
-            // Trying to prevent warning CS8603
+            // Check if todo is null
             if (todo == null)
             {
                 return BadRequest("Todo item is null.");
             }
 
+            // Check if CategoryId is not null or empty
+            if (string.IsNullOrEmpty(todo.CategoryId))
+            {
+                return BadRequest("Category ID is missing.");
+            }
+
+            // Check if the category exists
+            var category = _categoryService.GetCategory(todo.CategoryId);
+            if (category == null)
+            {
+                return BadRequest("Category does not exist.");
+            }
+
             _todoService.CreateTodo(todo);
+            _categoryService.AddTodoItemToCategory(todo.CategoryId, todo);
 
-            return CreatedAtRoute("GetTodo", new { id = todo.Id.ToString() }, todo);
+            // Check if todo.Id is not null
+            if (todo.Id != null)
+            {
+                return CreatedAtRoute("GetTodo", new { id = todo.Id.ToString() }, todo);
+            }
+            else
+            {
+                return StatusCode(500, "Failed to create the Todo item.");
+            }
         }
-
 
         [HttpPut("{id}", Name = "UpdateTodo")]
         public IActionResult UpdateTodo(string id, TodoItemModel updateTodo)
@@ -71,11 +93,17 @@ namespace TodoApi.Controllers
 
             _todoService.UpdateTodo(id, updateDefinition);
 
-            return NoContent();
+            // Update the corresponding TodoItem in the CategoryItem
+            string categoryId = todoExist.CategoryId ?? string.Empty;
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                _categoryService.UpdateTodoItemInCategory(categoryId, id, updateTodo);
+            }
 
+            return NoContent();
         }
 
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public IActionResult DeleteTodo(string id)
         {
             var todoExist = _todoService.GetTodo(id);
@@ -85,8 +113,15 @@ namespace TodoApi.Controllers
             }
 
             _todoService.RemoveTodo(id);
-            return NoContent();
 
+            // Delete the corresponding TodoItem in the CategoryItem
+            string categoryId = todoExist.CategoryId ?? string.Empty;
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                _categoryService.DeleteTodoItemInCategory(categoryId, id);
+            }
+
+            return NoContent();
         }
 
     }

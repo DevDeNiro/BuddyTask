@@ -69,35 +69,5 @@ namespace TodoApi.Service.ITodoService
             _todos.DeleteOne(filter);
         }
 
-        public async Task<CategoryItemModel> GetCategory(string categoryId)
-        {
-            var category = await _categories.Find(x => x.Id == categoryId).FirstOrDefaultAsync();
-
-            if (category != null)
-            {
-                // Load Todo items associated with this category
-                category.TodoItems = await _todos.Find(x => x.CategoryId == categoryId).ToListAsync();
-            }
-
-            return category;
-        }
-
-        public async Task<bool> RemoveCategoryAsync(string categoryId)
-        {
-            // Delete category
-            var categoryDeleteResult = await _categories.DeleteOneAsync(x => x.Id == categoryId);
-
-            if (categoryDeleteResult.DeletedCount == 0)
-            {
-                return false;
-            }
-
-            // Deletes all items associated with the category
-            await _todos.DeleteManyAsync(x => x.CategoryId == categoryId);
-
-            return true;
-        }
-
-
     }
 }

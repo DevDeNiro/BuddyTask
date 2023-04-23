@@ -29,7 +29,7 @@ namespace TodoApi.Controllers
         [HttpGet("{id}", Name = "GetCategory")]
         public async Task<ActionResult<CategoryItemModel>> GetCategory(string id)
         {
-            var category = await _todoService.GetCategory(id);
+            var category = await _categoryService.GetCategoryAsync(id);
 
             if (category == null)
             {
@@ -43,8 +43,21 @@ namespace TodoApi.Controllers
         [HttpPost]
         public ActionResult<CategoryItemModel> Create(CategoryItemModel category)
         {
+            if (category == null)
+            {
+                return BadRequest("Category item is null.");
+            }
+
             _categoryService.CreateCategory(category);
-            return CreatedAtRoute("GetCategory", new { id = category.Id.ToString() }, category);
+
+            if (category.Id != null)
+            {
+                return CreatedAtRoute("GetCategory", new { id = category.Id.ToString() }, category);
+            }
+            else
+            {
+                return StatusCode(500, "Failed to create the Category Item");
+            }
         }
 
         [HttpPut("{id}", Name = "PutCategory")]
@@ -69,7 +82,7 @@ namespace TodoApi.Controllers
         public async Task<IActionResult> DeleteCategory(string id)
         {
             // Supprime la catégorie et les éléments Todo associés
-            bool success = await _todoService.RemoveCategoryAsync(id);
+            bool success = await _categoryService.RemoveCategory(id);
 
             if (!success)
             {

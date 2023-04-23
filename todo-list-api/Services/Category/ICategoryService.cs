@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TodoApi.Models;
 using MongoDB.Driver;
 
@@ -10,6 +9,11 @@ namespace TodoApi.Service.ICategoryService
         CategoryItemModel GetCategory(string id);
         CategoryItemModel CreateCategory(CategoryItemModel category);
         void UpdateCategory(string id, UpdateDefinition<CategoryItemModel> updateDefinition);
-        void RemoveCategory(string id);
+        Task<bool> RemoveCategory(string id);
+        Task<CategoryItemModel?> GetCategoryAsync(string categoryId);
+        void UpdateTodoItemInCategory(string categoryId, string todoId, TodoItemModel todoIn);
+        void DeleteTodoItemInCategory(string categoryId, string todoId);
+        void AddTodoItemToCategory(string categoryId, TodoItemModel todo);
+
     }
 }
