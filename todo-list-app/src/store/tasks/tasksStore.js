@@ -14,7 +14,7 @@ const mutations = {
   },
 
   UPDATE_TODO(state, updatedData) {
-    state.data = state.data.map((item) =>
+    state.tasks = state.tasks.map((item) =>
       item.id === updatedData.id ? {...item, ...updatedData} : item
     );
   },

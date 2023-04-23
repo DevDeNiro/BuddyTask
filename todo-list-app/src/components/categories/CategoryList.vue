@@ -34,7 +34,10 @@
       </div>
 
       <hr class="border-b my-7" />
-      <TaskList :tasks="category.todoItems" />
+      <TaskList
+        :tasks="category.todoItems"
+        @update-tasks="updateTasks(category, $event)"
+      />
     </div>
     <div
       v-if="selectedCategory"
@@ -54,10 +57,13 @@ import {ref, onMounted, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
+  props: {
+    categories: Array,
+  },
   name: "CategoryList",
   components: {TaskForm, TaskList},
 
-  setup() {
+  setup(props, {emit}) {
     const store = useStore();
     const loading = ref(false);
     const editingCategory = ref(null);
@@ -82,6 +88,16 @@ export default {
       const updatedCategory = {...category, name: editingCategoryName.value};
       store.dispatch("updateCategory", updatedCategory);
       editingCategory.value = null;
+    };
+
+    const localCategories = ref(
+      Array.isArray(props.categories) ? [...props.categories] : []
+    );
+
+    const updateTasks = (category, newTasks) => {
+      category.todoItems = newTasks;
+
+      store.dispatch("updateCategory", category);
     };
 
     const deleteCategory = (id) => {
@@ -117,6 +133,8 @@ export default {
       toggleTaskForm,
       selectedCategoryIndex,
       selectedCategory,
+      localCategories,
+      updateTasks,
     };
   },
 };
