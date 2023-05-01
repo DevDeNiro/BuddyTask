@@ -1,17 +1,17 @@
 <template>
-  <header class="flex items-center justify-between py-4 px-6 bg-white">
-    <div class="flex items-center space-x-4">
-      <span class="text-gray-400">Date antérieure</span>
+  <header class="flex items-center justify-between py-4 px-9">
+    <div class="flex items-center space-x-4 m-10 gap-3 text-3xl font-semibold">
+      <span class="text-gray-400 text-grayUnselected">Nov 11</span>
       <span class="border-b-2 border-purple-600">Today</span>
-      <span class="text-gray-400">Date postérieure</span>
+      <span class="text-gray-400 text-grayUnselected">Nov 13</span>
       <div class="border-l h-5 mx-4"></div>
-      <span>...</span>
+      <span class="text-center">...</span>
     </div>
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-3 text-lg">
       <span class="font-bold">Categories :</span>
-      <span>3/4</span>
-      <button class="text-purple-600">&lt;</button>
-      <button class="text-purple-600">&gt;</button>
+      <span class="text-purple">3/4</span>
+      <span class="material-symbols-outlined"> chevron_left </span>
+      <span class="material-symbols-outlined"> chevron_right </span>
       <div class="border-l h-5 mx-4"></div>
       <div class="w-8 h-8 bg-gray-300 rounded-full">
         <button @click="createCategory" class="material-icons mt-1">add</button>
@@ -43,10 +43,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-header {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-</style>

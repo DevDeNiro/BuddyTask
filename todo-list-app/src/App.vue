@@ -16,7 +16,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(254, 255, 236);
+  background-color: #f5f6fa;
 }
 
 #app {

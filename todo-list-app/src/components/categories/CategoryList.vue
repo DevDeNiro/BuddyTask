@@ -1,30 +1,40 @@
 <template>
-  <div v-if="loading" class="loading">Loading...</div>
-  <div v-else class="grid grid-cols-3 gap-4 px-8 py-4">
+  <div v-if="loading" class="loading flex align-center justify-center">
+    <pixel-spinner
+      :animation-duration="2000"
+      :pixel-size="70"
+      color="#856AFF"
+    />
+  </div>
+  <div v-else class="grid grid-cols-3 bg-gray gap-4 px-8">
     <div
       v-for="(category, index) in categories"
       :key="category.id"
-      class="section"
+      class="section w-10/12"
     >
       <h2 class="flex justify-between text-xl font-bold mb-2">
         <span
           v-if="editingCategoryId !== category.id"
           class="bg-blue-600 rounded-full"
+          @dblclick="startEditingCategory(category.id)"
         >
           {{ category.name }}
         </span>
         <input
           v-else
+          type="text"
           v-model="editingCategoryName"
           @change="updateCategory(category)"
           class="bg-blue-600 rounded-full h-4 mr-2"
         />
 
         <div class="flex">
-          <button @click="startEditingCategory(category.id)" class="mx-2">
-            u
+          <button
+            @click="deleteCategory(category.id)"
+            class="material-symbols-outlined mx-2"
+          >
+            cancel
           </button>
-          <button @click="deleteCategory(category.id)" class="mx-2">d</button>
         </div>
       </h2>
 
@@ -50,6 +60,7 @@
 </template>
 
 <script>
+import {PixelSpinner} from "epic-spinners";
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 
@@ -61,16 +72,23 @@ export default {
     categories: Array,
   },
   name: "CategoryList",
-  components: {TaskForm, TaskList},
+  components: {PixelSpinner, TaskForm, TaskList},
 
   setup(props, {emit}) {
     const store = useStore();
-    const loading = ref(false);
+    const loading = ref(true);
     const editingCategory = ref(null);
     const editingCategoryName = ref("");
 
     onMounted(async () => {
-      await Promise.all([store.dispatch("fetchCategories")]);
+      try {
+        await Promise.all([store.dispatch("fetchCategories")]);
+        loading.value = false;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        loading.value = true;
+      }
     });
 
     const categories = computed(() => store.getters.categories);
