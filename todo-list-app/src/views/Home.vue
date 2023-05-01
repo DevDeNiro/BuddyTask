@@ -3,7 +3,7 @@
     <Sidebar class="w-20" />
     <div class="flex flex-col w-full pl-20">
       <Header class="w-full bg-gray" />
-      <main class="main w-full flex-grow m-4">
+      <main class="main w-full flex-grow py-4 px-9">
         <CategoryList />
       </main>
     </div>

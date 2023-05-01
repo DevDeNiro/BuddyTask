@@ -4,6 +4,7 @@
       :animation-duration="2000"
       :pixel-size="70"
       color="#856AFF"
+      :loading="loading"
     />
   </div>
   <div v-else class="grid grid-cols-3 bg-gray gap-4 px-8">
@@ -86,8 +87,6 @@ export default {
         loading.value = false;
       } catch (error) {
         console.error(error);
-      } finally {
-        loading.value = true;
       }
     });
 

@@ -5,7 +5,9 @@
       <span class="border-b-2 border-purple-600">Today</span>
       <span class="text-gray-400 text-grayUnselected">Nov 13</span>
       <div class="border-l h-5 mx-4"></div>
-      <span class="text-center">...</span>
+      <span class="material-symbols-outlined text-center text-purple text-4xl">
+        more_horiz
+      </span>
     </div>
     <div class="flex items-center space-x-3 text-lg">
       <span class="font-bold">Categories :</span>
