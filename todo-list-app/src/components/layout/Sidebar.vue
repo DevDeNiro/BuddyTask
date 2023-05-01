@@ -28,8 +28,10 @@
     </div>
 
     <div class="bottom-datetime">
-      <div class="font-semibold text-purple">{{ currentTime }}</div>
-      <div class="font-bold">{{ currentDate }}</div>
+      <div class="font-semibold text-purple text-xl">{{ currentTime }}</div>
+      <div class="font-bold text-base text-center">
+        {{ currentDate }}
+      </div>
     </div>
   </div>
 </template>
