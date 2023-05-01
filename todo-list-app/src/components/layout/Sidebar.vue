@@ -2,30 +2,34 @@
 
 <template>
   <div
-    class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5"
+    class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white"
   >
     <div class="top-icon">
-      <i class="">icone</i>
+      <img
+        class="bg-cover bg-center"
+        src="../../assets/images/logo.jpg"
+        alt="logo"
+      />
     </div>
 
-    <div class="buttons">
-      <button class="bg-white text-indigo-900 py-2 px-2 rounded-full">
-        Button 1
+    <div class="buttons text-center">
+      <button class="text-indigo-900 py-2 px-2 rounded-full">
+        <span class="w-7 material-symbols-outlined"> calendar_today </span>
       </button>
-      <button class="bg-white text-indigo-900 py-2 px-2 rounded-full">
-        Button 2
+      <button class="text-indigo-900 py-2 px-2 rounded-full">
+        <span class="w-7 material-symbols-outlined"> event_list </span>
       </button>
-      <button class="bg-white text-indigo-900 py-2 px-2 rounded-full">
-        Button 3
+      <button class="text-indigo-900 py-2 px-2 rounded-full">
+        <span class="material-symbols-outlined"> monitoring </span>
       </button>
-      <button class="bg-white text-indigo-900 py-2 px-2 rounded-full">
-        Button 4
+      <button class="text-indigo-900 py-2 px-2 rounded-full">
+        <span class="w-7 material-symbols-outlined"> settings </span>
       </button>
     </div>
 
-    <div class="bottom-datetime text-white">
-      <div>{{ currentTime }}</div>
-      <div>{{ currentDate }}</div>
+    <div class="bottom-datetime">
+      <div class="font-semibold text-purple">{{ currentTime }}</div>
+      <div class="font-bold">{{ currentDate }}</div>
     </div>
   </div>
 </template>
@@ -36,7 +40,6 @@ import {ref, onMounted, computed} from "vue";
 export default {
   setup() {
     const now = ref(new Date());
-
     function updateDateTime() {
       now.value = new Date();
       setTimeout(updateDateTime, 60000);
@@ -48,18 +51,18 @@ export default {
 
     function formatDateWithoutPeriod(date) {
       const monthNames = [
-        "janv",
-        "févr",
-        "mars",
-        "avr",
-        "mai",
-        "juin",
-        "juil",
-        "août",
-        "sept",
-        "oct",
-        "nov",
-        "déc",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "June",
+        "July",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
 
       const day = date.getDate();
