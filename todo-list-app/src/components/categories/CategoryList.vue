@@ -45,10 +45,8 @@
       </div>
 
       <hr class="border-b my-7" />
-      <TaskList
-        :tasks="category.todoItems"
-        @update-tasks="updateTasks(category, $event)"
-      />
+      <TaskList :tasks="category.todoItems" />
+      <!-- @update-tasks="updateTasks(category, $event)" -->
     </div>
     <div
       v-if="selectedCategory"
@@ -75,7 +73,7 @@ export default {
   name: "CategoryList",
   components: {PixelSpinner, TaskForm, TaskList},
 
-  setup(props, {emit}) {
+  setup() {
     const store = useStore();
     const loading = ref(true);
     const editingCategory = ref(null);
@@ -107,16 +105,20 @@ export default {
       editingCategory.value = null;
     };
 
-    const localCategories = ref(
-      Array.isArray(props.categories) ? [...props.categories] : []
-    );
+    /*
 
-    const updateTasks = (category, newTasks) => {
+    const updateTasks = async (category, newTasks) => {
       category.todoItems = newTasks;
 
-      store.dispatch("updateCategory", category);
+      try {
+        await store.dispatch("updateCategory", category);
+        console.log("Category updated successfully.");
+      } catch (error) {
+        console.error("Failed to update category:", error);
+      }
     };
 
+    */
     const deleteCategory = (id) => {
       store.dispatch("deleteCategory", id);
     };
@@ -150,8 +152,7 @@ export default {
       toggleTaskForm,
       selectedCategoryIndex,
       selectedCategory,
-      localCategories,
-      updateTasks,
+      // updateTasks,
     };
   },
 };

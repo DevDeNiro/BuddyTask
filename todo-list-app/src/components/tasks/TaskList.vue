@@ -1,11 +1,15 @@
 <template>
-  <Draggable v-model="localTasks" :group="{name: 'tasks'}" @end="onDragEnd">
-    <template #item="{element}">
-      <div>
+  <div>
+    <Draggable
+      :list="filterTasks.incompleteTasks"
+      :group="{name: 'tasks'}"
+      :itemKey="(task) => task.id"
+      @end="onDragEnd"
+    >
+      <template #item="{element}">
         <div
-          v-for="(task, index) in filterTasks.incompleteTasks"
-          :key="index"
           class="card cursor-pointer border border-gray-300 rounded-lg p-4 my-4"
+          @click="handleCardClick(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -17,32 +21,40 @@
               </div>
               <div class="flex flex-col ml-2">
                 <div>
-                  <h3 class="font-bold">{{ task.name }}</h3>
-                  <p class="text-sm">{{ task.description }}</p>
+                  <h3 class="font-bold">{{ element.name }}</h3>
+                  <p class="text-sm">{{ element.description }}</p>
                 </div>
                 <span class="text-sm mt-4">
-                  <span>
-                    {{ formatDate(task.startDate) }} -
-                    {{ formatDate(task.endDate) }}
-                  </span>
+                  <span
+                    >{{ formatDate(element.startDate) }} -
+                    {{ formatDate(element.endDate) }}</span
+                  >
                 </span>
               </div>
             </div>
           </div>
         </div>
+      </template>
+    </Draggable>
 
-        <div class="relative flex py-5 items-center decoration-dashed">
-          <div class="flex-grow border-t border-gray-400"></div>
-          <span class="flex-shrink mx-4 text-gray-400 uppercase font-semibold"
-            >done</span
-          >
-          <div class="flex-grow border-t border-gray-400"></div>
-        </div>
+    <div class="relative flex py-5 items-center decoration-dashed">
+      <div class="flex-grow border-t border-gray-400"></div>
+      <span class="flex-shrink mx-4 text-gray-400 uppercase font-semibold"
+        >done</span
+      >
+      <div class="flex-grow border-t border-gray-400"></div>
+    </div>
 
+    <Draggable
+      :list="filterTasks.completeTasks"
+      :group="{name: 'tasks'}"
+      :itemKey="(task) => task.id"
+      @end="onDragEnd"
+    >
+      <template #item="{element}">
         <div
-          v-for="(task, index) in filterTasks.completeTasks"
-          :key="index"
           class="card cursor-pointer border border-gray-300 rounded-lg p-4 my-4"
+          @click="handleCardClick(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -54,28 +66,29 @@
               </div>
               <div class="flex flex-col ml-2">
                 <div>
-                  <h3 class="font-bold">{{ task.name }}</h3>
-                  <p class="text-sm">{{ task.description }}</p>
+                  <h3 class="font-bold">{{ element.name }}</h3>
+                  <p class="text-sm">{{ element.description }}</p>
                 </div>
                 <span class="text-sm mt-4">
-                  <span>
-                    {{ formatDate(task.startDate) }} -
-                    {{ formatDate(task.endDate) }}
-                  </span>
+                  <span
+                    >{{ formatDate(element.startDate) }} -
+                    {{ formatDate(element.endDate) }}</span
+                  >
                 </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </template>
-  </Draggable>
+      </template>
+    </Draggable>
+  </div>
 </template>
 
 <script>
 import {ref, computed} from "vue";
 import {defineComponent} from "vue";
 import Draggable from "vuedraggable";
+import {useStore} from "vuex";
 
 export default defineComponent({
   name: "TaskList",
@@ -89,7 +102,8 @@ export default defineComponent({
     },
   },
   setup(props, {emit}) {
-    const localTasks = ref([...props.tasks]);
+    const store = useStore();
+    const localTasks = ref(props.tasks);
 
     const formatDate = (dateString) => {
       const date = new Date(dateString);
@@ -106,19 +120,26 @@ export default defineComponent({
       };
     });
 
-    const onDragEnd = (event) => {
-      const movedTask = localTasks.value[event.newIndex];
-      if (event.newIndex >= filterTasks.incompleteTasks.value.length) {
-        movedTask.completed = true;
-      } else {
-        movedTask.completed = false;
-      }
-      emit("update-tasks", localTasks.value);
-
-      store.dispatch("updateTask", movedTask);
+    const handleCardClick = (task) => {
+      console.log(task);
     };
 
-    return {formatDate, filterTasks, localTasks, onDragEnd};
+    const onDragEnd = (event) => {
+      const incompleteTasks = filterTasks.value.incompleteTasks;
+      if (incompleteTasks) {
+        const movedTask = localTasks.value[event.newIndex];
+        if (event.newIndex >= incompleteTasks.length) {
+          movedTask.completed = true;
+        } else {
+          movedTask.completed = false;
+        }
+        // emit("update-tasks", localTasks.value);
+
+        store.dispatch("updateTask", movedTask);
+      }
+    };
+
+    return {formatDate, filterTasks, localTasks, onDragEnd, handleCardClick};
   },
 });
 </script>
