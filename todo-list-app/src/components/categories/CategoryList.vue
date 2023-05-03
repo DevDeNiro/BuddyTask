@@ -7,7 +7,7 @@
       :loading="loading"
     />
   </div>
-  <div v-else class="grid grid-cols-3 bg-gray gap-4 px-8">
+  <div v-else class="grid grid-cols-3 bg-gray gap-4 px-10">
     <div
       v-for="(category, index) in categories"
       :key="category.id"
@@ -39,14 +39,15 @@
         </div>
       </h2>
 
-      <div class="flex items-center justify-between">
-        <span class="text-sm">Completed: 1/3</span>
-        <button @click="toggleTaskForm(index)" class="button">add</button>
-      </div>
-
-      <hr class="border-b my-7" />
       <TaskList :tasks="category.todoItems" />
       <!-- @update-tasks="updateTasks(category, $event)" -->
+      <div class="">
+        <hr class="border-b my-7" />
+        <div class="flex items-center justify-between">
+          <span class="text-sm">Completed: 1/3</span>
+          <button @click="toggleTaskForm(index)" class="button">add</button>
+        </div>
+      </div>
     </div>
     <div
       v-if="selectedCategory"

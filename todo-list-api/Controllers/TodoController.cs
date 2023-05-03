@@ -63,7 +63,7 @@ namespace TodoApi.Controllers
             }
 
             _todoService.CreateTodo(todo);
-            _categoryService.AddTodoItemToCategory(todo.CategoryId, todo);
+            // _categoryService.AddTodoItemToCategory(todo.CategoryId, todo);
 
             // Check if todo.Id is not null
             if (todo.Id != null)

@@ -13,7 +13,6 @@ namespace TodoApi.Service.ICategoryService
         Task<CategoryItemModel?> GetCategoryAsync(string categoryId);
         void UpdateTodoItemInCategory(string categoryId, string todoId, TodoItemModel todoIn);
         void DeleteTodoItemInCategory(string categoryId, string todoId);
-        void AddTodoItemToCategory(string categoryId, TodoItemModel todo);
 
     }
 }

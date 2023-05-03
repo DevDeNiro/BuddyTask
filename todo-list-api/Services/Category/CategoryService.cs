@@ -63,12 +63,6 @@ namespace TodoApi.Service.ICategoryService
             return category;
         }
 
-        public void AddTodoItemToCategory(string categoryId, TodoItemModel todo)
-        {
-            var filter = Builders<CategoryItemModel>.Filter.Eq("_id", ObjectId.Parse(categoryId));
-            var update = Builders<CategoryItemModel>.Update.Push("TodoItems", todo);
-            _categories.UpdateOne(filter, update);
-        }
 
         public void UpdateCategory(string id, UpdateDefinition<CategoryItemModel> updateDefinition)
         {
