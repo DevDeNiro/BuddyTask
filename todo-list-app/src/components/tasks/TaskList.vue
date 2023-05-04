@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <Draggable
       :list="filterTasks.incompleteTasks"
       :group="{name: 'tasks'}"
@@ -8,7 +8,7 @@
     >
       <template #item="{element}">
         <div
-          class="card cursor-pointer border border-gray-300 rounded-lg p-4 my-4"
+          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
           @click="handleCardClick(element)"
         >
           <div class="flex">
@@ -53,7 +53,7 @@
     >
       <template #item="{element}">
         <div
-          class="card cursor-pointer border border-gray-300 rounded-lg p-4 my-4"
+          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
           @click="handleCardClick(element)"
         >
           <div class="flex">

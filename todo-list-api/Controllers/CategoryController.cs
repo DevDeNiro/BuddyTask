@@ -81,7 +81,7 @@ namespace TodoApi.Controllers
         [HttpDelete("{id}", Name = "DeleteCategory")]
         public async Task<IActionResult> DeleteCategory(string id)
         {
-            // Supprime la catégorie et les éléments Todo associés
+            // Delete the category and associated Todo items
             bool success = await _categoryService.RemoveCategory(id);
 
             if (!success)

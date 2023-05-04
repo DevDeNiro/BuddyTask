@@ -39,7 +39,6 @@ namespace TodoApi.Controllers
         }
 
 
-
         [HttpPost]
         public ActionResult<TodoItemModel> CreateTodo(TodoItemModel todo)
         {
@@ -87,17 +86,18 @@ namespace TodoApi.Controllers
 
             var updateDefinition = Builders<TodoItemModel>.Update
                 .Set(todo => todo.Name, updateTodo.Name)
+                .Set(todo => todo.Description, updateTodo.Description)
                 .Set(todo => todo.StartDate, updateTodo.StartDate)
                 .Set(todo => todo.EndDate, updateTodo.EndDate)
                 .Set(todo => todo.Completed, updateTodo.Completed);
 
             _todoService.UpdateTodo(id, updateDefinition);
 
-            // Update the corresponding TodoItem in the CategoryItem
+            // Update the corresponding TodoItem in the Category
             string categoryId = todoExist.CategoryId ?? string.Empty;
             if (!string.IsNullOrEmpty(categoryId))
             {
-                _categoryService.UpdateTodoItemInCategory(categoryId, id, updateTodo);
+                _todoService.UpdateTodoFromCategory(categoryId, id, updateDefinition);
             }
 
             return NoContent();
@@ -114,11 +114,11 @@ namespace TodoApi.Controllers
 
             _todoService.RemoveTodo(id);
 
-            // Delete the corresponding TodoItem in the CategoryItem
+            // Delete the corresponding TodoItem in the Category
             string categoryId = todoExist.CategoryId ?? string.Empty;
             if (!string.IsNullOrEmpty(categoryId))
             {
-                _categoryService.DeleteTodoItemInCategory(categoryId, id);
+                _todoService.RemoveTodoFromCategory(categoryId, id);
             }
 
             return NoContent();

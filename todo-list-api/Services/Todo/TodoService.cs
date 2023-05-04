@@ -62,6 +62,31 @@ namespace TodoApi.Service.ITodoService
             _todos.UpdateOne(filter, updateDefinition);
         }
 
+        public void UpdateTodoFromCategory(string categoryId, string todoId, UpdateDefinition<TodoItemModel> updateDefinition)
+        {
+            var categoryFilter = Builders<CategoryItemModel>.Filter.Eq("_id", ObjectId.Parse(categoryId));
+            var category = _categories.Find(categoryFilter).FirstOrDefault();
+
+            if (category != null)
+            {
+                var todoItem = category.TodoItems.Find(t => t.Id == todoId);
+
+                if (todoItem != null)
+                {
+                    // Update the TodoItem in the Todo collection
+                    _todos.UpdateOne(Builders<TodoItemModel>.Filter.Eq("_id", ObjectId.Parse(todoId)), updateDefinition);
+
+                    int index = category.TodoItems.IndexOf(todoItem);
+                    var updatedTodo = _todos.Find(Builders<TodoItemModel>.Filter.Eq("_id", ObjectId.Parse(todoId))).FirstOrDefault();
+
+                    category.TodoItems[index] = updatedTodo;
+                    var categoryUpdateDefinition = Builders<CategoryItemModel>.Update
+                                                   .Set(cat => cat.TodoItems, category.TodoItems);
+                    _categories.UpdateOne(categoryFilter, categoryUpdateDefinition);
+                }
+            }
+        }
+
         public void RemoveTodo(string id)
         {
             // Retrieve the corresponding todo
@@ -69,5 +94,23 @@ namespace TodoApi.Service.ITodoService
             _todos.DeleteOne(filter);
         }
 
+        public void RemoveTodoFromCategory(string categoryId, string todoId)
+        {
+            var categoryFilter = Builders<CategoryItemModel>.Filter.Eq("_id", ObjectId.Parse(categoryId));
+            var category = _categories.Find(categoryFilter).FirstOrDefault();
+
+            if (category != null)
+            {
+                var todoItem = category.TodoItems.Find(t => t.Id == todoId);
+
+                if (todoItem != null)
+                {
+                    category.TodoItems.Remove(todoItem);
+                    var categoryUpdateDefinition = Builders<CategoryItemModel>.Update
+                                                   .Set(cat => cat.TodoItems, category.TodoItems);
+                    _categories.UpdateOne(categoryFilter, categoryUpdateDefinition);
+                }
+            }
+        }
     }
 }

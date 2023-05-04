@@ -7,12 +7,10 @@ namespace TodoApi.Service.ICategoryService
     {
         List<CategoryItemModel> GetAllCategories();
         CategoryItemModel GetCategory(string id);
+        Task<CategoryItemModel?> GetCategoryAsync(string categoryId);
         CategoryItemModel CreateCategory(CategoryItemModel category);
         void UpdateCategory(string id, UpdateDefinition<CategoryItemModel> updateDefinition);
         Task<bool> RemoveCategory(string id);
-        Task<CategoryItemModel?> GetCategoryAsync(string categoryId);
-        void UpdateTodoItemInCategory(string categoryId, string todoId, TodoItemModel todoIn);
-        void DeleteTodoItemInCategory(string categoryId, string todoId);
 
     }
 }

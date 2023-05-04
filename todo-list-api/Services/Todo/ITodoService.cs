@@ -9,7 +9,9 @@ namespace TodoApi.Service.ITodoService
         TodoItemModel GetTodo(string id);
         TodoItemModel CreateTodo(TodoItemModel todo);
         void UpdateTodo(string id, UpdateDefinition<TodoItemModel> updateDefinition);
+        void UpdateTodoFromCategory(string categoryId, string todoId, UpdateDefinition<TodoItemModel> updateDefinition);
         void RemoveTodo(string id);
+        void RemoveTodoFromCategory(string categoryId, string todoId);
 
     }
 }

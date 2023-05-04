@@ -14,7 +14,6 @@ namespace TodoApi.Service.ICategoryService
         {
             _categories = context.Database.GetCollection<CategoryItemModel>("CategoryItems");
             _todos = context.Database.GetCollection<TodoItemModel>("TodoItems");
-
         }
 
         public List<CategoryItemModel> GetAllCategories()
@@ -63,48 +62,11 @@ namespace TodoApi.Service.ICategoryService
             return category;
         }
 
-
         public void UpdateCategory(string id, UpdateDefinition<CategoryItemModel> updateDefinition)
         {
             var filter = Builders<CategoryItemModel>.Filter.Eq("_id", ObjectId.Parse(id));
             _categories.UpdateOne(filter, updateDefinition);
         }
 
-        public void UpdateTodoItemInCategory(string categoryId, string todoId, TodoItemModel todoIn)
-        {
-            var category = GetCategory(categoryId);
-
-            if (category != null)
-            {
-                var todoItem = category.TodoItems.Find(t => t.Id == todoId);
-
-                if (todoItem != null)
-                {
-                    int index = category.TodoItems.IndexOf(todoItem);
-                    category.TodoItems[index] = todoIn;
-                    var updateDefinition = Builders<CategoryItemModel>.Update
-                                           .Set(cat => cat.TodoItems, category.TodoItems);
-                    UpdateCategory(categoryId, updateDefinition);
-                }
-            }
-        }
-
-        public void DeleteTodoItemInCategory(string categoryId, string todoId)
-        {
-            var category = GetCategory(categoryId);
-
-            if (category != null)
-            {
-                var todoItem = category.TodoItems.Find(t => t.Id == todoId);
-
-                if (todoItem != null)
-                {
-                    category.TodoItems.Remove(todoItem);
-                    var updateDefinition = Builders<CategoryItemModel>.Update
-                                           .Set(cat => cat.TodoItems, category.TodoItems);
-                    UpdateCategory(categoryId, updateDefinition);
-                }
-            }
-        }
     }
 }
