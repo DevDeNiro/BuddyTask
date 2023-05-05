@@ -21,7 +21,9 @@
         :key="category.id"
         class="section w-10/12 relative h-full overflow-auto scrollbar-hide"
       >
-        <h2 class="flex justify-between text-xl font-bold mb-2">
+        <h2
+          class="flex justify-between sticky top-0 text-xl font-bold -mb-6 mx-0 pb-2 bg-gray z-50"
+        >
           <span
             v-if="editingCategoryId !== category.id"
             class="bg-blue-600 rounded-full"

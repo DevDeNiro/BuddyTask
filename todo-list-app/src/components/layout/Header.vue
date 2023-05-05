@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center justify-between py-4 px-9">
+  <header class="flex items-center justify-between pt-4 px-9">
     <div class="flex items-center space-x-4 m-10 gap-3 text-3xl font-semibold">
       <span class="text-gray-400 text-grayUnselected">Nov 11</span>
       <span class="border-b-2 border-purple-600">Today</span>
