@@ -11,11 +11,15 @@
     <div v-if="isEmpty">
       <p>The category is empty</p>
     </div>
-    <div v-else class="grid grid-cols-3 bg-gray gap-4 px-10">
+    <div
+      v-else
+      class="grid grid-cols-3 bg-gray gap-4 px-10"
+      style="height: 600px"
+    >
       <div
         v-for="(category, index) in categories"
         :key="category.id"
-        class="section w-10/12 relative min-h-screen"
+        class="section w-10/12 relative h-full overflow-auto scrollbar-hide"
       >
         <h2 class="flex justify-between text-xl font-bold mb-2">
           <span
@@ -46,7 +50,7 @@
         <TaskList :tasks="category.todoItems" />
         <!-- @update-tasks="updateTasks(category, $event)" -->
 
-        <div class="relative bottom-0 h-24 max-w-full bg-gray">
+        <div class="bottom-0 h-24 max-w-full bg-gray sticky">
           <hr class="border-b my-7" />
           <div class="">
             <div class="flex items-center justify-between">

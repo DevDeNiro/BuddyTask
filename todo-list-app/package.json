@@ -16,6 +16,7 @@
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "roboto-fontface": "*",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "vue": "^3.2.45",
     "vue-i18n": "^9.1.0",
     "vue-router": "^4.1.6",
