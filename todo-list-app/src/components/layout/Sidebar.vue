@@ -1,4 +1,9 @@
-<style scoped></style>
+<style scoped>
+.img {
+  height: 95%;
+  width: 102%;
+}
+</style>
 
 <template>
   <div
@@ -7,7 +12,7 @@
     <div class="top-icon">
       <img
         class="bg-cover bg-center"
-        src="../../assets/images/logo.jpg"
+        src="../../assets/images/logo.png"
         alt="logo"
       />
     </div>

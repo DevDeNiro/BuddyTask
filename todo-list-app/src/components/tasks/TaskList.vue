@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div class="overflow-auto scrollbar-hide h-screen pb-16">
     <Draggable
       :list="filterTasks.incompleteTasks"
       :group="{name: 'tasks'}"

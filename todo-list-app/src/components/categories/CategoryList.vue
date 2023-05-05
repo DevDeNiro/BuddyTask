@@ -15,7 +15,7 @@
       <div
         v-for="(category, index) in categories"
         :key="category.id"
-        class="section w-10/12"
+        class="section w-10/12 relative min-h-screen"
       >
         <h2 class="flex justify-between text-xl font-bold mb-2">
           <span
@@ -46,9 +46,9 @@
         <TaskList :tasks="category.todoItems" />
         <!-- @update-tasks="updateTasks(category, $event)" -->
 
-        <div class="flex">
+        <div class="relative bottom-0 h-24 max-w-full bg-gray">
           <hr class="border-b my-7" />
-          <div class="flex">
+          <div class="">
             <div class="flex items-center justify-between">
               <span class="text-sm">Completed: 1/3</span>
               <button @click="toggleTaskForm(index)" class="button">add</button>
