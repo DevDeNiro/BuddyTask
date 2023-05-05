@@ -11,11 +11,7 @@
     <div v-if="isEmpty">
       <p>The category is empty</p>
     </div>
-    <div
-      v-else
-      class="grid grid-cols-3 bg-gray gap-4 px-10"
-      style="height: 600px"
-    >
+    <div v-else class="grid grid-cols-3 h-full bg-gray gap-4 px-10">
       <div
         v-for="(category, index) in categories"
         :key="category.id"

@@ -1,5 +1,8 @@
 <template>
-  <div class="scrollbar-hide h-screen pb-16 pt-8">
+  <div
+    class="scrollbar-hide overflow-auto h-screen pb-16 pt-8"
+    style="height: 460px"
+  >
     <Draggable
       :list="filterTasks.incompleteTasks"
       :group="{name: 'tasks'}"
