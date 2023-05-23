@@ -1,7 +1,7 @@
 <template>
   <div
-    class="scrollbar-hide overflow-auto h-screen pb-16 pt-8"
-    style="height: 460px"
+    class="scrollbar-hide overflow-auto h-screen pt-8"
+    style="padding-bottom: 20em"
   >
     <Draggable
       :list="filterTasks.incompleteTasks"
