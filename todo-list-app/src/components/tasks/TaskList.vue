@@ -40,12 +40,10 @@
       </template>
     </Draggable>
 
-    <div class="relative flex my-6 items-center decoration-dashed">
-      <div class="flex-grow border-t border-gray-400"></div>
-      <span class="flex-shrink mx-4 text-gray-400 uppercase font-semibold"
-        >done</span
-      >
-      <div class="flex-grow border-t border-gray-400"></div>
+    <div class="relative my-6 flex items-center">
+      <div class="flex-grow border-t border-gray-500 border-dashed"></div>
+      <span class="mx-4 text-gray-400 uppercase font-semibold">done</span>
+      <div class="flex-grow border-t border-gray-500 border-dashed"></div>
     </div>
 
     <Draggable
@@ -146,3 +144,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped></style>

@@ -39,15 +39,13 @@ const mutations = {
 };
 
 const actions = {
-  fetchCategories({commit}) {
-    apiClient
-      .get("/categories")
-      .then((response) => {
-        commit("GET_CATEGORIES", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async fetchCategories({commit}) {
+    try {
+      const response = await apiClient.get("/categories");
+      commit("GET_CATEGORIES", response.data);
+    } catch (error) {
+      throw new Error("An error occurred while fetching data from API.");
+    }
   },
 
   createCategory({commit}, category) {

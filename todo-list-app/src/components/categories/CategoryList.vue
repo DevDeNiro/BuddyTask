@@ -7,9 +7,14 @@
       :loading="loading"
     />
   </div>
+  <div v-if="hasError" class="error-message">
+    oops, an error occurred, waiting for the server to respond.
+  </div>
   <div v-else>
-    <div v-if="isEmpty">
-      <p>The category is empty</p>
+    <div v-if="isEmptyCategory">
+      <p>
+        Whoa, it's pretty empty in here! Why not create your first category?
+      </p>
     </div>
     <div v-else class="grid grid-cols-3 h-screen bg-gray gap-4 px-10">
       <div
@@ -48,8 +53,9 @@
         <TaskList :tasks="category.todoItems" />
         <!-- @update-tasks="updateTasks(category, $event)" -->
 
-        <div class="categoryBottom">
+        <div class="categoryBottom bg-gray">
           <hr class="border-b my-4" />
+
           <div class="flex items-center justify-between categoryCompleted">
             <span class="text-sm">Completed: 1/3</span>
             <button @click="toggleTaskForm(index)" class="button">add</button>
@@ -67,28 +73,6 @@
   </div>
 </template>
 
-<style>
-.categorieTask {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.categoryBottom {
-  position: sticky;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: gray;
-  padding-bottom: 15px;
-}
-
-.categoryCompleted {
-  position: relative;
-  width: 100%;
-}
-</style>
-
 <script>
 import {PixelSpinner} from "epic-spinners";
 import TaskList from "../tasks/TaskList.vue";
@@ -98,32 +82,42 @@ import {ref, onMounted, computed} from "vue";
 import {useStore} from "vuex";
 
 export default {
-  props: {
-    categories: Array,
-  },
+  props: {},
   name: "CategoryList",
   components: {PixelSpinner, TaskForm, TaskList},
 
   setup() {
     const store = useStore();
     const loading = ref(true);
-    const isEmpty = ref(true);
     const editingCategory = ref(null);
     const editingCategoryName = ref("");
-    // const categories = ref([]);
+    const hasError = ref(false);
 
     onMounted(async () => {
+      const timer = setTimeout(() => {
+        if (loading.value) {
+          loading.value = false;
+          hasError.value = true;
+        }
+      }, 30000);
+
       try {
-        await Promise.all([store.dispatch("fetchCategories")]);
-        categories.value = store.getters.categories;
-        isEmpty.value = categories.value.length === 0;
-        loading.value = false;
+        await store.dispatch("fetchCategories");
       } catch (error) {
         console.error(error);
+        hasError.value = true;
+      } finally {
+        clearTimeout(timer);
+        if (!hasError.value) {
+          loading.value = false;
+        }
       }
     });
 
     const categories = computed(() => store.getters.categories);
+    const isEmptyCategory = computed(
+      () => store.getters.categories.length === 0
+    );
 
     const startEditingCategory = (id) => {
       const category = categories.value.find((c) => c.id === id);
@@ -140,20 +134,6 @@ export default {
       editingCategory.value = null;
     };
 
-    /*
-
-    const updateTasks = async (category, newTasks) => {
-      category.todoItems = newTasks;
-
-      try {
-        await store.dispatch("updateCategory", category);
-        console.log("Category updated successfully.");
-      } catch (error) {
-        console.error("Failed to update category:", error);
-      }
-    };
-
-    */
     const deleteCategory = (id) => {
       store.dispatch("deleteCategory", id);
     };
@@ -187,8 +167,32 @@ export default {
       toggleTaskForm,
       selectedCategoryIndex,
       selectedCategory,
-      // updateTasks,
+      isEmptyCategory,
+      hasError,
     };
   },
 };
 </script>
+
+<style>
+.categorieTask {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryBottom {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.categoryCompleted {
+  position: relative;
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+</style>
