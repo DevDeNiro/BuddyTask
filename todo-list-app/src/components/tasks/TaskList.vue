@@ -87,11 +87,10 @@
 
 <script>
 import {ref, computed} from "vue";
-import {defineComponent} from "vue";
 import Draggable from "vuedraggable";
 import {useStore} from "vuex";
 
-export default defineComponent({
+export default {
   name: "TaskList",
   components: {
     Draggable,
@@ -126,23 +125,44 @@ export default defineComponent({
     };
 
     const onDragEnd = (event) => {
-      const incompleteTasks = filterTasks.value.incompleteTasks;
-      if (incompleteTasks) {
-        const movedTask = localTasks.value[event.newIndex];
-        if (event.newIndex >= incompleteTasks.length) {
-          movedTask.completed = true;
-        } else {
-          movedTask.completed = false;
-        }
-        // emit("update-tasks", localTasks.value);
+      const {element, to, oldIndex, newIndex} = event;
 
-        store.dispatch("updateTask", movedTask);
+      let movedTaskIndex = props.tasks.findIndex(
+        (task) => task.id === element.id
+      );
+      let movedTask = props.tasks[movedTaskIndex];
+
+      // if the task is moved within the same list, only the position in the list needs to be updated
+      if (event.from === event.to) {
+        updatedTasks.splice(movedTaskIndex, 1); // remove from old position
+        updatedTasks.splice(
+          movedTaskIndex + (newIndex > oldIndex ? -1 : 0) + newIndex,
+          0,
+          movedTask
+        );
+      } else {
+        movedTask.completed = to === "completeTasks";
+        updatedTasks.splice(movedTaskIndex, 1); // remove from old position
+        let targetIndex =
+          to === "completeTasks"
+            ? filterTasks.value.incompleteTasks.length + newIndex
+            : newIndex;
+        updatedTasks.splice(targetIndex, 0, movedTask); // insert at new position
       }
+
+      store.dispatch("updateTask", movedTask);
+      localTasks.value = updatedTasks;
     };
 
-    return {formatDate, filterTasks, localTasks, onDragEnd, handleCardClick};
+    return {
+      formatDate,
+      filterTasks,
+      localTasks,
+      onDragEnd,
+      handleCardClick,
+    };
   },
-});
+};
 </script>
 
 <style scoped></style>

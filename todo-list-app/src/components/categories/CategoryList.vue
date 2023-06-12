@@ -62,11 +62,7 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="selectedCategory"
-        :message="`Ajouter une nouvelle tâche pour ${selectedCategory.name}`"
-        :type="'info'"
-      >
+      <div v-if="selectedCategory" :type="'info'">
         <TaskForm :category="selectedCategory" />
       </div>
     </div>
@@ -150,7 +146,7 @@ export default {
         selectedCategoryIndex.value = index;
         selectedCategory.value = categories.value[index];
         store.dispatch("showPopup", {
-          message: `Ajouter une nouvelle tâche pour ${categories.value[index].name}`,
+          message: `Add new task on ${categories.value[index].name}`,
           type: "info",
         });
       }
