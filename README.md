@@ -1,6 +1,6 @@
 ## BuddyTask (under development)
 
-This project is a web application for students to help them stay organized and manage their tasks.
+This project is a web application to stay organized and manage your tasks.
 
 ### Features
 

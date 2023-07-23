@@ -2,11 +2,13 @@
   <div
     class="task-list scrollbar-hide overflow-auto h-screen pt-8"
     style="padding-bottom: 20em"
+    :data-category-id="categoryId"
   >
     <Draggable
       :list="filterTasks.incompleteTasks"
-      :group="{name: 'tasks'}"
+      :group="{name: 'tasks', pull: true, put: true}"
       :itemKey="(task) => task.id"
+      @start="onDragStart"
       @end="onDragEnd"
       class="incompleteTasks"
     >
@@ -50,8 +52,9 @@
 
     <Draggable
       :list="filterTasks.completeTasks"
-      :group="{name: 'tasks'}"
+      :group="{name: 'tasks', pull: true, put: true}"
       :itemKey="(task) => task.id"
+      @start="onDragStart"
       @end="onDragEnd"
       class="completeTasks"
     >
@@ -132,43 +135,55 @@ export default {
       console.log(task);
     };
 
+    const onDragStart = (event) => {
+      oldCategoryId = event.from.parentElement.dataset.categoryId;
+    };
+
     const onDragEnd = (event) => {
       console.log("event", event);
 
-      const taskId = event.item.dataset.taskId; // récupérer l'id de la tâche
-      const {to, oldIndex, newIndex} = event;
+      const taskId = event.item.dataset.taskId;
+      const {from, to, oldIndex, newIndex} = event;
 
-      // let movedTaskIndex = props.tasks.findIndex((task) => task.id === taskId);
-      let updatedTasks = [...props.tasks];
+      const oldCategoryId = event.from.parentElement.dataset.categoryId;
+      const newCategoryId = event.to.parentElement.dataset.categoryId;
 
-      // First, move the task within the array
-      let movedTask = updatedTasks.splice(oldIndex, 1)[0];
-      updatedTasks.splice(newIndex, 0, movedTask);
+      console.log(
+        `oldCategoryId: ${oldCategoryId}, newCategoryId: ${newCategoryId}`
+      );
 
-      // Then, update the task's state and category id
-      if (to.className === "completeTasks") {
-        updatedTasks[newIndex].completed = true;
-      } else if (to.className === "incompleteTasks") {
-        updatedTasks[newIndex].completed = false;
+      if (oldCategoryId !== newCategoryId) {
+        // L'élément est déplacé dans une nouvelle catégorie
+        store.dispatch("moveTask", {taskId, oldCategoryId, newCategoryId});
+      } else {
+        // L'élément est déplacé au sein de la même catégorie
+        const updatedTasks = [...props.tasks];
+
+        const movedTask = updatedTasks.splice(oldIndex, 1)[0];
+        updatedTasks.splice(newIndex, 0, movedTask);
+
+        // Mise a jour de l'état de la tâche et de sa catégorie
+        if (to.className === "completeTasks") {
+          updatedTasks[newIndex].completed = true;
+        } else if (to.className === "incompleteTasks") {
+          updatedTasks[newIndex].completed = false;
+        }
+
+        updatedTasks[newIndex].categoryId = props.categoryId;
+
+        store.dispatch("updateTask", updatedTasks[newIndex]);
+
+        localTasks.value.splice(0, localTasks.value.length, ...updatedTasks);
       }
-
-      updatedTasks[newIndex].categoryId = props.categoryId;
-
-      store.dispatch("updateTask", updatedTasks[newIndex]);
-
-      // Finally, update localTasks
-      localTasks.value.splice(0, localTasks.value.length, ...updatedTasks);
-
-      console.log("taskId", taskId);
-      console.log("updatedTasks", updatedTasks);
     };
 
     return {
       formatDate,
       filterTasks,
       localTasks,
-      onDragEnd,
       handleCardClick,
+      onDragStart,
+      onDragEnd,
     };
   },
 };

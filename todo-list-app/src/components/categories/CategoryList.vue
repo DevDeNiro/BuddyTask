@@ -50,8 +50,7 @@
           </div>
         </h2>
 
-        <TaskList :tasks="category.todoItems" />
-        <!-- @update-tasks="updateTasks(category, $event)" -->
+        <TaskList :tasks="category.todoItems" :categoryId="category.id" />
 
         <div class="categoryBottom bg-gray">
           <hr class="border-b my-4" />

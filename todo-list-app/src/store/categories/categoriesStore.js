@@ -36,6 +36,35 @@ const mutations = {
       state.categories.splice(index, 1, updatedCategory);
     }
   },
+
+  MOVE_TASK(state, {taskId, oldCategoryId, newCategoryId}) {
+    const oldCategory = state.categories.find((c) => c.id === oldCategoryId);
+    const newCategory = state.categories.find((c) => c.id === newCategoryId);
+
+    console.log("oldCategory", oldCategory);
+    console.log("newCategory", newCategory);
+
+    if (!oldCategory || !newCategory) {
+      console.error("An error occurred while moving the task");
+      return;
+    }
+
+    const taskIndex = oldCategory.todoItems.findIndex((t) => t.id === taskId);
+    const task = oldCategory.todoItems[taskIndex];
+
+    console.log("taskIndex", taskIndex);
+    console.log("task", task);
+
+    if (task) {
+      oldCategory.todoItems.splice(taskIndex, 1);
+      newCategory.todoItems.push(task);
+    } else {
+      console.error("An error occurred while moving the task");
+    }
+
+    // Triggered the update of the categories
+    state.categories = [...state.categories];
+  },
 };
 
 const actions = {
@@ -83,6 +112,11 @@ const actions = {
       .catch((error) => {
         console.log(error);
       });
+  },
+
+  moveTask({commit}, payload) {
+    console.log("payload", payload);
+    commit("MOVE_TASK", payload);
   },
 };
 
