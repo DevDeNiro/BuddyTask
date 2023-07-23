@@ -76,7 +76,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdateTodo")]
-        public IActionResult UpdateTodo(string id, TodoItemModel updateTodo)
+        public IActionResult UpdateTodo(string id, [FromBody] TodoItemModel updateTodo)
         {
             var todoExist = _todoService.GetTodo(id);
             if (todoExist == null)
@@ -100,7 +100,9 @@ namespace TodoApi.Controllers
                 _todoService.UpdateTodoFromCategory(categoryId, id, updateDefinition);
             }
 
-            return NoContent();
+            var updatedTodo = _todoService.GetTodo(id);
+
+            return Ok(updatedTodo);
         }
 
         [HttpDelete("{id}")]

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="scrollbar-hide overflow-auto h-screen pt-8"
+    class="task-list scrollbar-hide overflow-auto h-screen pt-8"
     style="padding-bottom: 20em"
   >
     <Draggable
@@ -8,11 +8,13 @@
       :group="{name: 'tasks'}"
       :itemKey="(task) => task.id"
       @end="onDragEnd"
+      class="incompleteTasks"
     >
       <template #item="{element}">
         <div
           class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
           @click="handleCardClick(element)"
+          :data-task-id="element.id"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -51,11 +53,13 @@
       :group="{name: 'tasks'}"
       :itemKey="(task) => task.id"
       @end="onDragEnd"
+      class="completeTasks"
     >
       <template #item="{element}">
         <div
           class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
           @click="handleCardClick(element)"
+          :data-task-id="element.id"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -100,8 +104,12 @@ export default {
       type: Array,
       default: () => [{}],
     },
+    categoryId: {
+      type: String,
+      required: true,
+    },
   },
-  setup(props, {emit}) {
+  setup(props) {
     const store = useStore();
     const localTasks = ref(props.tasks);
 
@@ -125,33 +133,34 @@ export default {
     };
 
     const onDragEnd = (event) => {
-      const {element, to, oldIndex, newIndex} = event;
+      console.log("event", event);
 
-      let movedTaskIndex = props.tasks.findIndex(
-        (task) => task.id === element.id
-      );
-      let movedTask = props.tasks[movedTaskIndex];
+      const taskId = event.item.dataset.taskId; // récupérer l'id de la tâche
+      const {to, oldIndex, newIndex} = event;
 
-      // if the task is moved within the same list, only the position in the list needs to be updated
-      if (event.from === event.to) {
-        updatedTasks.splice(movedTaskIndex, 1); // remove from old position
-        updatedTasks.splice(
-          movedTaskIndex + (newIndex > oldIndex ? -1 : 0) + newIndex,
-          0,
-          movedTask
-        );
-      } else {
-        movedTask.completed = to === "completeTasks";
-        updatedTasks.splice(movedTaskIndex, 1); // remove from old position
-        let targetIndex =
-          to === "completeTasks"
-            ? filterTasks.value.incompleteTasks.length + newIndex
-            : newIndex;
-        updatedTasks.splice(targetIndex, 0, movedTask); // insert at new position
+      // let movedTaskIndex = props.tasks.findIndex((task) => task.id === taskId);
+      let updatedTasks = [...props.tasks];
+
+      // First, move the task within the array
+      let movedTask = updatedTasks.splice(oldIndex, 1)[0];
+      updatedTasks.splice(newIndex, 0, movedTask);
+
+      // Then, update the task's state and category id
+      if (to.className === "completeTasks") {
+        updatedTasks[newIndex].completed = true;
+      } else if (to.className === "incompleteTasks") {
+        updatedTasks[newIndex].completed = false;
       }
 
-      store.dispatch("updateTask", movedTask);
-      localTasks.value = updatedTasks;
+      updatedTasks[newIndex].categoryId = props.categoryId;
+
+      store.dispatch("updateTask", updatedTasks[newIndex]);
+
+      // Finally, update localTasks
+      localTasks.value.splice(0, localTasks.value.length, ...updatedTasks);
+
+      console.log("taskId", taskId);
+      console.log("updatedTasks", updatedTasks);
     };
 
     return {

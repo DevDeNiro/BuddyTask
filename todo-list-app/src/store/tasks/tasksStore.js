@@ -48,25 +48,25 @@ const actions = {
       });
   },
 
-  updateTask({commit, dispatch}, updatedTask) {
-    console.log(updatedTask);
-    apiClient
-      .put(`/tasks/${updatedTask.id}`, updatedTask, {})
-      .then((response) => {
-        console.log(response);
-        if (response.data.updatedTodoItem) {
-          alert("OK");
-          commit("UPDATE_TODO", response.data.updatedTodoItem);
-        } else {
-          console.error(
-            "La réponse du serveur ne contient pas 'updatedTodoItem'."
-          );
-        }
-        dispatch("fetchTasks");
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la mise à jour de la tâche :", error);
-      });
+  async updateTask({commit}, updatedTask) {
+    try {
+      const response = await apiClient.put(
+        `/tasks/${updatedTask.id}`,
+        updatedTask,
+        {}
+      );
+      console.log(response);
+      if (response.data) {
+        alert("OK");
+        commit("UPDATE_TODO", response.data);
+      } else {
+        console.error(
+          "La réponse du serveur ne contient pas 'updatedTodoItem'."
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de la tâche :", error);
+    }
   },
 };
 
