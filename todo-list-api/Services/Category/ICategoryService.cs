@@ -11,6 +11,9 @@ namespace TodoApi.Service.ICategoryService
         CategoryItemModel CreateCategory(CategoryItemModel category);
         void UpdateCategory(string id, UpdateDefinition<CategoryItemModel> updateDefinition);
         Task<bool> RemoveCategory(string id);
+        Task RemoveTodoItemFromCategory(string categoryId, string todoItemId);
+        Task AddTodoItemToCategory(string categoryId, string todoItemId);
+        Task UpdateTodoItemInCategory(string categoryId, string todoItemId, UpdateDefinition<TodoItemModel> updateDefinition);
 
     }
 }

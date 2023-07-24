@@ -68,5 +68,52 @@ namespace TodoApi.Service.ICategoryService
             _categories.UpdateOne(filter, updateDefinition);
         }
 
+        public async Task RemoveTodoItemFromCategory(string categoryId, string todoItemId)
+        {
+            var category = await _categories.Find(c => c.Id == categoryId).FirstOrDefaultAsync();
+            if (category != null)
+            {
+                var todoItem = category.TodoItems.FirstOrDefault(t => t.Id == todoItemId);
+                if (todoItem != null)
+                {
+                    category.TodoItems.Remove(todoItem);
+                    var updateDefinition = Builders<CategoryItemModel>.Update.Set(c => c.TodoItems, category.TodoItems);
+                    await _categories.UpdateOneAsync(c => c.Id == categoryId, updateDefinition);
+                }
+            }
+        }
+        public async Task AddTodoItemToCategory(string categoryId, string todoItemId)
+        {
+            var category = await _categories.Find(c => c.Id == categoryId).FirstOrDefaultAsync();
+            var todoItem = await _todos.Find(t => t.Id == todoItemId).FirstOrDefaultAsync();
+            if (category != null && todoItem != null)
+            {
+                category.TodoItems.Add(todoItem);
+                var updateDefinition = Builders<CategoryItemModel>.Update.Set(c => c.TodoItems, category.TodoItems);
+                await _categories.UpdateOneAsync(c => c.Id == categoryId, updateDefinition);
+            }
+        }
+
+        public async Task UpdateTodoItemInCategory(string categoryId, string todoItemId, UpdateDefinition<TodoItemModel> updateDefinition)
+        {
+            var category = await _categories.Find(c => c.Id == categoryId).FirstOrDefaultAsync();
+            if (category != null)
+            {
+                var todoItemIndex = category.TodoItems.FindIndex(t => t.Id == todoItemId);
+                if (todoItemIndex != -1)
+                {
+                    // Assuming that the updated TodoItemModel has already been saved in the _todos collection
+                    var updatedTodo = await _todos.Find(t => t.Id == todoItemId).FirstOrDefaultAsync();
+
+                    // Replace the old item with the updated one
+                    category.TodoItems[todoItemIndex] = updatedTodo;
+
+                    var categoryUpdateDefinition = Builders<CategoryItemModel>.Update.Set(c => c.TodoItems, category.TodoItems);
+                    await _categories.UpdateOneAsync(c => c.Id == categoryId, categoryUpdateDefinition);
+                }
+            }
+        }
+
+
     }
 }

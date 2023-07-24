@@ -76,7 +76,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdateTodo")]
-        public IActionResult UpdateTodo(string id, [FromBody] TodoItemModel updateTodo)
+        public async Task<IActionResult> UpdateTodo(string id, [FromBody] TodoItemModel updateTodo)
         {
             var todoExist = _todoService.GetTodo(id);
             if (todoExist == null)
@@ -89,15 +89,39 @@ namespace TodoApi.Controllers
                 .Set(todo => todo.Description, updateTodo.Description)
                 .Set(todo => todo.StartDate, updateTodo.StartDate)
                 .Set(todo => todo.EndDate, updateTodo.EndDate)
-                .Set(todo => todo.Completed, updateTodo.Completed);
+                .Set(todo => todo.Completed, updateTodo.Completed)
+                .Set(todo => todo.CategoryId, updateTodo.CategoryId);
+
+            // Check if CategoryId has changed
+            if (todoExist.CategoryId != updateTodo.CategoryId)
+            {
+                // Remove todo from old category
+                if (!string.IsNullOrEmpty(todoExist.CategoryId))
+                {
+                    await _categoryService.RemoveTodoItemFromCategory(todoExist.CategoryId, id);
+                }
+
+                // Add todo to new category
+                if (!string.IsNullOrEmpty(updateTodo.CategoryId))
+                {
+                    await _categoryService.AddTodoItemToCategory(updateTodo.CategoryId, id);
+                }
+            }
+            else
+            {
+                // If CategoryId did not change, update TodoItem in the existing Category
+                if (!string.IsNullOrEmpty(todoExist.CategoryId))
+                {
+                    await _categoryService.UpdateTodoItemInCategory(todoExist.CategoryId, id, updateDefinition);
+                }
+            }
 
             _todoService.UpdateTodo(id, updateDefinition);
-
-            // Update the corresponding TodoItem in the Category
+            // If the todo is associated with a category, also update the todo in the category
             string categoryId = todoExist.CategoryId ?? string.Empty;
             if (!string.IsNullOrEmpty(categoryId))
             {
-                _todoService.UpdateTodoFromCategory(categoryId, id, updateDefinition);
+                await _categoryService.UpdateTodoItemInCategory(categoryId, id, updateDefinition);
             }
 
             var updatedTodo = _todoService.GetTodo(id);
@@ -120,7 +144,7 @@ namespace TodoApi.Controllers
             string categoryId = todoExist.CategoryId ?? string.Empty;
             if (!string.IsNullOrEmpty(categoryId))
             {
-                _todoService.RemoveTodoFromCategory(categoryId, id);
+                _categoryService.RemoveTodoItemFromCategory(categoryId, id);
             }
 
             return NoContent();
