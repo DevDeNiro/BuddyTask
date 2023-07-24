@@ -142,7 +142,7 @@ export default {
 
     const onDragEnd = (event) => {
       const taskId = event.item.dataset.taskId;
-      const {from, to, oldIndex, newIndex} = event;
+      const {from, to, oldDraggableIndex, newDraggableIndex} = event;
 
       const newCategoryId = event.to.parentElement.dataset.categoryId;
 
@@ -157,19 +157,25 @@ export default {
         // Move task to another position in the same category
         const updatedTasks = [...props.tasks];
 
-        const movedTask = updatedTasks.splice(oldIndex, 1)[0];
-        updatedTasks.splice(newIndex, 0, movedTask);
+        const movedTask = updatedTasks.splice(oldDraggableIndex, 1)[0];
+        updatedTasks.splice(newDraggableIndex, 0, movedTask);
 
         // Update task completed status
         if (to.className === "completeTasks") {
-          updatedTasks[newIndex].completed = true;
+          updatedTasks[newDraggableIndex].completed = true;
         } else if (to.className === "incompleteTasks") {
-          updatedTasks[newIndex].completed = false;
+          updatedTasks[newDraggableIndex].completed = false;
         }
 
-        updatedTasks[newIndex].categoryId = props.categoryId;
+        if (to.className === "incompleteTasks") {
+          updatedTasks[newDraggableIndex].completed = false;
+        } else if (to.className === " completeTasks") {
+          updatedTasks[newDraggableIndex].completed = true;
+        }
 
-        store.dispatch("updateTask", updatedTasks[newIndex]);
+        updatedTasks[newDraggableIndex].categoryId = props.categoryId;
+
+        store.dispatch("updateTask", updatedTasks[newDraggableIndex]);
 
         localTasks.value.splice(0, localTasks.value.length, ...updatedTasks);
       }

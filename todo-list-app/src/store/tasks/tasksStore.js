@@ -5,15 +5,11 @@ const state = {
 };
 
 const mutations = {
-  ADD_TODO(state, task) {
-    state.tasks.push(task);
-  },
-
-  DELETE_TODO(state, taskId) {
+  DELETE_TASK(state, taskId) {
     state.tasks = state.tasks.filter((task) => task.id !== taskId);
   },
 
-  UPDATE_TODO(state, updatedData) {
+  UPDATE_TASK(state, updatedData) {
     state.tasks = state.tasks.map((item) =>
       item.id === updatedData.id ? {...item, ...updatedData} : item
     );
@@ -37,18 +33,17 @@ const actions = {
           {categoryId: task.categoryId, task: response.data},
           {root: true}
         );
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   },
 
-  deleteTask({commit, dispatch}, task) {
+  deleteTask({commit}, task) {
     apiClient
       .delete("/tasks", {params: {id: task}})
       .then((response) => {
-        commit("DELETE_TODO", response.data);
+        commit("DELETE_TASK", response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -63,16 +58,13 @@ const actions = {
       );
 
       if (response.data) {
-        commit("UPDATE_TODO", response.data);
-        alert("OK");
+        commit("UPDATE_TASK", response.data);
         console.log("Task updated successfully.");
       } else {
-        console.error(
-          "La réponse du serveur ne contient pas 'updatedTodoItem'."
-        );
+        console.error("Error during update :" + response.data);
       }
     } catch (error) {
-      console.error("Erreur lors de la mise à jour de la tâche :", error);
+      console.error("Error during update :", error);
     }
   },
 
@@ -84,29 +76,21 @@ const actions = {
       if (response.data) {
         commit("UPDATE_TASK_CATEGORY", {taskId, newCategoryId});
       } else {
-        console.error("La réponse du serveur ne contient pas 'updatedTask'.");
+        console.error("Error during update :" + response.data);
       }
     } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour de la catégorie de la tâche :",
-        error
-      );
+      console.error("Error :", error);
     }
   },
 };
 
-// const getters = {
-//   tasks: (state) => state.tasks,
-// };
+const getters = {
+  tasks: (state) => state.tasks,
+};
 
 export default {
   state,
   mutations,
   actions,
-  getters: {
-    tasks: (state) => {
-      console.log("state.tasks", state.tasks);
-      return state.tasks;
-    },
-  },
+  getters,
 };

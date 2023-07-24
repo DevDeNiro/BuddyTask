@@ -41,9 +41,6 @@ const mutations = {
     const oldCategory = state.categories.find((c) => c.id === oldCategoryId);
     const newCategory = state.categories.find((c) => c.id === newCategoryId);
 
-    console.log("oldCategory", oldCategory);
-    console.log("newCategory", newCategory);
-
     if (!oldCategory || !newCategory) {
       console.error("An error occurred while moving the task");
       return;
@@ -52,16 +49,12 @@ const mutations = {
     const taskIndex = oldCategory.todoItems.findIndex((t) => t.id === taskId);
     const task = oldCategory.todoItems[taskIndex];
 
-    console.log("taskIndex", taskIndex);
-    console.log("task", task);
-
     if (task) {
       oldCategory.todoItems.splice(taskIndex, 1);
       newCategory.todoItems.push(task);
     } else {
       console.error("An error occurred while moving the task");
     }
-
     // Triggered the update of the categories
     state.categories = [...state.categories];
   },
@@ -78,7 +71,6 @@ const actions = {
   },
 
   createCategory({commit}, category) {
-    console.log(category);
     apiClient
       .post("/categories", category)
       .then((response) => {
@@ -90,16 +82,14 @@ const actions = {
   },
 
   updateCategory({commit, dispatch}, updatedCategory) {
-    console.log("Updated Category from store: ", updatedCategory);
     apiClient
       .put(`/categories/${updatedCategory.id}`, updatedCategory, {})
       .then((response) => {
-        console.log("API response:", response);
         commit("UPDATE_CATEGORY", response.data);
         dispatch("fetchCategories");
       })
       .catch((error) => {
-        console.log("Erreur lors de la mise à jour de la catégorie :", error);
+        console.log("Error during category update :", error);
       });
   },
 
@@ -114,39 +104,30 @@ const actions = {
       });
   },
 
-  async moveTask({commit, dispatch, rootGetters, rootState}, payload) {
-    // console.log("payload", payload);
-    const {taskId, newCategoryId} = payload;
+  async moveTask({commit, dispatch}, payload) {
+    const {taskId, oldCategoryId, newCategoryId} = payload;
 
-    const tasks = rootGetters["tasks/tasks"];
-    console.log("Tasks from rootGetters:", tasks);
+    // Find the category in the store
+    const oldCategory = state.categories.find((c) => c.id === oldCategoryId);
+    const newCategory = state.categories.find((c) => c.id === newCategoryId);
 
-    const tasksState = rootState.tasks.tasks;
-    console.log("Tasks from rootState:", tasksState);
+    if (!oldCategory || !newCategory) {
+      console.error("An error occurred while moving the task");
+      return;
+    }
 
-    // Find the task in the store
-    // const task = tasks.find((task) => task.id === payload.taskId);
+    // Find the task in the old category
+    const task = oldCategory.todoItems.find((t) => t.id === taskId);
 
-    // If the task is found
-    // if (task) {
-    //   console.log("Task found in the store:", task);
-
-    //   commit("MOVE_TASK", payload);
-
-    //   // Update the task using the API
-    //   await dispatch("tasks/updateTask", task, {root: true});
-
-    //   // Also update the task category
-    //   await dispatch(
-    //     "tasks/updateTaskCategory",
-    //     {taskId: task.id, newCategoryId},
-    //     {root: true}
-    //   );
-
-    //   console.log("Task updated successfully.");
-    // } else {
-    //   console.error("Task not found in the store.");
-    // }
+    if (task) {
+      commit("MOVE_TASK", payload);
+      // Update the task category in the task object
+      task.categoryId = newCategoryId;
+      // Use the tasks/updateTask action to update the task in the database
+      await dispatch("updateTask", task, {root: true});
+    } else {
+      console.error("Task not found in the store.");
+    }
   },
 };
 
