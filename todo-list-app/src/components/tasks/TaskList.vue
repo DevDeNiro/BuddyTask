@@ -135,17 +135,15 @@ export default {
       console.log(task);
     };
 
+    let oldCategoryId;
     const onDragStart = (event) => {
       oldCategoryId = event.from.parentElement.dataset.categoryId;
     };
 
     const onDragEnd = (event) => {
-      console.log("event", event);
-
       const taskId = event.item.dataset.taskId;
       const {from, to, oldIndex, newIndex} = event;
 
-      const oldCategoryId = event.from.parentElement.dataset.categoryId;
       const newCategoryId = event.to.parentElement.dataset.categoryId;
 
       console.log(
@@ -153,16 +151,16 @@ export default {
       );
 
       if (oldCategoryId !== newCategoryId) {
-        // L'élément est déplacé dans une nouvelle catégorie
+        // Move task to another category
         store.dispatch("moveTask", {taskId, oldCategoryId, newCategoryId});
       } else {
-        // L'élément est déplacé au sein de la même catégorie
+        // Move task to another position in the same category
         const updatedTasks = [...props.tasks];
 
         const movedTask = updatedTasks.splice(oldIndex, 1)[0];
         updatedTasks.splice(newIndex, 0, movedTask);
 
-        // Mise a jour de l'état de la tâche et de sa catégorie
+        // Update task completed status
         if (to.className === "completeTasks") {
           updatedTasks[newIndex].completed = true;
         } else if (to.className === "incompleteTasks") {

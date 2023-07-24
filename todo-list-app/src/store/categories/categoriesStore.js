@@ -16,7 +16,7 @@ const mutations = {
   ADD_TASK_TO_CATEGORY(state, {categoryId, task}) {
     const category = state.categories.find((cat) => cat.id === categoryId);
     if (category.todoItems) {
-      category.todoItems.push(task);
+      category.todoItems = [...category.todoItems, task];
     } else {
       alert("Cannot get todoItems from category");
     }
@@ -106,7 +106,7 @@ const actions = {
   deleteCategory({commit}, id) {
     apiClient
       .delete(`/categories/${id}`)
-      .then((response) => {
+      .then(() => {
         commit("DELETE_CATEGORY", id);
       })
       .catch((error) => {
@@ -114,9 +114,39 @@ const actions = {
       });
   },
 
-  moveTask({commit}, payload) {
-    console.log("payload", payload);
-    commit("MOVE_TASK", payload);
+  async moveTask({commit, dispatch, rootGetters, rootState}, payload) {
+    // console.log("payload", payload);
+    const {taskId, newCategoryId} = payload;
+
+    const tasks = rootGetters["tasks/tasks"];
+    console.log("Tasks from rootGetters:", tasks);
+
+    const tasksState = rootState.tasks.tasks;
+    console.log("Tasks from rootState:", tasksState);
+
+    // Find the task in the store
+    // const task = tasks.find((task) => task.id === payload.taskId);
+
+    // If the task is found
+    // if (task) {
+    //   console.log("Task found in the store:", task);
+
+    //   commit("MOVE_TASK", payload);
+
+    //   // Update the task using the API
+    //   await dispatch("tasks/updateTask", task, {root: true});
+
+    //   // Also update the task category
+    //   await dispatch(
+    //     "tasks/updateTaskCategory",
+    //     {taskId: task.id, newCategoryId},
+    //     {root: true}
+    //   );
+
+    //   console.log("Task updated successfully.");
+    // } else {
+    //   console.error("Task not found in the store.");
+    // }
   },
 };
 

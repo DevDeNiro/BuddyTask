@@ -18,6 +18,13 @@ const mutations = {
       item.id === updatedData.id ? {...item, ...updatedData} : item
     );
   },
+
+  UPDATE_TASK_CATEGORY(state, {taskId, newCategoryId}) {
+    const taskToUpdate = state.tasks.find((t) => t.id === taskId);
+    if (taskToUpdate) {
+      taskToUpdate.categoryId = newCategoryId;
+    }
+  },
 };
 
 const actions = {
@@ -52,13 +59,13 @@ const actions = {
     try {
       const response = await apiClient.put(
         `/tasks/${updatedTask.id}`,
-        updatedTask,
-        {}
+        updatedTask
       );
-      console.log(response);
+
       if (response.data) {
-        alert("OK");
         commit("UPDATE_TODO", response.data);
+        alert("OK");
+        console.log("Task updated successfully.");
       } else {
         console.error(
           "La réponse du serveur ne contient pas 'updatedTodoItem'."
@@ -68,15 +75,38 @@ const actions = {
       console.error("Erreur lors de la mise à jour de la tâche :", error);
     }
   },
+
+  async updateTaskCategory({commit}, {taskId, newCategoryId}) {
+    try {
+      const response = await apiClient.put(`/tasks/${taskId}`, {
+        categoryId: newCategoryId,
+      });
+      if (response.data) {
+        commit("UPDATE_TASK_CATEGORY", {taskId, newCategoryId});
+      } else {
+        console.error("La réponse du serveur ne contient pas 'updatedTask'.");
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la mise à jour de la catégorie de la tâche :",
+        error
+      );
+    }
+  },
 };
 
-const getters = {
-  tasks: (state) => state.tasks,
-};
+// const getters = {
+//   tasks: (state) => state.tasks,
+// };
 
 export default {
   state,
   mutations,
   actions,
-  getters,
+  getters: {
+    tasks: (state) => {
+      console.log("state.tasks", state.tasks);
+      return state.tasks;
+    },
+  },
 };
