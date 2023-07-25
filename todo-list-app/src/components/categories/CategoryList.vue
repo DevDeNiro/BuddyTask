@@ -56,7 +56,11 @@
           <hr class="border-b my-4" />
 
           <div class="flex items-center justify-between categoryCompleted">
-            <span class="text-sm">Completed: 1/3</span>
+            <span class="text-sm"
+              >Completed: {{ completedTasksCount(category) }}/{{
+                category.todoItems.length
+              }}</span
+            >
             <button @click="toggleTaskForm(index)" class="button">add</button>
           </div>
         </div>
@@ -108,6 +112,10 @@ export default {
         }
       }
     });
+
+    const completedTasksCount = (category) => {
+      return category.todoItems.filter((task) => task.completed).length;
+    };
 
     const categories = computed(() => store.getters.categories);
     const isEmptyCategory = computed(
@@ -164,6 +172,7 @@ export default {
       selectedCategory,
       isEmptyCategory,
       hasError,
+      completedTasksCount,
     };
   },
 };
