@@ -151,8 +151,19 @@ export default {
       );
 
       if (oldCategoryId !== newCategoryId) {
+        let completed;
+        if (to.className === "completeTasks") {
+          completed = true;
+        } else if (to.className === "incompleteTasks") {
+          completed = false;
+        }
         // Move task to another category
-        store.dispatch("moveTask", {taskId, oldCategoryId, newCategoryId});
+        store.dispatch("moveTask", {
+          taskId,
+          oldCategoryId,
+          newCategoryId,
+          completed,
+        });
       } else {
         // Move task to another position in the same category
         const updatedTasks = [...props.tasks];
@@ -165,12 +176,6 @@ export default {
           updatedTasks[newDraggableIndex].completed = true;
         } else if (to.className === "incompleteTasks") {
           updatedTasks[newDraggableIndex].completed = false;
-        }
-
-        if (to.className === "incompleteTasks") {
-          updatedTasks[newDraggableIndex].completed = false;
-        } else if (to.className === " completeTasks") {
-          updatedTasks[newDraggableIndex].completed = true;
         }
 
         updatedTasks[newDraggableIndex].categoryId = props.categoryId;

@@ -105,7 +105,7 @@ const actions = {
   },
 
   async moveTask({commit, dispatch}, payload) {
-    const {taskId, oldCategoryId, newCategoryId} = payload;
+    const {taskId, oldCategoryId, newCategoryId, completed} = payload;
 
     // Find the category in the store
     const oldCategory = state.categories.find((c) => c.id === oldCategoryId);
@@ -123,6 +123,8 @@ const actions = {
       commit("MOVE_TASK", payload);
       // Update the task category in the task object
       task.categoryId = newCategoryId;
+      // Update the task completed status in the task object
+      task.completed = completed;
       // Use the tasks/updateTask action to update the task in the database
       await dispatch("updateTask", task, {root: true});
     } else {
