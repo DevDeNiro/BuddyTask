@@ -55,13 +55,37 @@
         <div class="categoryBottom bg-gray">
           <hr class="border-b my-4" />
 
-          <div class="flex items-center justify-between categoryCompleted">
-            <span class="text-sm"
-              >Completed: {{ completedTasksCount(category) }}/{{
-                category.todoItems.length
-              }}</span
-            >
-            <button @click="toggleTaskForm(index)" class="button">add</button>
+          <div class="flex justify-between">
+            <div class="completedTask">
+              <div class="flex items-center categoryCompleted">
+                <span class="text-sm font-bold">
+                  Completed:
+                  <span class="text-orange">
+                    {{ completedTasksCount(category) }}/{{
+                      category.todoItems.length
+                    }}
+                  </span>
+                </span>
+              </div>
+              <div class="progress">
+                <div
+                  class="progress-bar bg-purple-600"
+                  :style="{
+                    width:
+                      category.todoItems.length > 0
+                        ? (completedTasksCount(category) /
+                            category.todoItems.length) *
+                            100 +
+                          '%'
+                        : '0%',
+                  }"
+                ></div>
+              </div>
+            </div>
+
+            <button @click="toggleTaskForm(index)" class="button">
+              Add task
+            </button>
           </div>
         </div>
       </div>
@@ -178,7 +202,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .categorieTask {
   height: 100vh;
   display: flex;
@@ -197,6 +221,28 @@ export default {
   position: relative;
   width: 100%;
   padding: 10px 0;
-  margin-bottom: 20px;
+}
+
+.progress {
+  width: 100%;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: orange;
+  transition: width 0.5s ease-in-out;
+}
+
+.text-orange {
+  color: orange;
+  gap: 5px;
+}
+
+.completedTask {
+  width: -webkit-fill-available;
+  width: 9rem;
 }
 </style>
