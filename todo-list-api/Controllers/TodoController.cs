@@ -92,6 +92,8 @@ namespace TodoApi.Controllers
                 .Set(todo => todo.Completed, updateTodo.Completed)
                 .Set(todo => todo.CategoryId, updateTodo.CategoryId);
 
+            _todoService.UpdateTodo(id, updateDefinition);
+
             // Check if CategoryId has changed
             if (todoExist.CategoryId != updateTodo.CategoryId)
             {
@@ -104,7 +106,10 @@ namespace TodoApi.Controllers
                 // Add todo to new category
                 if (!string.IsNullOrEmpty(updateTodo.CategoryId))
                 {
+
                     await _categoryService.AddTodoItemToCategory(updateTodo.CategoryId, id);
+                    await _categoryService.UpdateTodoItemInCategory(updateTodo.CategoryId, id, updateDefinition);
+
                 }
             }
             else
