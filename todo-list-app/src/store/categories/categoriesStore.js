@@ -65,6 +65,7 @@ const actions = {
     try {
       const response = await apiClient.get("/categories");
       commit("GET_CATEGORIES", response.data);
+      console.log("Categories fetched from API.", response.data);
     } catch (error) {
       throw new Error("An error occurred while fetching data from API.");
     }

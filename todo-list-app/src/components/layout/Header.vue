@@ -6,7 +6,7 @@
       <span class="text-gray-400 text-grayUnselected">Nov 13</span>
       <div class="border-l h-5 mx-4"></div>
       <span class="material-symbols-outlined text-center text-purple text-4xl">
-        more_horiz
+        idk
       </span>
     </div>
     <div class="flex items-center space-x-3 text-lg">

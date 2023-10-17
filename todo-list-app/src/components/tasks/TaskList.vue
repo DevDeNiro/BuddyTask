@@ -14,7 +14,7 @@
     >
       <template #item="{element}">
         <div
-          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
+          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
           @click="handleCardClick(element)"
           :data-task-id="element.id"
         >
@@ -23,8 +23,10 @@
 
             <div class="flex items-center">
               <div class="flex items-center">
-                <div class="h-7 w-1 bg-blue-600 mr-2"></div>
-                <span class="material-icons text-xl px-2 pb-4">check</span>
+                <div class="h-7 w-1 sideColor mr-2"></div>
+                <span class="customColorIcon material-icons text-xl px-2"
+                  >check</span
+                >
               </div>
               <div class="flex flex-col ml-2">
                 <div>
@@ -69,8 +71,10 @@
 
             <div class="flex items-center">
               <div class="flex items-center">
-                <div class="h-7 w-1 bg-blue-600 mr-2"></div>
-                <span class="material-icons text-xl px-2 pb-4">check</span>
+                <div class="h-7 w-1 sideColor mr-2"></div>
+                <span class="customColorIcon material-icons text-xl px-2"
+                  >check</span
+                >
               </div>
               <div class="flex flex-col ml-2">
                 <div>
@@ -187,15 +191,27 @@ export default {
     };
 
     return {
-      formatDate,
       filterTasks,
       localTasks,
-      handleCardClick,
+      formatDate,
       onDragStart,
       onDragEnd,
+      handleCardClick,
     };
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.sideColor {
+  background: blanchedalmond;
+  height: 70px;
+}
+
+.customColorIcon {
+  background: antiquewhite;
+  border-radius: 50%;
+  padding: 8px;
+  margin: 0px 10px 25px 10px;
+}
+</style>

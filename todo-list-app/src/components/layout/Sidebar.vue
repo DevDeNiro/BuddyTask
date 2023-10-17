@@ -6,24 +6,25 @@
 </style>
 
 <template>
-  <div
-    class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white"
-  >
+  <div class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white">
     <div class="top-icon">
       <img
-        class="bg-cover bg-center"
-        src="../../assets/images/logo.png"
-        alt="logo"
+          class="bg-cover bg-center"
+          src="../../assets/images/logo.png"
+          alt="logo"
       />
     </div>
 
     <div class="buttons text-center">
-      <button class="text-indigo-900 py-2 px-2 rounded-full">
+      <router-link to="/" class="text-indigo-900 py-2 px-2 rounded-full">
+        <span class="w-7 material-symbols-outlined"> home </span>
+      </router-link>
+      <router-link
+          to="/calendar"
+          class="text-indigo-900 py-2 px-2 rounded-full"
+      >
         <span class="w-7 material-symbols-outlined"> calendar_today </span>
-      </button>
-      <button class="text-indigo-900 py-2 px-2 rounded-full">
-        <span class="w-7 material-symbols-outlined"> event_list </span>
-      </button>
+      </router-link>
       <button class="text-indigo-900 py-2 px-2 rounded-full">
         <span class="material-symbols-outlined"> monitoring </span>
       </button>
@@ -47,6 +48,7 @@ import {ref, onMounted, computed} from "vue";
 export default {
   setup() {
     const now = ref(new Date());
+
     function updateDateTime() {
       now.value = new Date();
       setTimeout(updateDateTime, 60000);

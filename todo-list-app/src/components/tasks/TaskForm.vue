@@ -4,13 +4,13 @@
       <div v-for="(field, index) in fields" :key="index">
         <label :for="field.name" class="block">{{ field.label }}</label>
         <input
-          :id="field.name"
-          :name="field.name"
-          :type="field.type"
-          :placeholder="field.placeholder"
-          class="border rounded p-1 w-full"
-          v-model="formData[field.name]"
-          required
+            :id="field.name"
+            :name="field.name"
+            :type="field.type"
+            :placeholder="field.placeholder"
+            class="border rounded p-1 w-full"
+            v-model="formData[field.name]"
+            required
         />
       </div>
       <button @click.prevent="submitForm">Submit</button>
@@ -31,7 +31,7 @@ export default {
     },
   },
   components: {
-    Popup,
+    Popup
   },
 
   setup(props) {
@@ -72,11 +72,12 @@ export default {
       formData.value.categoryId = props.category.id;
 
       store
-        .dispatch("addTask", formData.value)
-        .then(() => {})
-        .finally(() => {
-          store.dispatch("hidePopup");
-        });
+          .dispatch("addTask", formData.value)
+          .then(() => {
+          })
+          .finally(() => {
+            store.dispatch("hidePopup");
+          });
     };
 
     return {

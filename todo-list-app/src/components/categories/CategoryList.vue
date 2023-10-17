@@ -1,10 +1,10 @@
 <template>
   <div v-if="loading" class="loading flex align-center justify-center">
     <pixel-spinner
-      :animation-duration="2000"
-      :pixel-size="70"
-      color="#856AFF"
-      :loading="loading"
+        :animation-duration="2000"
+        :pixel-size="70"
+        color="#856AFF"
+        :loading="loading"
     />
   </div>
   <div v-if="hasError" class="error-message">
@@ -18,42 +18,42 @@
     </div>
     <div v-else class="grid grid-cols-3 h-screen bg-gray gap-4 px-10">
       <div
-        v-for="(category, index) in categories"
-        :key="category.id"
-        class="section w-10/12 relative h-full scrollbar-hide"
+          v-for="(category, index) in categories"
+          :key="category.id"
+          class="section w-10/12 relative h-full scrollbar-hide"
       >
         <h2
-          class="flex justify-between sticky top-0 text-xl font-bold -mb-6 mx-0 pb-2 bg-gray z-50"
+            class="flex justify-between sticky top-0 text-xl font-bold -mb-6 mx-0 pb-2 bg-gray z-50"
         >
           <span
-            v-if="editingCategoryId !== category.id"
-            class="bg-blue-600 rounded-full"
-            @dblclick="startEditingCategory(category.id)"
+              v-if="editingCategoryId !== category.id"
+              class="bg-blue-600 rounded-full"
+              @dblclick="startEditingCategory(category.id)"
           >
             {{ category.name }}
           </span>
           <input
-            v-else
-            type="text"
-            v-model="editingCategoryName"
-            @change="updateCategory(category)"
-            class="bg-blue-600 rounded-full h-4 mr-2"
+              v-else
+              type="text"
+              v-model="editingCategoryName"
+              @change="updateCategory(category)"
+              class="bg-blue-600 rounded-full h-4 mr-2"
           />
 
           <div class="flex">
             <button
-              @click="deleteCategory(category.id)"
-              class="material-symbols-outlined mx-2"
+                @click="deleteCategory(category.id)"
+                class="material-symbols-outlined mx-2"
             >
               cancel
             </button>
           </div>
         </h2>
 
-        <TaskList :tasks="category.todoItems" :categoryId="category.id" />
+        <TaskList :tasks="category.todoItems" :categoryId="category.id"/>
 
         <div class="categoryBottom bg-gray">
-          <hr class="border-b my-4" />
+          <hr class="border-b my-4"/>
 
           <div class="flex justify-between">
             <div class="completedTask">
@@ -69,8 +69,8 @@
               </div>
               <div class="progress">
                 <div
-                  class="progress-bar bg-purple-600"
-                  :style="{
+                    class="progress-bar bg-purple-600"
+                    :style="{
                     width:
                       category.todoItems.length > 0
                         ? (completedTasksCount(category) /
@@ -84,13 +84,13 @@
             </div>
 
             <button @click="toggleTaskForm(index)" class="button">
-              Add task
+              <span class="material-symbols-outlined"> Add task </span>
             </button>
           </div>
         </div>
       </div>
       <div v-if="selectedCategory" :type="'info'">
-        <TaskForm :category="selectedCategory" />
+        <TaskForm :category="selectedCategory"/>
       </div>
     </div>
   </div>
@@ -143,7 +143,7 @@ export default {
 
     const categories = computed(() => store.getters.categories);
     const isEmptyCategory = computed(
-      () => store.getters.categories.length === 0
+        () => store.getters.categories.length === 0
     );
 
     const startEditingCategory = (id) => {
@@ -184,18 +184,18 @@ export default {
     };
 
     return {
-      categories,
       loading,
+      categories,
+      selectedCategoryIndex,
+      selectedCategory,
       editingCategoryId,
       editingCategoryName,
+      isEmptyCategory,
+      hasError,
       startEditingCategory,
       deleteCategory,
       updateCategory,
       toggleTaskForm,
-      selectedCategoryIndex,
-      selectedCategory,
-      isEmptyCategory,
-      hasError,
       completedTasksCount,
     };
   },

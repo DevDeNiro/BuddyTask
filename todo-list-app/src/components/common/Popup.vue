@@ -1,16 +1,16 @@
 <template>
   <transition name="fade">
     <div
-      v-if="popup.isVisible"
-      class="fixed inset-0 z-50 flex items-center justify-center"
+        v-if="popup.isVisible"
+        class="fixed inset-0 z-50 flex items-center justify-center"
     >
       <div class="bg-white rounded shadow-lg p-6 w-full max-w-sm">
         <p class="text-gray-800" :class="typeClass">{{ message }}</p>
         <!--Dynamic field for props-->
         <slot></slot>
         <button
-          @click="closePopup"
-          class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            @click="closePopup"
+            class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Close
         </button>
@@ -62,6 +62,7 @@ export default {
 .fade-leave-active {
   transition: opacity 0.3s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
