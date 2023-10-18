@@ -15,8 +15,8 @@
       <template #item="{element}">
         <div
           class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
-          @click="handleCardClick(element)"
           :data-task-id="element.id"
+          @click="showSelectedTask(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -63,8 +63,8 @@
       <template #item="{element}">
         <div
           class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
-          @click="handleCardClick(element)"
           :data-task-id="element.id"
+          @click="showSelectedTask(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -135,10 +135,6 @@ export default {
       };
     });
 
-    const handleCardClick = (task) => {
-      console.log(task);
-    };
-
     let oldCategoryId;
     const onDragStart = (event) => {
       oldCategoryId = event.from.parentElement.dataset.categoryId;
@@ -190,13 +186,26 @@ export default {
       }
     };
 
+    const selectedTask = ref({});
+
+    const showSelectedTask = (task) => {
+      selectedTask.value = task;
+      console.log("selectedTask: ", selectedTask.value);
+      store.dispatch("showPopup", {
+        message: "Task Detail",
+        type: "info",
+        taskDetail: task,
+      });
+    };
+
     return {
       filterTasks,
       localTasks,
+      selectedTask,
       formatDate,
-      onDragStart,
       onDragEnd,
-      handleCardClick,
+      onDragStart,
+      showSelectedTask,
     };
   },
 };

@@ -18,7 +18,9 @@
             </div>
 
             <!-- Right: Actions -->
-            <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+            <div
+              class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"
+            >
               <!-- Previous month button -->
               <button
                 class="btn px-2.5 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300 disabled:border-slate-200 dark:disabled:border-slate-700 disabled:bg-slate-100 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 disabled:cursor-not-allowed"
@@ -312,6 +314,7 @@ export default {
       "November",
       "December",
     ];
+
     const dayNames = [
       "Sunday",
       "Monday",
@@ -415,8 +418,8 @@ export default {
 .borderStyle {
   border: outset;
 }
-    
-    .insetBorder {
-      border: inset;
-    }
+
+.insetBorder {
+  border: inset;
+}
 </style>

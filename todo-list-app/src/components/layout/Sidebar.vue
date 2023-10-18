@@ -1,17 +1,12 @@
-<style scoped>
-.img {
-  height: 95%;
-  width: 102%;
-}
-</style>
-
 <template>
-  <div class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white">
+  <div
+    class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white"
+  >
     <div class="top-icon">
       <img
-          class="bg-cover bg-center"
-          src="../../assets/images/logo.png"
-          alt="logo"
+        class="bg-cover bg-center"
+        src="@/assets/images/logo.png"
+        alt="logo"
       />
     </div>
 
@@ -20,8 +15,8 @@
         <span class="w-7 material-symbols-outlined"> home </span>
       </router-link>
       <router-link
-          to="/calendar"
-          class="text-indigo-900 py-2 px-2 rounded-full"
+        to="/calendar"
+        class="text-indigo-900 py-2 px-2 rounded-full"
       >
         <span class="w-7 material-symbols-outlined"> calendar_today </span>
       </router-link>
@@ -99,3 +94,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.img {
+  height: 95%;
+  width: 102%;
+}
+</style>
