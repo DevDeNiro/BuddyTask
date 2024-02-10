@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import CategoryList from "@/components/categories/CategoryList.vue";
-import Sidebar from "@/components/layout/Sidebar.vue";
-import Header from "@/components/layout/Header.vue";
+import CategoryList from "@/features/categories/CategoryList.vue";
+import Sidebar from "@/layout/Sidebar.vue";
+import Header from "@/layout/Header.vue";
 
 export default {
   components: {

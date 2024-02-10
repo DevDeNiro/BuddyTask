@@ -12,7 +12,7 @@
 <script>
 import {ref, computed} from "vue";
 import {useStore} from "vuex";
-import Popup from "../common/Popup.vue";
+import Popup from "../../common/components/Popup.vue";
 
 export default {
   name: "TaskDetail",

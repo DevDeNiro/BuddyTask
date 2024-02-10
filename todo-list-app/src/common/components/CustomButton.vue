@@ -1,5 +1,3 @@
-<style></style>
-
 <template>
   <button
       class="inline-flex items-center justify-center w-10 h-10 mr-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800"

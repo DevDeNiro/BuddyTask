@@ -5,7 +5,7 @@
     <div class="top-icon">
       <img
         class="bg-cover bg-center"
-        src="@/assets/images/logo.png"
+        src="../assets/images/logo.png"
         alt="logo"
       />
     </div>

@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import Home from "../views/Home.vue";
-import Calendar from "../views/Calendar.vue";
+import Home from "../features/views/Home.vue";
+import Calendar from "../features/views/Calendar.vue";
 
 const routes = [
   {

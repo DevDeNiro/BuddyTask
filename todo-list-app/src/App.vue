@@ -8,7 +8,13 @@
 </template>
 
 <script>
-import Home from "./views/Home.vue";
+import {defineComponent} from "vue";
+import Home from "@/features/views/Home.vue";
+
+export default defineComponent({
+  components: {Home}
+})
+
 </script>
 
 <style>

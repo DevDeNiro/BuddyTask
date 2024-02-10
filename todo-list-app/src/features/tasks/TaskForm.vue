@@ -20,7 +20,7 @@
 
 <script>
 import {ref, computed} from "vue";
-import Popup from "../common/Popup.vue";
+import Popup from "../../common/components/Popup.vue";
 import {useStore} from "vuex";
 
 export default {
