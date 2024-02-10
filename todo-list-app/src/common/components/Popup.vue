@@ -1,10 +1,13 @@
 <template>
-  <transition name="fade">
+  <Transition>
     <div
         v-if="popup.isVisible"
-        class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+        class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm transition-all duration-300"
+        @click.self="closePopup"
     >
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm"
+           @click.stop="noop"
+      >
         <div class="flex justify-between items-start pb-3">
           <p class="text-gray-800" :class="typeClass">{{ message }}</p>
           <button @click="closePopup">
@@ -15,7 +18,7 @@
         <slot></slot>
       </div>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <script>
@@ -35,23 +38,38 @@ export default {
       store.dispatch("hidePopup");
     };
 
+    const noop = (e) => {
+      e.stopPropagation();
+    };
+
     return {
       popup,
       message,
       closePopup,
+      noop,
     };
   },
 };
 </script>
 
 <style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
+.v-enter-from {
+  opacity: 0;
+  translate: -100px 0;
 }
 
-.fade-enter,
-.fade-leave-to {
+.v-enter-to {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.v-leave-from {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.v-leave-to {
   opacity: 0;
+  translate: 100px 0;
 }
 </style>
