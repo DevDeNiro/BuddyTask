@@ -67,20 +67,10 @@
                   </span>
                 </span>
               </div>
-              <div class="progress">
-                <div
-                    class="progress-bar bg-purple-600"
-                    :style="{
-                    width:
-                      category.todoItems.length > 0
-                        ? (completedTasksCount(category) /
-                            category.todoItems.length) *
-                            100 +
-                          '%'
-                        : '0%',
-                  }"
-                ></div>
-              </div>
+              <ProgressBar
+                  :completed="completedTasksCount(category)"
+                  :total="category.todoItems.length"
+              />
             </div>
 
             <button @click="toggleTaskForm(index)" class="button">
@@ -89,7 +79,7 @@
           </div>
         </div>
       </div>
-      <div v-if="selectedCategory" :type="'info'">
+      <div v-if="selectedCategory">
         <TaskForm :category="selectedCategory"/>
       </div>
     </div>
@@ -97,30 +87,46 @@
 </template>
 
 <script>
-import {PixelSpinner} from "epic-spinners";
+// Internal imports
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
-
-import {computed, onMounted, ref} from "vue";
+import {useLoading} from "@/common/utils/useLoading.js";
+import {useCategories} from "@/features/categories/useCategories.js";
+import ProgressBar from "@/features/categories/components/ProgressBar.vue";
+import {useToggleTaskForm} from "@/features/categories/useToggleTaskForm.js";
+// External imports
 import {useStore} from "vuex";
+import {computed, onMounted, ref} from "vue";
+import {PixelSpinner} from "epic-spinners";
+
 
 export default {
   props: {},
   name: "CategoryList",
-  components: {PixelSpinner, TaskForm, TaskList},
+  components: {ProgressBar, PixelSpinner, TaskForm, TaskList},
 
-  setup() {
+
+  setup: function () {
     const store = useStore();
-    const loading = ref(true);
-    const editingCategory = ref(null);
-    const editingCategoryName = ref("");
-    const hasError = ref(false);
+
+    const {loading, hasError, setLoading, setError} = useLoading();
+    // const {selectedCategoryIndex, selectedCategory, toggleTaskForm} = useToggleTaskForm();
+    const {
+      categories,
+      editingCategoryId,
+      editingCategoryName,
+      updateCategory,
+      deleteCategory,
+      startEditingCategory,
+    } = useCategories();
+
+    const isEmptyCategory = computed(() => categories.value.length === 0);
 
     onMounted(async () => {
       const timer = setTimeout(() => {
         if (loading.value) {
-          loading.value = false;
-          hasError.value = true;
+          setLoading(false);
+          setError(true);
         }
       }, 30000);
 
@@ -141,36 +147,12 @@ export default {
       return category.todoItems.filter((task) => task.completed).length;
     };
 
-    const categories = computed(() => store.getters.categories);
-    const isEmptyCategory = computed(
-        () => store.getters.categories.length === 0
-    );
-
-    const startEditingCategory = (id) => {
-      const category = categories.value.find((c) => c.id === id);
-      editingCategoryName.value = category.name;
-      editingCategory.value = id;
-    };
-
-    const editingCategoryId = computed(() => editingCategory.value);
-
-    const updateCategory = (category) => {
-      console.log("Editing category name:", editingCategoryName.value);
-      const updatedCategory = {...category, name: editingCategoryName.value};
-      store.dispatch("updateCategory", updatedCategory);
-      editingCategory.value = null;
-    };
-
-    const deleteCategory = (id) => {
-      store.dispatch("deleteCategory", id);
-    };
-
     const selectedCategoryIndex = ref(null);
     const selectedCategory = ref(null);
 
     const toggleTaskForm = (index) => {
       if (selectedCategoryIndex.value === index) {
-        store.dispatch("hidePopup");
+        store.dispatch("hidePopup").then(r => console.log(r));
         selectedCategoryIndex.value = null;
         selectedCategory.value = null;
       } else {
@@ -179,24 +161,23 @@ export default {
         store.dispatch("showPopup", {
           message: `Add new task for ${categories.value[index].name}`,
           type: "info",
-        });
+        }).then(r => console.log(r));
       }
     };
 
     return {
-      loading,
       categories,
       selectedCategoryIndex,
       selectedCategory,
       editingCategoryId,
       editingCategoryName,
       isEmptyCategory,
-      hasError,
+      loading, hasError, setLoading, setError,
       startEditingCategory,
-      deleteCategory,
-      updateCategory,
-      toggleTaskForm,
       completedTasksCount,
+      updateCategory,
+      deleteCategory,
+      toggleTaskForm,
     };
   },
 };
@@ -221,19 +202,6 @@ export default {
   position: relative;
   width: 100%;
   padding: 10px 0;
-}
-
-.progress {
-  width: 100%;
-  background-color: #eee;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 10px;
-  background-color: orange;
-  transition: width 0.5s ease-in-out;
 }
 
 .text-orange {

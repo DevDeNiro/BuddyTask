@@ -1,22 +1,22 @@
 <template>
   <div
-    class="task-list scrollbar-hide overflow-auto h-screen pt-8"
-    style="padding-bottom: 20em"
-    :data-category-id="categoryId"
+      class="task-list scrollbar-hide overflow-auto h-screen pt-8"
+      style="padding-bottom: 20em"
+      :data-category-id="categoryId"
   >
     <Draggable
-      :list="filterTasks.incompleteTasks"
-      :group="{name: 'tasks', pull: true, put: true}"
-      :itemKey="(task) => task.id"
-      @start="onDragStart"
-      @end="onDragEnd"
-      class="incompleteTasks"
+        :list="filterTasks.incompleteTasks"
+        :group="{name: 'tasks', pull: true, put: true}"
+        :itemKey="(task) => task.id"
+        @start="onDragStart"
+        @end="onDragEnd"
+        class="incompleteTasks"
     >
       <template #item="{element}">
         <div
-          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
-          :data-task-id="element.id"
-          @click="showSelectedTask(element)"
+            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
+            :data-task-id="element.id"
+            @click="showSelectedTask(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -25,7 +25,7 @@
               <div class="flex items-center">
                 <div class="h-7 w-1 sideColor mr-2"></div>
                 <span class="customColorIcon material-icons text-xl px-2"
-                  >check</span
+                >check</span
                 >
               </div>
               <div class="flex flex-col ml-2">
@@ -35,7 +35,7 @@
                 </div>
                 <span class="text-sm mt-4">
                   <span
-                    >{{ formatDate(element.startDate) }} -
+                  >{{ formatDate(element.startDate) }} -
                     {{ formatDate(element.endDate) }}</span
                   >
                 </span>
@@ -53,18 +53,18 @@
     </div>
 
     <Draggable
-      :list="filterTasks.completeTasks"
-      :group="{name: 'tasks', pull: true, put: true}"
-      :itemKey="(task) => task.id"
-      @start="onDragStart"
-      @end="onDragEnd"
-      class="completeTasks"
+        :list="filterTasks.completeTasks"
+        :group="{name: 'tasks', pull: true, put: true}"
+        :itemKey="(task) => task.id"
+        @start="onDragStart"
+        @end="onDragEnd"
+        class="completeTasks"
     >
       <template #item="{element}">
         <div
-          class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
-          :data-task-id="element.id"
-          @click="showSelectedTask(element)"
+            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
+            :data-task-id="element.id"
+            @click="showSelectedTask(element)"
         >
           <div class="flex">
             <div class="bg-blue-600 w-1"></div>
@@ -73,7 +73,7 @@
               <div class="flex items-center">
                 <div class="h-7 w-1 sideColor mr-2"></div>
                 <span class="customColorIcon material-icons text-xl px-2"
-                  >check</span
+                >check</span
                 >
               </div>
               <div class="flex flex-col ml-2">
@@ -83,7 +83,7 @@
                 </div>
                 <span class="text-sm mt-4">
                   <span
-                    >{{ formatDate(element.startDate) }} -
+                  >{{ formatDate(element.startDate) }} -
                     {{ formatDate(element.endDate) }}</span
                   >
                 </span>
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import {ref, computed} from "vue";
+import {computed, ref} from "vue";
 import Draggable from "vuedraggable";
 import {useStore} from "vuex";
 
@@ -116,6 +116,7 @@ export default {
       required: true,
     },
   },
+
   setup(props) {
     const store = useStore();
     const localTasks = ref(props.tasks);
@@ -142,12 +143,12 @@ export default {
 
     const onDragEnd = (event) => {
       const taskId = event.item.dataset.taskId;
-      const {from, to, oldDraggableIndex, newDraggableIndex} = event;
+      const {to, oldDraggableIndex, newDraggableIndex} = event;
 
       const newCategoryId = event.to.parentElement.dataset.categoryId;
 
       console.log(
-        `oldCategoryId: ${oldCategoryId}, newCategoryId: ${newCategoryId}`
+          `oldCategoryId: ${oldCategoryId}, newCategoryId: ${newCategoryId}`
       );
 
       if (oldCategoryId !== newCategoryId) {
@@ -188,7 +189,7 @@ export default {
 
     const selectedTask = ref({});
 
-    const showSelectedTask = (task) => {
+    const showSelectedTask = () => {
       selectedTask.value = task;
       console.log("selectedTask: ", selectedTask.value);
       store.dispatch("showPopup", {
@@ -197,6 +198,12 @@ export default {
         taskDetail: task,
       });
     };
+
+
+    // const taskStatusColorMap = {
+    //   store.taskStatuses.INCOMPLETE: "bg-red-500",
+    //   store.taskStatuses.COMPLETE: "bg-green-500",
+    // };
 
     return {
       filterTasks,
@@ -221,6 +228,6 @@ export default {
   background: antiquewhite;
   border-radius: 50%;
   padding: 8px;
-  margin: 0px 10px 25px 10px;
+  margin: 0 10px 25px 10px;
 }
 </style>
