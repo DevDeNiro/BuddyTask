@@ -1,8 +1,8 @@
 <template>
   <div class="progress">
     <div
-        class="progress-bar bg-purple-600"
         :style="{ width: progress + '%' }"
+        class="progress-bar bg-purple-600"
     ></div>
   </div>
 </template>

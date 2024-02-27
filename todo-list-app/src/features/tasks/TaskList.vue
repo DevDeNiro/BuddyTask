@@ -1,21 +1,21 @@
 <template>
   <div
+      :data-category-id="categoryId"
       class="task-list scrollbar-hide overflow-auto h-screen pt-8"
       style="padding-bottom: 20em"
-      :data-category-id="categoryId"
   >
     <Draggable
-        :list="filterTasks.incompleteTasks"
         :group="{name: 'tasks', pull: true, put: true}"
         :itemKey="(task) => task.id"
-        @start="onDragStart"
-        @end="onDragEnd"
+        :list="filterTasks.incompleteTasks"
         class="incompleteTasks"
+        @end="onDragEnd"
+        @start="onDragStart"
     >
       <template #item="{element}">
         <div
-            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
             :data-task-id="element.id"
+            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-2 my-4"
             @click="showSelectedTask(element)"
         >
           <div class="flex">
@@ -53,17 +53,17 @@
     </div>
 
     <Draggable
-        :list="filterTasks.completeTasks"
         :group="{name: 'tasks', pull: true, put: true}"
         :itemKey="(task) => task.id"
-        @start="onDragStart"
-        @end="onDragEnd"
+        :list="filterTasks.completeTasks"
         class="completeTasks"
+        @end="onDragEnd"
+        @start="onDragStart"
     >
       <template #item="{element}">
         <div
-            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
             :data-task-id="element.id"
+            class="card cursor-pointer border border-gray-300 bg-white rounded-lg p-4 my-4"
             @click="showSelectedTask(element)"
         >
           <div class="flex">

@@ -21,6 +21,7 @@ export function useCategories() {
         editingCategory.value = null;
     };
 
+
     const deleteCategory = (id) => {
         store.dispatch("deleteCategory", id).then(r => console.log(r));
     };

@@ -5,9 +5,9 @@ import categories from "./categoriesStore.js";
 import popup from "./popupStore.js";
 
 export default createStore({
-  modules: {
-    tasks,
-    categories,
-    popup,
-  },
+    modules: {
+        tasks,
+        categories,
+        popup,
+    },
 });

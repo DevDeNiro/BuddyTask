@@ -2,14 +2,13 @@
   <div id="app">
     <main>
       <router-view></router-view>
-      <Home />
     </main>
   </div>
 </template>
 
 <script>
 import {defineComponent} from "vue";
-import Home from "@/features/views/Home.vue";
+import Home from "@/views/Home.vue";
 
 export default defineComponent({
   components: {Home}

@@ -2,9 +2,9 @@
   <div v-if="loading" class="loading flex align-center justify-center">
     <pixel-spinner
         :animation-duration="2000"
+        :loading="loading"
         :pixel-size="70"
         color="#856AFF"
-        :loading="loading"
     />
   </div>
   <div v-if="hasError" class="error-message">
@@ -34,23 +34,23 @@
           </span>
           <input
               v-else
-              type="text"
               v-model="editingCategoryName"
-              @change="updateCategory(category)"
               class="bg-blue-600 rounded-full h-4 mr-2"
+              type="text"
+              @change="updateCategory(category)"
           />
 
           <div class="flex">
             <button
-                @click="deleteCategory(category.id)"
                 class="material-symbols-outlined mx-2"
+                @click="deleteCategory(category.id)"
             >
               cancel
             </button>
           </div>
         </h2>
 
-        <TaskList :tasks="category.todoItems" :categoryId="category.id"/>
+        <TaskList :categoryId="category.id" :tasks="category.todoItems"/>
 
         <div class="categoryBottom bg-gray">
           <hr class="border-b my-4"/>
@@ -73,7 +73,7 @@
               />
             </div>
 
-            <button @click="toggleTaskForm(index)" class="button">
+            <button class="button" @click="toggleTaskForm(index)">
               <span class="material-symbols-outlined"> Add task </span>
             </button>
           </div>
@@ -91,9 +91,8 @@
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
 import {useLoading} from "@/common/utils/useLoading.js";
-import {useCategories} from "@/features/categories/useCategories.js";
+import {useCategories} from "@/features/categories/composables/useCategories.js";
 import ProgressBar from "@/features/categories/components/ProgressBar.vue";
-import {useToggleTaskForm} from "@/features/categories/useToggleTaskForm.js";
 // External imports
 import {useStore} from "vuex";
 import {computed, onMounted, ref} from "vue";
@@ -157,6 +156,7 @@ export default {
         selectedCategory.value = null;
       } else {
         selectedCategoryIndex.value = index;
+        index.value = index;
         selectedCategory.value = categories.value[index];
         store.dispatch("showPopup", {
           message: `Add new task for ${categories.value[index].name}`,

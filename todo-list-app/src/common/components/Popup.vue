@@ -9,7 +9,7 @@
            @click.stop="noop"
       >
         <div class="flex justify-between items-start pb-3">
-          <p class="text-gray-800" :class="typeClass">{{ message }}</p>
+          <p :class="typeClass" class="text-gray-800">{{ message }}</p>
           <button @click="closePopup">
             X
           </button>

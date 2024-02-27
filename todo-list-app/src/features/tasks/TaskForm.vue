@@ -1,16 +1,16 @@
 <template>
-  <form @submit.prevent="submitForm" CLASS="flex flex-col">
+  <form class="flex flex-col" @submit.prevent="submitForm">
     <Popup>
       <!-- Titre -->
       <div class="mx-auto">
         <label :for="fields[0].name" class="block">{{ fields[0].label }}</label>
         <input
             :id="fields[0].name"
-            :name="fields[0].name"
-            :type="fields[0].type"
-            :placeholder="fields[0].placeholder"
-            class="border rounded p-1 w-full my-1"
             v-model="formData[fields[0].name]"
+            :name="fields[0].name"
+            :placeholder="fields[0].placeholder"
+            :type="fields[0].type"
+            class="border rounded p-1 w-full my-1"
             required
         />
       </div>
@@ -21,11 +21,11 @@
           <label :for="fields[1].name" class="block mb-1">{{ fields[1].label }}</label>
           <input
               :id="fields[1].name"
-              :name="fields[1].name"
-              :type="fields[1].type"
-              :placeholder="fields[1].placeholder"
-              class="border rounded  w-full "
               v-model="formData[fields[1].name]"
+              :name="fields[1].name"
+              :placeholder="fields[1].placeholder"
+              :type="fields[1].type"
+              class="border rounded  w-full "
               required
           />
         </div>
@@ -33,11 +33,11 @@
           <label :for="fields[2].name" class="block mb-1">{{ fields[2].label }}</label>
           <input
               :id="fields[2].name"
-              :name="fields[2].name"
-              :type="fields[2].type"
-              :placeholder="fields[2].placeholder"
-              class="border rounded w-full"
               v-model="formData[fields[2].name]"
+              :name="fields[2].name"
+              :placeholder="fields[2].placeholder"
+              :type="fields[2].type"
+              class="border rounded w-full"
               required
           />
         </div>
@@ -48,16 +48,16 @@
         <label :for="fields[3].name" class="block mb-1">{{ fields[3].label }}</label>
         <textarea
             :id="fields[3].name"
+            v-model="formData[fields[3].name]"
             :name="fields[3].name"
             :placeholder="fields[3].placeholder"
             class="border rounded p-1 w-full h-24 my-1"
-            v-model="formData[fields[3].name]"
             required
         ></textarea>
       </div>
 
-      <button type="submit"
-              class="font-bold"
+      <button class="font-bold"
+              type="submit"
               @click.prevent="submitForm">Create
       </button>
     </Popup>

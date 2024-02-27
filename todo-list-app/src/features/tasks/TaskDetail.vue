@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {ref, computed} from "vue";
+import {computed} from "vue";
 import {useStore} from "vuex";
 import Popup from "../../common/components/Popup.vue";
 
@@ -40,4 +40,3 @@ export default {
 };
 </script>
 
-<style scoped></style>
