@@ -40,14 +40,14 @@
               @change="updateCategory(category)"
           />
 
-          <div class="flex">
+          <span class="flex">
             <button
                 class="material-symbols-outlined mx-2"
                 @click="deleteCategory(category.id)"
             >
               cancel
             </button>
-          </div>
+          </span>
         </h2>
 
         <TaskList :categoryId="category.id" :tasks="category.todoItems"/>
@@ -90,7 +90,7 @@
 // Internal imports
 import TaskList from "../tasks/TaskList.vue";
 import TaskForm from "../tasks/TaskForm.vue";
-import {useLoading} from "@/common/utils/useLoading.js";
+import {useLoading} from "@/common/composables/useLoading.js";
 import {useCategories} from "@/features/categories/composables/useCategories.js";
 import ProgressBar from "@/features/categories/components/ProgressBar.vue";
 // External imports

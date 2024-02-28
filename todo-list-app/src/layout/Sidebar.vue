@@ -1,6 +1,6 @@
 <template>
   <div
-      class="sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white"
+      class="dark:bg-black sidebar h-full fixed left-0 top-0 w-20 bg-indigo-900 flex flex-col items-center justify-between space-y-4 py-5 bg-white"
   >
     <div class="top-icon">
       <img
@@ -27,11 +27,7 @@
         <span class="w-7 material-symbols-outlined"> monitoring </span>
       </button>
 
-      <button @click="toggleSwitch" :class="{'button': true, 'is-toggled': isToggled}"
-              class="text-indigo-900 py-2 px-2 rounded-full">
-        <span v-if="isToggled" class="material-symbols-outlined">toggle_on</span>
-        <span v-else class="material-symbols-outlined">toggle_off</span>
-      </button>
+      <ThemeButton/>
 
     </div>
 
@@ -46,25 +42,19 @@
 
 import {useCurrentDate} from "@/common/composables/useCurrentDate";
 import {useCurrentTime} from "@/common/composables/useCurrentTime";
-import {ref} from "vue";
+import ThemeButton from "@/common/components/ThemeButton.vue";
 
 export default {
+  components: {ThemeButton},
   setup() {
 
     const {currentDate} = useCurrentDate();
     const {currentTime} = useCurrentTime();
 
-    const isToggled = ref(false);
-
-    function toggleSwitch() {
-      isToggled.value = !isToggled.value;
-    }
-
     return {
       currentDate,
       currentTime,
-      isToggled,
-      toggleSwitch,
+      ThemeButton,
     };
   },
 };
@@ -73,10 +63,6 @@ export default {
 <style>
 .button {
   transition: background-color 0.3s ease;
-}
-
-.button.is-toggled {
-  background-color: #4CAF50; /* Vert */
 }
 </style>
 
