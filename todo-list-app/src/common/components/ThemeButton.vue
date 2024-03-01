@@ -19,7 +19,6 @@ export default {
 
     const setTheme = (theme) => {
       localStorage.setItem("user-theme", theme);
-      // userTheme.value = theme;
       document.documentElement.className = theme;
       isToggled.value = theme === "dark";
     };

@@ -24,9 +24,7 @@
             <div class="flex items-center">
               <div class="flex items-center">
                 <div class="h-7 w-1 sideColor mr-2"></div>
-                <span class="customColorIcon material-icons text-xl px-2"
-                >check</span
-                >
+                <span class="customColorIcon material-icons text-xl px-2">check</span>
               </div>
               <div class="flex flex-col ml-2">
                 <div>
@@ -46,7 +44,7 @@
       </template>
     </Draggable>
 
-    <div class="relative my-6 flex items-center">
+    <div class="relative my-6 flex items-center dark:text-primary-600">
       <div class="flex-grow border-t border-gray-500 border-dashed"></div>
       <span class="mx-4 text-gray-400 uppercase font-semibold">done</span>
       <div class="flex-grow border-t border-gray-500 border-dashed"></div>

@@ -16,18 +16,16 @@
         Whoa, it's pretty empty in here! Why not create your first category?
       </p>
     </div>
-    <div v-else class="grid grid-cols-3 h-screen bg-gray gap-4 px-10">
+    <div v-else class="grid grid-cols-3 h-screen bg-gray gap-4 px-10 dark:bg-surface-500">
       <div
           v-for="(category, index) in categories"
           :key="category.id"
           class="section w-10/12 relative h-full scrollbar-hide"
       >
-        <h2
-            class="flex justify-between sticky top-0 text-xl font-bold -mb-6 mx-0 pb-2 bg-gray z-50"
-        >
+        <h2 class="flex justify-between sticky top-0 text-xl font-bold -mb-6 mx-0 pb-2 bg-gray z-50 dark:bg-surface-500">
           <span
               v-if="editingCategoryId !== category.id"
-              class="bg-blue-600 rounded-full"
+              class="bg-blue-600 rounded-full h-4 mr-2 cursor-pointer dark:text-primary-600"
               @dblclick="startEditingCategory(category.id)"
           >
             {{ category.name }}
@@ -35,12 +33,12 @@
           <input
               v-else
               v-model="editingCategoryName"
-              class="bg-blue-600 rounded-full h-4 mr-2"
+              class="bg-blue-600 rounded-xl h-6 mr-2 "
               type="text"
               @change="updateCategory(category)"
           />
 
-          <span class="flex">
+          <span class="flex dark:text-white">
             <button
                 class="material-symbols-outlined mx-2"
                 @click="deleteCategory(category.id)"
@@ -51,33 +49,10 @@
         </h2>
 
         <TaskList :categoryId="category.id" :tasks="category.todoItems"/>
-
-        <div class="categoryBottom bg-gray">
-          <hr class="border-b my-4"/>
-
-          <div class="flex justify-between">
-            <div class="completedTask">
-              <div class="flex items-center categoryCompleted">
-                <span class="text-sm font-bold">
-                  Completed:
-                  <span class="text-orange">
-                    {{ completedTasksCount(category) }}/{{
-                      category.todoItems.length
-                    }}
-                  </span>
-                </span>
-              </div>
-              <ProgressBar
-                  :completed="completedTasksCount(category)"
-                  :total="category.todoItems.length"
-              />
-            </div>
-
-            <button class="button" @click="toggleTaskForm(index)">
-              <span class="material-symbols-outlined"> Add task </span>
-            </button>
-          </div>
-        </div>
+        <CategoryTaskCounter
+            :category="category"
+            @toggle-task-form="toggleTaskForm"
+        />
       </div>
       <div v-if="selectedCategory">
         <TaskForm :category="selectedCategory"/>
@@ -93,17 +68,22 @@ import TaskForm from "../tasks/TaskForm.vue";
 import {useLoading} from "@/common/composables/useLoading.js";
 import {useCategories} from "@/features/categories/composables/useCategories.js";
 import ProgressBar from "@/features/categories/components/ProgressBar.vue";
+import CategoryTaskCounter from "@/features/categories/components/CategoryTaskCounter.vue";
 // External imports
 import {useStore} from "vuex";
 import {computed, onMounted, ref} from "vue";
 import {PixelSpinner} from "epic-spinners";
 
-
 export default {
   props: {},
   name: "CategoryList",
-  components: {ProgressBar, PixelSpinner, TaskForm, TaskList},
-
+  components: {
+    CategoryTaskCounter,
+    ProgressBar,
+    PixelSpinner,
+    TaskForm,
+    TaskList
+  },
 
   setup: function () {
     const store = useStore();
@@ -142,9 +122,9 @@ export default {
       }
     });
 
-    const completedTasksCount = (category) => {
-      return category.todoItems.filter((task) => task.completed).length;
-    };
+    // const completedTasksCount = (category) => {
+    //   return category.todoItems.filter((task) => task.completed).length;
+    // };
 
     const selectedCategoryIndex = ref(null);
     const selectedCategory = ref(null);
@@ -174,7 +154,8 @@ export default {
       isEmptyCategory,
       loading, hasError, setLoading, setError,
       startEditingCategory,
-      completedTasksCount,
+      CategoryTaskCounter,
+      // completedTasksCount,
       updateCategory,
       deleteCategory,
       toggleTaskForm,

@@ -19,8 +19,7 @@ module.exports = {
                 200: '#f6f8fb',
                 300: '#f7f9fc',
                 400: '#f8fafc',
-                500: '#f9fbfd',
-                600: '#fbfbfd',
+                600: '#f5f7fb',
             },
             // Surface pour le darkmode
             'surface': {
